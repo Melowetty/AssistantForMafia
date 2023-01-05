@@ -1,4 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Мафия</string>
+    <string name="how_to_play_button">Как играть?</string>
+    <string name="settings_button">Настройки</string>
+    <string name="game_settings">Настройки игры</string>
 </resources>
