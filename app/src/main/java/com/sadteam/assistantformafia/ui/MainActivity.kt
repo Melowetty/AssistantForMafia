@@ -1,4 +1,4 @@
-package com.sadteam.assistantformafia
+package com.sadteam.assistantformafia.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -21,6 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.ui.theme.AssistantForMafiaTheme
 
 class MainActivity : ComponentActivity() {
@@ -84,7 +85,6 @@ fun IconButton(
 @Preview
 @Composable
 fun Header() {
-    val backgroundColor = Color(0xFF132C3A)
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -94,7 +94,7 @@ fun Header() {
     ) {
         IconButton(
             painter = painterResource(id = R.drawable.ic_baseline_question_mark_24),
-            backgroundColor = backgroundColor,
+            backgroundColor = MaterialTheme.colorScheme.secondaryContainer,
             description = stringResource(id = R.string.how_to_play_button)
         )
         Text(
@@ -103,7 +103,7 @@ fun Header() {
         )
         IconButton(
             painter = painterResource(id = R.drawable.ic_baseline_settings_24),
-            backgroundColor = backgroundColor,
+            backgroundColor = MaterialTheme.colorScheme.secondaryContainer,
             description = stringResource(id = R.string.settings_button)
         )
     }
