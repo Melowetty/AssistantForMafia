@@ -81,6 +81,7 @@ fun IconButton(
  * Шапка с как начать играть и настройками
  *
  */
+@Preview
 @Composable
 fun Header() {
     val backgroundColor = Color(0xFF132C3A)
