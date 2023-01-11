@@ -34,7 +34,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background,
                 ) {
-                    Row(
+                    Column(
                         modifier = Modifier.fillMaxSize(),
                     ) {
                         Header()
@@ -112,7 +112,6 @@ fun Header() {
     }
 }
 
-@Preview
 @Composable
 fun MenuButton(
     icon: Painter,
