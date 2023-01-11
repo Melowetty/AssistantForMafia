@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.ui.theme.AssistantForMafiaTheme
+import com.sadteam.assistantformafia.ui.theme.BloodRed
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,6 +38,10 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier.fillMaxSize(),
                     ) {
                         Header()
+                        MenuButton(
+                            icon = painterResource(id = R.drawable.ic_baseline_assignment_ind_24),
+                            title = stringResource(id = R.string.players),
+                        )
                     }
                 }
             }
@@ -80,7 +85,7 @@ fun IconButton(
  * Шапка с как начать играть и настройками
  *
  */
-@Preview
+
 @Composable
 fun Header() {
     Row(
@@ -103,6 +108,40 @@ fun Header() {
             painter = painterResource(id = R.drawable.ic_baseline_settings_24),
             backgroundColor = MaterialTheme.colorScheme.secondaryContainer,
             description = stringResource(id = R.string.settings_button)
+        )
+    }
+}
+
+@Preview
+@Composable
+fun MenuButton(
+    icon: Painter,
+    title: String,
+){
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(BloodRed),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Icon(
+            painter = icon,
+            contentDescription = title,
+            modifier = Modifier
+                .width(25.dp)
+                .height(25.dp)
+        )
+        Text(
+            text = title,
+            fontSize = 24.sp
+        )
+        Icon(
+            painter = painterResource(id = R.drawable.ic_baseline_arrow_forward_ios_24),
+            contentDescription = stringResource(id = R.string.more_detail),
+            modifier = Modifier
+                .width(25.dp)
+                .height(25.dp)
         )
     }
 }

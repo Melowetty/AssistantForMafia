@@ -4,4 +4,6 @@
     <string name="how_to_play_button">Как играть?</string>
     <string name="settings_button">Настройки</string>
     <string name="game_settings">Настройки игры</string>
+    <string name="more_detail">Подробнее</string>
+    <string name="players">Игроки</string>
 </resources>
