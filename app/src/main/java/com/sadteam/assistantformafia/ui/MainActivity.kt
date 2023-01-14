@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.ui.theme.AssistantForMafiaTheme
+import com.sadteam.assistantformafia.ui.theme.primaryFontFamily
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -97,6 +98,7 @@ fun Header() {
         )
         Text(
             text = stringResource(id = R.string.game_settings),
+            fontFamily = primaryFontFamily,
             fontSize = 24.sp
         )
         IconButton(
