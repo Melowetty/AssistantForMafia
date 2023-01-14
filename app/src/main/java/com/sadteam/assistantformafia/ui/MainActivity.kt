@@ -127,7 +127,7 @@ fun Header() {
             description = stringResource(id = R.string.how_to_play_button)
         )
         Text(
-            text = stringResource(id = R.string.game_settings),
+            text = stringResource(id = R.string.game_creation),
             fontFamily = primaryFontFamily,
             fontWeight = FontWeight.Bold,
             fontSize = 24.sp
