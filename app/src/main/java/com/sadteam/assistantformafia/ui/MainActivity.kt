@@ -52,7 +52,7 @@ class MainActivity : ComponentActivity() {
                         ) {
                             Column(
                                 modifier = Modifier
-                                    .fillMaxSize(),
+                                    .fillMaxWidth(),
                             ) {
 
                                 MenuButton(
@@ -64,10 +64,10 @@ class MainActivity : ComponentActivity() {
                                     title = stringResource(id = R.string.roles)
                                 )
                             }
+                            Button(
+                                title = stringResource(id = R.string.start),
+                                backgroundColor = DarkBlue)
                         }
-                        Button(
-                            title = stringResource(id = R.string.start),
-                            backgroundColor = DarkBlue)
                     }
                 }
             }
@@ -190,11 +190,11 @@ fun Button(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 16.dp, bottom = 16.dp)
             .background(
                 color = backgroundColor,
                 shape = CircleShape
             )
+            .padding(top = 16.dp, bottom = 16.dp),
     ){
         Text(
             text = title,
