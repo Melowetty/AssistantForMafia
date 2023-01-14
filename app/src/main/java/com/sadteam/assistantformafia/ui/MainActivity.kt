@@ -27,6 +27,7 @@ import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.ui.theme.AssistantForMafiaTheme
 import com.sadteam.assistantformafia.ui.theme.BloodRed
 import com.sadteam.assistantformafia.ui.theme.primaryFontFamily
+import com.sadteam.assistantformafia.ui.theme.secondFontFamily
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -153,6 +154,8 @@ fun MenuButton(
         )
         Text(
             text = title,
+            fontFamily = secondFontFamily,
+            fontWeight = FontWeight.Bold,
             fontSize = 24.sp
         )
         Icon(
