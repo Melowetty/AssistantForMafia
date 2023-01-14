@@ -7,13 +7,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
@@ -24,10 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sadteam.assistantformafia.R
-import com.sadteam.assistantformafia.ui.theme.AssistantForMafiaTheme
-import com.sadteam.assistantformafia.ui.theme.BloodRed
-import com.sadteam.assistantformafia.ui.theme.primaryFontFamily
-import com.sadteam.assistantformafia.ui.theme.secondFontFamily
+import com.sadteam.assistantformafia.ui.theme.*
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,16 +41,32 @@ class MainActivity : ComponentActivity() {
                         Column(
                             modifier = Modifier
                                 .fillMaxSize()
-                                .padding(top = 30.dp, end = 10.dp, bottom = 30.dp, start = 10.dp),
-                        ){
-                            MenuButton(
-                                icon = painterResource(id = R.drawable.baseline_people_alt_24),
-                                title = stringResource(id = R.string.players)
-                            )
-                            MenuButton(
-                                icon = painterResource(id = R.drawable.ic_baseline_assignment_ind_24),
-                                title = stringResource(id = R.string.roles)
-                            )
+                                .padding(
+                                    top = 30.dp,
+                                    end = 10.dp,
+                                    bottom = 30.dp,
+                                    start = 10.dp
+                                ),
+                            verticalArrangement = Arrangement.SpaceBetween
+
+                        ) {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth(),
+                            ) {
+
+                                MenuButton(
+                                    icon = painterResource(id = R.drawable.baseline_people_alt_24),
+                                    title = stringResource(id = R.string.players)
+                                )
+                                MenuButton(
+                                    icon = painterResource(id = R.drawable.ic_baseline_assignment_ind_24),
+                                    title = stringResource(id = R.string.roles)
+                                )
+                            }
+                            Button(
+                                title = stringResource(id = R.string.start),
+                                backgroundColor = DarkBlue)
                         }
                     }
                 }
@@ -169,4 +180,31 @@ fun MenuButton(
     Spacer(
         modifier = Modifier
             .height(10.dp))
+}
+
+@Composable
+fun Button(
+    title: String,
+    backgroundColor: Color,
+){
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(
+                color = backgroundColor,
+                shape = CircleShape
+            )
+            .padding(top = 16.dp, bottom = 16.dp),
+    ){
+        Text(
+            text = title,
+            color = Color.White,
+            fontFamily = secondFontFamily,
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier
+                .align(Alignment.Center)
+        )
+    }
+
 }
