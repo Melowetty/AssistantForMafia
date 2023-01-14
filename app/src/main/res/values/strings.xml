@@ -3,4 +3,7 @@
     <string name="how_to_play_button">How to play?</string>
     <string name="settings_button">Settings</string>
     <string name="game_settings">Game settings</string>
+    <string name="more_detail">More detail</string>
+    <string name="players">Players</string>
+    <string name="roles">Roles</string>
 </resources>
