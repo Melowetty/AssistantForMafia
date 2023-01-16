@@ -108,10 +108,9 @@ fun IconButton(
 }
 
 /**
- * Шапка с как начать играть и настройками
+ * Шапка с вопросами-ответами и настройками
  *
  */
-
 @Composable
 fun Header() {
     Row(
@@ -140,6 +139,12 @@ fun Header() {
     }
 }
 
+/**
+ * Кнопка, нажатие на которой вызывает какое-либо действие
+ *
+ * @param icon иконка-подсказка внури кнопки
+ * @param title текст на кнопке
+ */
 @Composable
 fun MenuButton(
     icon: Painter,
@@ -179,6 +184,12 @@ fun MenuButton(
     }
 }
 
+/**
+ * Кнопка с кастонмным текстом и фоном
+ *
+ * @param title текст на кнопке
+ * @param backgroundColor цвет фона кнопки
+ */
 @Composable
 fun Button(
     title: String,
