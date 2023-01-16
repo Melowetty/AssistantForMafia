@@ -52,6 +52,7 @@ class MainActivity : ComponentActivity() {
                             Column(
                                 modifier = Modifier
                                     .fillMaxWidth(),
+                                verticalArrangement = Arrangement.spacedBy(10.dp)
                             ) {
 
                                 MenuButton(
@@ -176,9 +177,6 @@ fun MenuButton(
                 .height(25.dp)
         )
     }
-    Spacer(
-        modifier = Modifier
-            .height(10.dp))
 }
 
 @Composable
