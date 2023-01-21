@@ -63,6 +63,14 @@ class MainActivity : ComponentActivity() {
                                     icon = painterResource(id = R.drawable.ic_baseline_assignment_ind_24),
                                     title = stringResource(id = R.string.roles)
                                 )
+                                MenuButton(
+                                    icon = painterResource(id = R.drawable.baseline_tune_24),
+                                    title = stringResource(id = R.string.game_settings)
+                                )
+                                MenuButton(
+                                    icon = painterResource(id = R.drawable.baseline_help_24),
+                                    title = stringResource(id = R.string.game_rules)
+                                )
                             }
                             Button(
                                 title = stringResource(id = R.string.start),
@@ -134,7 +142,7 @@ fun Header() {
         IconButton(
             painter = painterResource(id = R.drawable.ic_baseline_settings_24),
             backgroundColor = MaterialTheme.colorScheme.secondaryContainer,
-            description = stringResource(id = R.string.settings_button)
+            description = stringResource(id = R.string.app_settings)
         )
     }
 }

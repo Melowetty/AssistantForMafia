@@ -2,10 +2,12 @@
 <resources>
     <string name="app_name">Мафия</string>
     <string name="how_to_play_button">Как играть?</string>
-    <string name="settings_button">Настройки</string>
+    <string name="app_settings">Настройки</string>
     <string name="more_detail">Подробнее</string>
     <string name="players">Игроки</string>
     <string name="roles">Роли</string>
     <string name="start">Начать</string>
     <string name="game_creation">Создание игры</string>
+    <string name="game_rules">Руководство</string>
+    <string name="game_settings">Параметры</string>
 </resources>
