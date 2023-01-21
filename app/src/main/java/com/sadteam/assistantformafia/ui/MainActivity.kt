@@ -93,12 +93,13 @@ class MainActivity : ComponentActivity() {
  */
 @Composable
 fun IconButton(
+    modifier: Modifier = Modifier,
     painter: Painter,
     backgroundColor: Color,
     description: String,
 ) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .width(40.dp)
             .height(40.dp)
             .background(
@@ -120,12 +121,13 @@ fun IconButton(
  *
  */
 @Composable
-fun Header() {
+fun Header(
+    modifier: Modifier = Modifier
+) {
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(10.dp),
-        contentAlignment = Alignment.CenterEnd
     ) {
         Text(
             text = stringResource(id = R.string.game_creation),
@@ -136,10 +138,11 @@ fun Header() {
                 .align(Alignment.Center)
         )
         IconButton(
+            modifier = Modifier
+                .align(Alignment.CenterEnd),
             painter = painterResource(id = R.drawable.ic_baseline_settings_24),
             backgroundColor = MaterialTheme.colorScheme.secondaryContainer,
             description = stringResource(id = R.string.app_settings),
-
         )
     }
 }
@@ -152,11 +155,12 @@ fun Header() {
  */
 @Composable
 fun MenuButton(
+    modifier: Modifier = Modifier,
     icon: Painter,
     title: String,
 ){
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .background(
                 color = BloodRed,
@@ -197,11 +201,12 @@ fun MenuButton(
  */
 @Composable
 fun Button(
+    modifier: Modifier = Modifier,
     title: String,
     backgroundColor: Color,
 ){
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .background(
                 color = backgroundColor,
