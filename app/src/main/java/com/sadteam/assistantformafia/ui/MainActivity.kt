@@ -121,28 +121,25 @@ fun IconButton(
  */
 @Composable
 fun Header() {
-    Row(
+    Box(
         modifier = Modifier
             .fillMaxWidth()
             .padding(10.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
+        contentAlignment = Alignment.CenterEnd
     ) {
-        IconButton(
-            painter = painterResource(id = R.drawable.ic_baseline_question_mark_24),
-            backgroundColor = MaterialTheme.colorScheme.secondaryContainer,
-            description = stringResource(id = R.string.how_to_play_button)
-        )
         Text(
             text = stringResource(id = R.string.game_creation),
             fontFamily = primaryFontFamily,
             fontWeight = FontWeight.Bold,
-            fontSize = 24.sp
+            fontSize = 24.sp,
+            modifier = Modifier
+                .align(Alignment.Center)
         )
         IconButton(
             painter = painterResource(id = R.drawable.ic_baseline_settings_24),
             backgroundColor = MaterialTheme.colorScheme.secondaryContainer,
-            description = stringResource(id = R.string.app_settings)
+            description = stringResource(id = R.string.app_settings),
+
         )
     }
 }
