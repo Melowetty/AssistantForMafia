@@ -229,6 +229,32 @@ fun BigButton(
         )
     }
 }
+
+@Composable
+fun SmallButton(
+    modifier: Modifier = Modifier,
+    title: String,
+    backgroundColor: Color,
+){
+    Box(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(
+                color = backgroundColor,
+                shape = CircleShape
+            )
+    ){
+        Text(
+            text = title,
+            color = Color.White,
+            fontFamily = secondFontFamily,
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier
+                .align(Alignment.Center)
+        )
+    }
+}
 @Preview
 @Composable
 fun PlayersPopup(
@@ -303,12 +329,12 @@ fun PlayersPopup(
                         )
                     }
                 }
-                /*Button(
+                SmallButton(
                     title = stringResource(id = R.string.save),
                     backgroundColor = BloodRed,
                     modifier = Modifier
                         .fillMaxWidth()
-                )*/
+                )
             }
         }
     }
