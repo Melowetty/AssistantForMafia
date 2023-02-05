@@ -10,4 +10,6 @@
     <string name="game_creation">Создание игры</string>
     <string name="game_rules">Руководство</string>
     <string name="game_settings">Параметры</string>
+    <string name="players_count">Игроков</string>
+    <string name="save">Сохранить</string>
 </resources>
