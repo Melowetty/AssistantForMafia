@@ -1,9 +1,11 @@
 package com.sadteam.assistantformafia.ui
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -12,16 +14,21 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Popup
+import androidx.compose.ui.window.PopupProperties
 import androidx.compose.ui.zIndex
 import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.ui.theme.*
@@ -32,7 +39,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             AssistantForMafiaTheme {
                 // A surface container using the 'background' color from the theme
-                PlayersPopup()
+                //PlayersPopup()
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background,
@@ -58,22 +65,21 @@ class MainActivity : ComponentActivity() {
                                     .fillMaxWidth(),
                                 verticalArrangement = Arrangement.spacedBy(10.dp)
                             ) {
-
-                                MenuButton(
-                                    icon = painterResource(id = R.drawable.baseline_people_alt_24),
-                                    title = stringResource(id = R.string.players)
-                                )
+                                PlayersButton()
                                 MenuButton(
                                     icon = painterResource(id = R.drawable.ic_baseline_assignment_ind_24),
-                                    title = stringResource(id = R.string.roles)
+                                    title = stringResource(id = R.string.roles),
+                                    onClick = {},
                                 )
                                 MenuButton(
                                     icon = painterResource(id = R.drawable.baseline_tune_24),
-                                    title = stringResource(id = R.string.game_settings)
+                                    title = stringResource(id = R.string.game_settings),
+                                    onClick = {},
                                 )
                                 MenuButton(
                                     icon = painterResource(id = R.drawable.baseline_help_24),
-                                    title = stringResource(id = R.string.game_rules)
+                                    title = stringResource(id = R.string.game_rules),
+                                    onClick = {},
                                 )
                             }
                             BigButton(
@@ -162,6 +168,7 @@ fun MenuButton(
     modifier: Modifier = Modifier,
     icon: Painter,
     title: String,
+    onClick: () -> Unit,
 ){
     Row(
         modifier = modifier
@@ -170,7 +177,8 @@ fun MenuButton(
                 color = BloodRed,
                 shape = CircleShape
             )
-            .padding(top = 8.dp, end = 10.dp, bottom = 8.dp, start = 20.dp),
+            .padding(top = 8.dp, end = 10.dp, bottom = 8.dp, start = 20.dp)
+            .clickable(onClick = onClick),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -258,84 +266,110 @@ fun SmallButton(
 @Preview
 @Composable
 fun PlayersPopup(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    isShowed: Boolean = false
 ){
-    Box(
-        modifier = modifier
-            .fillMaxSize()
-            .background(
-                color = DarkBackground,
-            )
-            .padding(horizontal = 10.dp)
-            .zIndex(1f),
-        contentAlignment = Alignment.Center,
-    ){
-        Box(
-            modifier = modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .background(color = DarkGreen, shape = RoundedCornerShape(21))
-                .padding(horizontal = 70.dp, vertical = 10.dp),
-            contentAlignment = Alignment.Center
-        ){
-            Column(
+    if (isShowed) {
+        Popup(
+            alignment = Alignment.Center,
+            properties = PopupProperties(),
+        ) {
+
+            Box(
                 modifier = modifier
-                    .fillMaxWidth()
-                    .align(Alignment.Center),
-                verticalArrangement = Arrangement.spacedBy(18.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text(
-                    text = stringResource(id = R.string.players_count),
-                    color = Color.White,
-                    fontFamily = secondFontFamily,
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold,
-                )
-                Row(
-                    modifier = modifier
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Box(
-                        modifier = modifier
-                            .size(width = 33.dp, height = 33.dp)
-                            .background(color = DarkBlue, shape = CircleShape),
-                        contentAlignment = Alignment.Center
-                    ){
-                        Icon(
-                            painter = painterResource(id = R.drawable.baseline_remove_24),
-                            contentDescription = "remove",
-                            tint = Color.White
-                        )
-                    }
-                    Text(
-                        text = "9",
-                        color = Color.White,
-                        fontFamily = secondFontFamily,
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.Bold,
+                    .fillMaxSize()
+                    .background(
+                        color = DarkBackground,
                     )
-                    Box(
+                    .padding(horizontal = 10.dp)
+                    .zIndex(1f),
+                contentAlignment = Alignment.Center,
+            ) {
+                Box(
+                    modifier = modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                        .background(color = DarkGreen, shape = RoundedCornerShape(21))
+                        .padding(horizontal = 70.dp, vertical = 10.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Column(
                         modifier = modifier
-                            .size(width = 33.dp, height = 33.dp)
-                            .background(color = DarkBlue, shape = CircleShape),
-                        contentAlignment = Alignment.Center
-                    ){
-                        Icon(
-                            painter = painterResource(id = R.drawable.baseline_add_24),
-                            contentDescription = "add",
-                            tint = Color.White
+                            .fillMaxWidth()
+                            .align(Alignment.Center),
+                        verticalArrangement = Arrangement.spacedBy(18.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.players_count),
+                            color = Color.White,
+                            fontFamily = secondFontFamily,
+                            fontSize = 24.sp,
+                            fontWeight = FontWeight.Bold,
+                        )
+                        Row(
+                            modifier = modifier
+                                .fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Box(
+                                modifier = modifier
+                                    .size(width = 33.dp, height = 33.dp)
+                                    .background(color = DarkBlue, shape = CircleShape),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.baseline_remove_24),
+                                    contentDescription = "remove",
+                                    tint = Color.White
+                                )
+                            }
+                            Text(
+                                text = "9",
+                                color = Color.White,
+                                fontFamily = secondFontFamily,
+                                fontSize = 24.sp,
+                                fontWeight = FontWeight.Bold,
+                            )
+                            Box(
+                                modifier = modifier
+                                    .size(width = 33.dp, height = 33.dp)
+                                    .background(color = DarkBlue, shape = CircleShape),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Icon(
+                                    painter = painterResource(id = R.drawable.baseline_add_24),
+                                    contentDescription = "add",
+                                    tint = Color.White
+                                )
+                            }
+                        }
+                        SmallButton(
+                            title = stringResource(id = R.string.save),
+                            backgroundColor = BloodRed,
+                            modifier = Modifier
+                                .fillMaxWidth()
                         )
                     }
                 }
-                SmallButton(
-                    title = stringResource(id = R.string.save),
-                    backgroundColor = BloodRed,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                )
             }
         }
+    }
+}
+
+@Composable
+fun PlayersButton(
+    modifier: Modifier = Modifier
+) {
+    val isPopupShowed = remember { mutableStateOf(false) }
+    Box(modifier = modifier) {
+        MenuButton(
+            icon = painterResource(id = R.drawable.baseline_people_alt_24),
+            title = stringResource(id = R.string.players),
+            onClick = {
+                isPopupShowed.value = true
+            }
+        )
+        PlayersPopup(isShowed = isPopupShowed.value)
     }
 }
