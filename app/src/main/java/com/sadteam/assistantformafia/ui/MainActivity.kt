@@ -6,6 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.InteractionSource
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -14,9 +15,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -269,12 +268,16 @@ fun SmallButton(
         )
     }
 }
-@Preview
+//TODO поменять логику нажатия кнопок (поменять дизайн нажатой кнопки)
 @Composable
 fun PlayersPopup(
     modifier: Modifier = Modifier,
-    isShowed: Boolean = false
+    isShowed: Boolean = false,
+    onClose: () -> Unit,
+    onPlayersCountChange: (Int) -> Unit
 ){
+    var playersCount by remember { mutableStateOf(1) }
+    val interactionSource = remember { MutableInteractionSource()}
     if (isShowed) {
         Popup(
             alignment = Alignment.Center,
@@ -321,7 +324,16 @@ fun PlayersPopup(
                             Box(
                                 modifier = modifier
                                     .size(width = 33.dp, height = 33.dp)
-                                    .background(color = DarkBlue, shape = CircleShape),
+                                    .background(color = DarkBlue, shape = CircleShape)
+                                    .clickable(
+                                        interactionSource = interactionSource,
+                                        indication = null,
+                                        onClick = {
+                                        if (playersCount > 1) {
+                                            playersCount -= 1
+                                            onPlayersCountChange(playersCount)
+                                        }
+                                    }),
                                 contentAlignment = Alignment.Center
                             ) {
                                 Icon(
@@ -331,7 +343,7 @@ fun PlayersPopup(
                                 )
                             }
                             Text(
-                                text = "9",
+                                text = "$playersCount",
                                 color = Color.White,
                                 fontFamily = secondFontFamily,
                                 fontSize = 24.sp,
@@ -340,7 +352,14 @@ fun PlayersPopup(
                             Box(
                                 modifier = modifier
                                     .size(width = 33.dp, height = 33.dp)
-                                    .background(color = DarkBlue, shape = CircleShape),
+                                    .background(color = DarkBlue, shape = CircleShape)
+                                    .clickable(
+                                        interactionSource = interactionSource,
+                                        indication = null,
+                                        onClick = {
+                                        playersCount += 1
+                                        onPlayersCountChange(playersCount)
+                                    }),
                                 contentAlignment = Alignment.Center
                             ) {
                                 Icon(
@@ -355,6 +374,12 @@ fun PlayersPopup(
                             backgroundColor = BloodRed,
                             modifier = Modifier
                                 .fillMaxWidth()
+                                .clickable(
+                                    interactionSource = interactionSource,
+                                    indication = null,
+                                    onClick = {
+                                    onClose()
+                                })
                         )
                     }
                 }
@@ -367,15 +392,23 @@ fun PlayersPopup(
 fun PlayersButton(
     modifier: Modifier = Modifier
 ) {
-    val isPopupShowed = remember { mutableStateOf(false) }
+    var isPopupShowed by remember {
+        mutableStateOf(false)
+    }
     Box(modifier = modifier) {
         MenuButton(
             icon = painterResource(id = R.drawable.baseline_people_alt_24),
             title = stringResource(id = R.string.players),
             onClick = {
-                isPopupShowed.value = true
+                isPopupShowed = true
             }
         )
-        PlayersPopup(isShowed = isPopupShowed.value)
+        PlayersPopup(
+            isShowed = isPopupShowed,
+            onPlayersCountChange = {},
+            onClose = {
+                isPopupShowed = false
+            }
+        )
     }
 }
