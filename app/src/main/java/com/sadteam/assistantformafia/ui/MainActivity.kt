@@ -65,21 +65,18 @@ class MainActivity : ComponentActivity() {
                                     .fillMaxWidth(),
                                 verticalArrangement = Arrangement.spacedBy(10.dp)
                             ) {
-                                PlayersButton()
+                                PlayersCountButton()
                                 MenuButton(
                                     icon = painterResource(id = R.drawable.ic_baseline_assignment_ind_24),
                                     title = stringResource(id = R.string.roles),
-                                    onClick = {},
                                 )
                                 MenuButton(
                                     icon = painterResource(id = R.drawable.baseline_tune_24),
                                     title = stringResource(id = R.string.game_settings),
-                                    onClick = {},
                                 )
                                 MenuButton(
                                     icon = painterResource(id = R.drawable.baseline_help_24),
                                     title = stringResource(id = R.string.game_rules),
-                                    onClick = {},
                                 )
                             }
                             BigButton(
@@ -168,7 +165,7 @@ fun MenuButton(
     modifier: Modifier = Modifier,
     icon: Painter,
     title: String,
-    onClick: () -> Unit,
+    onClick: () -> Unit = {},
 ){
     val interactionSource = remember { MutableInteractionSource()}
     Row(
@@ -274,7 +271,7 @@ fun PlayersPopup(
     modifier: Modifier = Modifier,
     isShowed: Boolean = false,
     onClose: () -> Unit,
-    onPlayersCountChange: (Int) -> Unit
+    onPlayersCountChange: (Int) -> Unit = {}
 ){
     var playersCount by remember { mutableStateOf(1) }
     val interactionSource = remember { MutableInteractionSource()}
@@ -389,7 +386,7 @@ fun PlayersPopup(
 }
 
 @Composable
-fun PlayersButton(
+fun PlayersCountButton(
     modifier: Modifier = Modifier
 ) {
     var isPopupShowed by remember {
@@ -405,7 +402,6 @@ fun PlayersButton(
         )
         PlayersPopup(
             isShowed = isPopupShowed,
-            onPlayersCountChange = {},
             onClose = {
                 isPopupShowed = false
             }
