@@ -287,6 +287,10 @@ fun PlayersPopup(
                     .background(
                         color = DarkBackground,
                     )
+                    .clickable(
+                        interactionSource = interactionSource,
+                        indication = null,
+                        onClick = onClose)
                     .padding(horizontal = 10.dp)
                     .zIndex(1f),
                 contentAlignment = Alignment.Center,
@@ -296,6 +300,10 @@ fun PlayersPopup(
                         .fillMaxWidth()
                         .wrapContentHeight()
                         .background(color = DarkGreen, shape = RoundedCornerShape(21))
+                        .clickable(
+                            interactionSource = interactionSource,
+                            indication = null,
+                            onClick = {})
                         .padding(horizontal = 70.dp, vertical = 10.dp),
                     contentAlignment = Alignment.Center
                 ) {
