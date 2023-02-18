@@ -9,4 +9,6 @@
     <string name="game_creation">Game creation</string>
     <string name="game_rules">Guide</string>
     <string name="game_settings">Game settings</string>
+    <string name="players_count">Players</string>
+    <string name="save">Save</string>
 </resources>
