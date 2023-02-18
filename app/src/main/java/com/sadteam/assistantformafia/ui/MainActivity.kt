@@ -6,6 +6,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -170,6 +171,7 @@ fun MenuButton(
     title: String,
     onClick: () -> Unit,
 ){
+    val interactionSource = remember { MutableInteractionSource()}
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -178,7 +180,11 @@ fun MenuButton(
                 shape = CircleShape
             )
             .padding(top = 8.dp, end = 10.dp, bottom = 8.dp, start = 20.dp)
-            .clickable(onClick = onClick),
+            .clickable(
+                interactionSource = interactionSource,
+                indication = null,
+                onClick = onClick
+            ),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
