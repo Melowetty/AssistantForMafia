@@ -51,20 +51,20 @@ jobs:
         with:
           name: app-debug-androidTest
  
-      - name: Firebase auth with gcloud
-        uses: google-github-actions/setup-gcloud@master
+      - id: 'auth'
+        uses: 'google-github-actions/auth@v1'
         with:
-          version: '290.0.1'
-          service_account_key: ${{ secrets.FIREBASE_KEY }}
-          project_id: ${{ secrets.PROJECT_ID }}
+          credentials_json: '${{ secrets.FIREBASE_JSON }}'
+
+      - name: 'Set up Cloud SDK'
+        uses: 'google-github-actions/setup-gcloud@v1'
  
       - name: Run Instrumentation Tests in Firebase Test Lab
         run: |
           gcloud firebase test android models list
-          gcloud firebase test android run --type instrumentation --use-orchestrator --app app-debug/app-debug.apk --test app-debug-androidTest/app-debug-androidTest.apk --device model=SM-S908U1,version=33,locale=en,orientation=portrait
+          gcloud firebase test android run --type instrumentation --use-orchestrator --app app-debug/app-debug.apk --test app-debug-androidTest/app-debug-androidTest.apk --device model=Pixel2.arm,version=32,locale=en,orientation=portrait
   report:
     name: Send a report
-    needs: run_ui_tests_on_firebase
     runs-on: ubuntu-latest
     steps:
       - name: Send telegram message on push
