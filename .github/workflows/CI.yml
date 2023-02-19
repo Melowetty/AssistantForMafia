@@ -1,5 +1,10 @@
-name: Запуск тестов
-on: [push]
+name: Обновление
+run-name: Deploy to ${{ inputs.deploy_target }} by @${{ github.actor }}
+on: 
+  push:
+    branches: [develop, master]
+  pull_request:
+    branches: [develop, master]
 jobs:
   test:
     runs-on: macos-latest
@@ -10,5 +15,17 @@ jobs:
       - name: Run instrumental tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 29
+          api-level: 33
           script: ./gradlew connectedCheck
+      - name: Send telegram message on push
+        uses: appleboy/telegram-action@master
+        with:
+          to: -1001833931862
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            ${{ github.actor }} created commit:
+            Commit message: ${{ github.event.commits[0].message }}
+            
+            Repository: ${{ github.repository }}
+            
+            See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
