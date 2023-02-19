@@ -146,12 +146,12 @@ fun SmallButton(
 
 /**
  * Круглая кнопка с иконкой внутри
- * TODO необходимо сделать действие на кнопку
  *
  * @param modifier модификатор элемента
  * @param painter иконка
  * @param backgroundColor цвет фона-круга сзади иконки
  * @param description описание действия кнопки
+ * @param onClick callback функция, срабатывающая при нажатии на кнопку
  */
 @Composable
 fun IconButton(
@@ -159,7 +159,9 @@ fun IconButton(
     painter: Painter,
     backgroundColor: Color,
     description: String,
+    onClick: () -> Unit = {}
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
     Box(
         modifier = modifier
             .width(40.dp)
@@ -167,6 +169,11 @@ fun IconButton(
             .background(
                 color = backgroundColor,
                 shape = CircleShape
+            )
+            .clickable(
+                interactionSource = interactionSource,
+                indication = null,
+                onClick = onClick
             ),
         contentAlignment = Alignment.Center
 
