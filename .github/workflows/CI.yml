@@ -1,8 +1,6 @@
 name: Test checks
 run-name: Deploy to production by @${{ github.actor }}
 on: 
-  push:
-    branches: [develop]
   pull_request:
     branches: [develop, master]
  
