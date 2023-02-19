@@ -25,8 +25,10 @@ import com.sadteam.assistantformafia.ui.theme.secondFontFamily
 /**
  * Кнопка, нажатие на которой вызывает какое-либо действие
  *
+ * @param modifier модификатор элемента
  * @param icon иконка-подсказка внури кнопки
  * @param title текст на кнопке
+ * @param onClick callback функция, срабатывающая при клике на кнопку
  */
 @Composable
 fun MenuButton(
@@ -76,8 +78,9 @@ fun MenuButton(
 }
 
 /**
- * Кнопка с кастонмным текстом и фоном
+ * Большая кнопка с пользовательским текстом и фоном
  *
+ * @param modifier модификатор элемента
  * @param title текст на кнопке
  * @param backgroundColor цвет фона кнопки
  */
@@ -108,6 +111,13 @@ fun BigButton(
     }
 }
 
+/**
+ * Маленькая кнопка с пользовательским текстом и фоном
+ *
+ * @param modifier модификатор элемента
+ * @param title текст на кнопке
+ * @param backgroundColor цвет фона кнопки
+ */
 @Composable
 fun SmallButton(
     modifier: Modifier = Modifier,
@@ -138,6 +148,7 @@ fun SmallButton(
  * Круглая кнопка с иконкой внутри
  * TODO необходимо сделать действие на кнопку
  *
+ * @param modifier модификатор элемента
  * @param painter иконка
  * @param backgroundColor цвет фона-круга сзади иконки
  * @param description описание действия кнопки

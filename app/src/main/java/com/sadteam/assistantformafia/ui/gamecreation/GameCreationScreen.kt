@@ -29,6 +29,9 @@ import com.sadteam.assistantformafia.ui.components.MenuButton
 import com.sadteam.assistantformafia.ui.components.SmallButton
 import com.sadteam.assistantformafia.ui.theme.*
 
+/**
+ * Экран создания игры
+ */
 @Composable
 fun GameCreationScreen() {
     Surface(
@@ -80,7 +83,7 @@ fun GameCreationScreen() {
 
 /**
  * Шапка с вопросами-ответами и настройками
- *
+ * @param modifier модификатор элемента
  */
 @Composable
 fun Header(
@@ -109,7 +112,15 @@ fun Header(
     }
 }
 
-//TODO поменять логику нажатия кнопок (поменять дизайн нажатой кнопки)
+/**
+ * Всплывающее окно с выбором количесвта игроков
+ * TODO поменять логику нажатия кнопок (поменять дизайн нажатой кнопки)
+ *
+ * @param modifier модификатор элемента
+ * @param isShowed показано ли окно
+ * @param onClose callback функция, срабатывающая при попытки закрытия окна
+ * @param onPlayersCountChange callback функция, срабатывающая при измненении количества игроков
+ */
 @Composable
 fun PlayersPopup(
     modifier: Modifier = Modifier,
@@ -237,6 +248,11 @@ fun PlayersPopup(
     }
 }
 
+/**
+ * Кнопка-меню, нажатие на которую вызывает показ всплывающего окна с выбором количества игроков
+ *
+ * @param modifier модификатор элемента
+ */
 @Composable
 fun PlayersCountButton(
     modifier: Modifier = Modifier
