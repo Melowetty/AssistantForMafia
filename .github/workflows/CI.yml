@@ -1,12 +1,13 @@
 name: Обновление
-run-name: Deploy to ${{ inputs.deploy_target }} by @${{ github.actor }}
+run-name: Deploy to production by @${{ github.actor }}
 on: 
   push:
-    branches: [develop, master]
+    branches: [develop]
   pull_request:
     branches: [develop, master]
 jobs:
   test:
+    name: Run tests
     runs-on: macos-latest
     steps:
       - name: Checkout
@@ -15,8 +16,12 @@ jobs:
       - name: Run instrumental tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
-          api-level: 33
+          api-level: 29
           script: ./gradlew connectedCheck
+  report:
+    name: Send a report
+    runs-on: ubuntu-latest
+    steps:
       - name: Send telegram message on push
         uses: appleboy/telegram-action@master
         with:
