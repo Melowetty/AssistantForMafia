@@ -46,22 +46,27 @@ fun RoleScreen(){
                     MenuButton(
                         icon = painterResource(id = R.drawable.ic_baseline_assignment_ind_24),
                         title = stringResource(id = R.string.mafia),
+                        currentValue = "1",
                     )
                     MenuButton(
                         icon = painterResource(id = R.drawable.baseline_tune_24),
                         title = stringResource(id = R.string.commissar),
+                        currentValue = "1",
                     )
                     MenuButton(
                         icon = painterResource(id = R.drawable.baseline_help_24),
                         title = stringResource(id = R.string.harlot),
+                        currentValue = "1",
                     )
                     MenuButton(
                         icon = painterResource(id = R.drawable.baseline_tune_24),
                         title = stringResource(id = R.string.doctor),
+                        currentValue = "1",
                     )
                     MenuButton(
                         icon = painterResource(id = R.drawable.baseline_help_24),
                         title = stringResource(id = R.string.maniac),
+                        currentValue = "1",
                     )
                 }
             }
