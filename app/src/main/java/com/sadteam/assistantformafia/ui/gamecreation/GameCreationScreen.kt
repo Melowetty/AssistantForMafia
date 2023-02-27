@@ -16,6 +16,7 @@ import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.ui.components.BigButton
 import com.sadteam.assistantformafia.ui.components.IconButton
 import com.sadteam.assistantformafia.ui.components.MenuButton
+import com.sadteam.assistantformafia.ui.components.SelectCountButton
 import com.sadteam.assistantformafia.ui.theme.DarkBlue
 import com.sadteam.assistantformafia.ui.theme.primaryFontFamily
 
@@ -49,7 +50,10 @@ fun GameCreationScreen() {
                         .fillMaxWidth(),
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    PlayersCountButton()
+                    SelectCountButton(
+                        title = stringResource(id = R.string.players_count),
+                        minCount = 1
+                    )
                     MenuButton(
                         icon = painterResource(id = R.drawable.ic_baseline_assignment_ind_24),
                         title = stringResource(id = R.string.roles),
