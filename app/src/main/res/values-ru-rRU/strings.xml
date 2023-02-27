@@ -12,4 +12,9 @@
     <string name="game_settings">Параметры</string>
     <string name="players_count">Игроков</string>
     <string name="save">Сохранить</string>
+    <string name="mafia">Мафия</string>
+    <string name="commissar">Комиссар</string>
+    <string name="harlot">Ночная бабочка</string>
+    <string name="doctor">Доктор</string>
+    <string name="maniac">Маньяк</string>
 </resources>
