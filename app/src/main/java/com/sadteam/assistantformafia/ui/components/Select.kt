@@ -110,7 +110,7 @@ fun SelectCountPopup(
                                         interactionSource = interactionSource,
                                         indication = null,
                                         onClick = {
-                                            if (count > 1) {
+                                            if (count > minCount) {
                                                 count -= 1
                                                 onCountChange(count)
                                             }
@@ -141,7 +141,7 @@ fun SelectCountPopup(
                                         interactionSource = interactionSource,
                                         indication = null,
                                         onClick = {
-                                            if (count != maxCount) {
+                                            if (count < maxCount) {
                                                 count += 1
                                                 onCountChange(count)
                                             }
