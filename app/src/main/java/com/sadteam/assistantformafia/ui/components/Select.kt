@@ -181,8 +181,10 @@ fun SelectCountPopup(
  *
  * @param modifier модификатор элемента
  * @param title заголовок для кнопки
+ * @param icon иконка для кнопки
  * @param minCount минимальное число
  * @param maxCount максимальное число
+ * @param onValueChange callback изменения значения
  */
 @Composable
 fun SelectCount(

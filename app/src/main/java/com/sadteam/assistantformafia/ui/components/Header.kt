@@ -1,6 +1,5 @@
 package com.sadteam.assistantformafia.ui.components
 
-import android.icu.text.CaseMap.Title
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
