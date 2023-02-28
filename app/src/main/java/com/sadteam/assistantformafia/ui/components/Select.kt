@@ -12,6 +12,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -184,24 +185,30 @@ fun SelectCountPopup(
  * @param maxCount максимальное число
  */
 @Composable
-fun SelectCountButton(
+fun SelectCount(
     modifier: Modifier = Modifier,
     title: String,
+    icon: Painter,
     minCount: Int = 0,
     maxCount: Int = Int.MAX_VALUE,
+    onValueChange: (Int) -> Unit = {},
 ) {
+    var value by remember {
+        mutableStateOf(minCount)
+    }
     var isPopupShowed by remember {
         mutableStateOf(false)
     }
     Box(modifier = modifier) {
         MenuButton(
-            icon = painterResource(id = R.drawable.baseline_people_alt_24),
+            icon = icon,
             title = title,
             onClick = {
                 isPopupShowed = true
             },
             modifier = Modifier
-                .testTag(SelectCountTags.OPENING_BUTTON)
+                .testTag(SelectCountTags.OPENING_BUTTON),
+            currentValue = value.toString()
         )
         SelectCountPopup(
             title = title,
@@ -213,6 +220,10 @@ fun SelectCountButton(
                 .testTag(SelectCountTags.BOX),
             minCount = minCount,
             maxCount = maxCount,
+            onCountChange = {
+                value = it
+                onValueChange(it)
+            }
         )
     }
 }

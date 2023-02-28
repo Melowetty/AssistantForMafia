@@ -13,11 +13,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sadteam.assistantformafia.R
-import com.sadteam.assistantformafia.ui.components.BigButton
-import com.sadteam.assistantformafia.ui.components.Header
-import com.sadteam.assistantformafia.ui.components.IconButton
-import com.sadteam.assistantformafia.ui.components.MenuButton
-import com.sadteam.assistantformafia.ui.components.SelectCountButton
+import com.sadteam.assistantformafia.ui.components.*
 import com.sadteam.assistantformafia.ui.theme.DarkBlue
 import com.sadteam.assistantformafia.ui.theme.primaryFontFamily
 
@@ -53,8 +49,9 @@ fun GameCreationScreen() {
                         .fillMaxWidth(),
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    SelectCountButton(
+                    SelectCount(
                         title = stringResource(id = R.string.players_count),
+                        icon = painterResource(id = R.drawable.baseline_people_alt_24),
                         minCount = 1
                     )
                     MenuButton(
