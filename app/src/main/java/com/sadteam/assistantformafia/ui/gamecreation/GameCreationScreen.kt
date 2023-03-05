@@ -25,7 +25,7 @@ fun GameCreationScreen(
     navController: NavController
 ) {
     var players by remember {
-        mutableStateOf(1)
+        mutableStateOf(4)
     }
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -58,7 +58,7 @@ fun GameCreationScreen(
                     SelectCount(
                         title = stringResource(id = R.string.players_count),
                         icon = painterResource(id = R.drawable.baseline_people_alt_24),
-                        minCount = 1,
+                        minCount = 4,
                         onValueChange = {
                             players = it
                         }
