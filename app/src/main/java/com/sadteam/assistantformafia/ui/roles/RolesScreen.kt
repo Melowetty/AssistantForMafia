@@ -29,6 +29,9 @@ fun RolesScreen(
     var mafias by remember {
         mutableStateOf(1)
     }
+    var innocents by remember {
+        mutableStateOf(1)
+    }
     var commmissars by remember {
         mutableStateOf(0)
     }
@@ -73,7 +76,7 @@ fun RolesScreen(
                     ) {
                         SelectCount(
                             title = stringResource(id = R.string.role_mafia),
-                            icon = painterResource(id = R.drawable.ic_baseline_assignment_ind_24),
+                            icon = painterResource(id = R.drawable.baseline_help_24),
                             minCount = 1,
                             maxCount = availableCount + mafias,
                             onValueChange = {
@@ -81,8 +84,17 @@ fun RolesScreen(
                             }
                         )
                         SelectCount(
+                            title = stringResource(id = R.string.role_innocent),
+                            icon = painterResource(id = R.drawable.baseline_help_24),
+                            minCount = 1,
+                            maxCount = availableCount + innocents,
+                            onValueChange = {
+                                innocents = it
+                            }
+                        )
+                        SelectCount(
                             title = stringResource(id = R.string.role_commissar),
-                            icon = painterResource(id = R.drawable.baseline_tune_24),
+                            icon = painterResource(id = R.drawable.baseline_help_24),
                             minCount = 0,
                             maxCount = availableCount + commmissars,
                             onValueChange = {
@@ -100,7 +112,7 @@ fun RolesScreen(
                         )
                         SelectCount(
                             title = stringResource(id = R.string.role_doctor),
-                            icon = painterResource(id = R.drawable.baseline_tune_24),
+                            icon = painterResource(id = R.drawable.baseline_help_24),
                             minCount = 0,
                             maxCount = availableCount + doctors,
                             onValueChange = {

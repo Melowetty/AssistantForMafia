@@ -17,4 +17,5 @@
     <string name="role_harlot">Ночная бабочка</string>
     <string name="role_doctor">Доктор</string>
     <string name="role_maniac">Маньяк</string>
+    <string name="role_innocent">Мирный житель</string>
 </resources>
