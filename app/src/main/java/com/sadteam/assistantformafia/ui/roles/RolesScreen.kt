@@ -1,10 +1,14 @@
 package com.sadteam.assistantformafia.ui.roles
 
+import android.graphics.BitmapFactory
+import android.util.Base64
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -13,6 +17,7 @@ import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.ui.components.Header
 import com.sadteam.assistantformafia.ui.components.SelectCount
 import com.sadteam.assistantformafia.ui.theme.AssistantForMafiaTheme
+import com.sadteam.assistantformafia.utils.IconUtils.Companion.toImageBitmap
 
 @Composable
 @Preview
