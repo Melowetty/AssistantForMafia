@@ -28,6 +28,7 @@ import com.sadteam.assistantformafia.ui.theme.secondFontFamily
  * @param modifier модификатор элемента
  * @param icon иконка-подсказка внури кнопки
  * @param title текст на кнопке
+ * @param currentValue текущее значение
  * @param onClick callback функция, срабатывающая при клике на кнопку
  */
 @Composable
@@ -35,54 +36,7 @@ fun MenuButton(
     modifier: Modifier = Modifier,
     icon: Painter,
     title: String,
-    onClick: () -> Unit = {},
-){
-    val interactionSource = remember { MutableInteractionSource() }
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .background(
-                color = BloodRed,
-                shape = CircleShape
-            )
-            .padding(top = 8.dp, end = 10.dp, bottom = 8.dp, start = 20.dp)
-            .clickable(
-                interactionSource = interactionSource,
-                indication = null,
-                onClick = onClick
-            ),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Icon(
-            painter = icon,
-            contentDescription = title,
-            modifier = Modifier
-                .width(25.dp)
-                .height(25.dp)
-        )
-        Text(
-            text = title,
-            fontFamily = secondFontFamily,
-            fontWeight = FontWeight.Bold,
-            fontSize = 24.sp
-        )
-        Icon(
-            painter = painterResource(id = R.drawable.ic_baseline_arrow_forward_ios_24),
-            contentDescription = stringResource(id = R.string.more_detail),
-            modifier = Modifier
-                .width(25.dp)
-                .height(25.dp)
-        )
-    }
-}
-
-@Composable
-fun MenuButton(
-    modifier: Modifier = Modifier,
-    icon: Painter,
-    title: String,
-    currentValue: String,
+    currentValue: String? = null,
     onClick: () -> Unit = {},
 ){
     val interactionSource = remember { MutableInteractionSource() }
@@ -123,7 +77,7 @@ fun MenuButton(
         Row(
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
+            if(currentValue != null) Text(
                 text = currentValue,
                 fontFamily = secondFontFamily,
                 fontWeight = FontWeight.Bold,
