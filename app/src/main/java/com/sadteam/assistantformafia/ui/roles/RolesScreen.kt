@@ -5,6 +5,7 @@ import android.util.Base64
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
@@ -22,7 +23,8 @@ import com.sadteam.assistantformafia.utils.IconUtils.Companion.toImageBitmap
 
 @Composable
 fun RolesScreen(
-    navController: NavController
+    navController: NavController,
+    players: Int?,
 ){
     AssistantForMafiaTheme {
         Surface(
