@@ -8,18 +8,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.ui.components.BigButton
 import com.sadteam.assistantformafia.ui.components.Header
 import com.sadteam.assistantformafia.ui.components.MenuButton
 import com.sadteam.assistantformafia.ui.components.SelectCount
+import com.sadteam.assistantformafia.ui.navigation.Screen
 import com.sadteam.assistantformafia.ui.theme.DarkBlue
 
 /**
  * Экран создания игры
  */
 @Composable
-fun GameCreationScreen() {
+fun GameCreationScreen(
+    navController: NavController
+) {
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background,
@@ -55,6 +59,9 @@ fun GameCreationScreen() {
                     MenuButton(
                         icon = painterResource(id = R.drawable.ic_baseline_assignment_ind_24),
                         title = stringResource(id = R.string.roles),
+                        onClick = {
+                            navController.navigate(route = Screen.Roles.route)
+                        }
                     )
                     MenuButton(
                         icon = painterResource(id = R.drawable.baseline_tune_24),
