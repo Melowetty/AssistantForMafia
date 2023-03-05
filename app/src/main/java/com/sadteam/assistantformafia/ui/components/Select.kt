@@ -1,4 +1,4 @@
-package com.sadteam.assistantformafia.ui.gamecreation
+package com.sadteam.assistantformafia.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -12,6 +12,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -22,60 +23,32 @@ import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
 import androidx.compose.ui.zIndex
 import com.sadteam.assistantformafia.R
-import com.sadteam.assistantformafia.ui.components.MenuButton
-import com.sadteam.assistantformafia.ui.components.SmallButton
+import com.sadteam.assistantformafia.ui.tags.SelectCountTags
 import com.sadteam.assistantformafia.ui.theme.*
 
 /**
- * Кнопка-меню, нажатие на которую вызывает показ всплывающего окна с выбором количества игроков
- *
- * @param modifier модификатор элемента
- */
+* Всплывающее окно с выбором количества игроков
+* TODO поменять логику нажатия кнопок (поменять дизайн нажатой кнопки)
+*
+* @param modifier модификатор элемента
+* @param title Заголовок окна
+* @param minCount минимальное число
+* @param maxCount максимальное число
+* @param isShowed показано ли окно
+* @param onClose callback функция, срабатывающая при попытки закрытия окна
+* @param onCountChange callback функция, срабатывающая при измненении количества игроков
+*/
 @Composable
-fun PlayersCountButton(
-    modifier: Modifier = Modifier
-) {
-    var isPopupShowed by remember {
-        mutableStateOf(false)
-    }
-    Box(modifier = modifier) {
-        MenuButton(
-            icon = painterResource(id = R.drawable.baseline_people_alt_24),
-            title = stringResource(id = R.string.players),
-            onClick = {
-                isPopupShowed = true
-            },
-            modifier = Modifier
-                .testTag(SelectPlayersCountTags.OPENING_BUTTON)
-        )
-        PlayersPopup(
-            isShowed = isPopupShowed,
-            onClose = {
-                isPopupShowed = false
-            },
-            modifier = Modifier
-                .testTag(SelectPlayersCountTags.BOX)
-        )
-    }
-}
-
-/**
- * Всплывающее окно с выбором количесвта игроков
- * TODO поменять логику нажатия кнопок (поменять дизайн нажатой кнопки)
- *
- * @param modifier модификатор элемента
- * @param isShowed показано ли окно
- * @param onClose callback функция, срабатывающая при попытки закрытия окна
- * @param onPlayersCountChange callback функция, срабатывающая при измненении количества игроков
- */
-@Composable
-fun PlayersPopup(
+fun SelectCountPopup(
     modifier: Modifier = Modifier,
+    title: String,
+    minCount: Int,
+    maxCount: Int,
     isShowed: Boolean = false,
     onClose: () -> Unit,
-    onPlayersCountChange: (Int) -> Unit = {}
+    onCountChange: (Int) -> Unit = {}
 ) {
-    var playersCount by remember { mutableStateOf(1) }
+    var count by remember { mutableStateOf(minCount) }
     val interactionSource = remember { MutableInteractionSource() }
     if (isShowed) {
         Popup(
@@ -118,7 +91,7 @@ fun PlayersPopup(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Text(
-                            text = stringResource(id = R.string.players_count),
+                            text = title,
                             color = Color.White,
                             fontFamily = secondFontFamily,
                             fontSize = 24.sp,
@@ -137,12 +110,12 @@ fun PlayersPopup(
                                         interactionSource = interactionSource,
                                         indication = null,
                                         onClick = {
-                                            if (playersCount > 1) {
-                                                playersCount -= 1
-                                                onPlayersCountChange(playersCount)
+                                            if (count > minCount) {
+                                                count -= 1
+                                                onCountChange(count)
                                             }
                                         })
-                                    .testTag(SelectPlayersCountTags.REMOVE),
+                                    .testTag(SelectCountTags.REMOVE),
                                 contentAlignment = Alignment.Center
                             ) {
                                 Icon(
@@ -152,13 +125,13 @@ fun PlayersPopup(
                                 )
                             }
                             Text(
-                                text = "$playersCount",
+                                text = "$count",
                                 color = Color.White,
                                 fontFamily = secondFontFamily,
                                 fontSize = 24.sp,
                                 fontWeight = FontWeight.Bold,
                                 modifier = Modifier
-                                    .testTag(SelectPlayersCountTags.VALUE)
+                                    .testTag(SelectCountTags.VALUE)
                             )
                             Box(
                                 modifier = Modifier
@@ -168,10 +141,12 @@ fun PlayersPopup(
                                         interactionSource = interactionSource,
                                         indication = null,
                                         onClick = {
-                                            playersCount += 1
-                                            onPlayersCountChange(playersCount)
+                                            if (count < maxCount) {
+                                                count += 1
+                                                onCountChange(count)
+                                            }
                                         })
-                                    .testTag(SelectPlayersCountTags.ADD),
+                                    .testTag(SelectCountTags.ADD),
                                 contentAlignment = Alignment.Center
                             ) {
                                 Icon(
@@ -192,11 +167,65 @@ fun PlayersPopup(
                                     onClick = {
                                         onClose()
                                     })
-                                .testTag(SelectPlayersCountTags.SAVE)
+                                .testTag(SelectCountTags.SAVE)
                         )
                     }
                 }
             }
         }
+    }
+}
+
+/**
+ * Кнопка-меню, нажатие на которую вызывает показ всплывающего окна с выбором количества игроков
+ *
+ * @param modifier модификатор элемента
+ * @param title заголовок для кнопки
+ * @param icon иконка для кнопки
+ * @param minCount минимальное число
+ * @param maxCount максимальное число
+ * @param onValueChange callback изменения значения
+ */
+@Composable
+fun SelectCount(
+    modifier: Modifier = Modifier,
+    title: String,
+    icon: Painter,
+    minCount: Int = 0,
+    maxCount: Int = Int.MAX_VALUE,
+    onValueChange: (Int) -> Unit = {},
+) {
+    var value by remember {
+        mutableStateOf(minCount)
+    }
+    var isPopupShowed by remember {
+        mutableStateOf(false)
+    }
+    Box(modifier = modifier) {
+        MenuButton(
+            icon = icon,
+            title = title,
+            onClick = {
+                isPopupShowed = true
+            },
+            modifier = Modifier
+                .testTag(SelectCountTags.OPENING_BUTTON),
+            currentValue = value.toString()
+        )
+        SelectCountPopup(
+            title = title,
+            isShowed = isPopupShowed,
+            onClose = {
+                isPopupShowed = false
+            },
+            modifier = Modifier
+                .testTag(SelectCountTags.BOX),
+            minCount = minCount,
+            maxCount = maxCount,
+            onCountChange = {
+                value = it
+                onValueChange(it)
+            }
+        )
     }
 }
