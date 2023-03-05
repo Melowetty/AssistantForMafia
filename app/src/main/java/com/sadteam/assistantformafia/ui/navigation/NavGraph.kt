@@ -24,7 +24,7 @@ fun SetupNavGraph(
         composable(
             route = Screen.Roles.route
         ) {
-            RolesScreen()
+            RolesScreen(navController = navController)
         }
     }
 }

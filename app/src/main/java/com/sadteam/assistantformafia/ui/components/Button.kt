@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
@@ -18,6 +19,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.ui.theme.BloodRed
 import com.sadteam.assistantformafia.ui.theme.secondFontFamily
@@ -199,5 +202,35 @@ fun IconButton(
             painter = painter,
             contentDescription = description,
         )
+    }
+}
+
+@Composable
+fun BackButton(
+    modifier: Modifier = Modifier,
+    navController: NavController,
+    onClick: () -> Unit = {}
+) {
+    if (navController.backQueue.size > 2)
+    {
+        val interactionSource = remember { MutableInteractionSource() }
+        Icon(
+            painter = painterResource(id = R.drawable.baseline_arrow_back_24),
+            contentDescription = "Back",
+            modifier = modifier
+                .clickable(
+                    interactionSource = interactionSource,
+                    indication = null,
+                    onClick = {
+                        navController.popBackStack()
+                        onClick()
+                    }
+                ),
+        )
+    }
+    else {
+        Spacer(modifier = Modifier
+            .height(24.dp)
+            .width(24.dp))
     }
 }

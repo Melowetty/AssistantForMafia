@@ -13,6 +13,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.ui.components.Header
 import com.sadteam.assistantformafia.ui.components.SelectCount
@@ -20,8 +21,9 @@ import com.sadteam.assistantformafia.ui.theme.AssistantForMafiaTheme
 import com.sadteam.assistantformafia.utils.IconUtils.Companion.toImageBitmap
 
 @Composable
-@Preview
-fun RolesScreen(){
+fun RolesScreen(
+    navController: NavController
+){
     AssistantForMafiaTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
@@ -31,7 +33,8 @@ fun RolesScreen(){
                 modifier = Modifier.fillMaxSize()
             ) {
                 Header(
-                    title = stringResource(id = R.string.roles)
+                    title = stringResource(id = R.string.roles),
+                    navController = navController
                 )
                 Column(
                     modifier = Modifier

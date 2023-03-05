@@ -32,7 +32,8 @@ fun GameCreationScreen(
             modifier = Modifier.fillMaxSize(),
         ) {
             Header(
-                title = stringResource(id = R.string.game_creation)
+                title = stringResource(id = R.string.game_creation),
+                navController = navController
             )
             Column(
                 modifier = Modifier

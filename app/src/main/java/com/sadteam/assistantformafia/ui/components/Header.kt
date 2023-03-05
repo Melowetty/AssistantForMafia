@@ -1,8 +1,6 @@
 package com.sadteam.assistantformafia.ui.components
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -13,6 +11,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.ui.theme.primaryFontFamily
 
@@ -23,24 +22,24 @@ import com.sadteam.assistantformafia.ui.theme.primaryFontFamily
 @Composable
 fun Header(
     modifier: Modifier = Modifier,
+    navController: NavController,
     title: String
 ) {
-    Box(
+    Row(
         modifier = modifier
             .fillMaxWidth()
             .padding(10.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
+        BackButton(navController = navController)
         Text(
             text = title,
             fontFamily = primaryFontFamily,
             fontWeight = FontWeight.Bold,
             fontSize = 24.sp,
-            modifier = Modifier
-                .align(Alignment.Center)
         )
         IconButton(
-            modifier = Modifier
-                .align(Alignment.CenterEnd),
             painter = painterResource(id = R.drawable.ic_baseline_settings_24),
             backgroundColor = MaterialTheme.colorScheme.secondaryContainer,
             description = stringResource(id = R.string.app_settings),
