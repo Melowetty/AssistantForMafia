@@ -77,6 +77,69 @@ fun MenuButton(
     }
 }
 
+@Composable
+fun MenuButton(
+    modifier: Modifier = Modifier,
+    icon: Painter,
+    title: String,
+    currentValue: String,
+    onClick: () -> Unit = {},
+){
+    val interactionSource = remember { MutableInteractionSource() }
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(
+                color = BloodRed,
+                shape = CircleShape
+            )
+            .padding(top = 8.dp, end = 10.dp, bottom = 8.dp, start = 20.dp)
+            .clickable(
+                interactionSource = interactionSource,
+                indication = null,
+                onClick = onClick
+            ),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                painter = icon,
+                contentDescription = title,
+                modifier = Modifier
+                    .width(25.dp)
+                    .height(25.dp)
+            )
+            Text(
+                text = title,
+                fontFamily = secondFontFamily,
+                fontWeight = FontWeight.Bold,
+                fontSize = 24.sp
+            )
+        }
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = currentValue,
+                fontFamily = secondFontFamily,
+                fontWeight = FontWeight.Bold,
+                fontSize = 24.sp
+            )
+            Icon(
+                painter = painterResource(id = R.drawable.ic_baseline_arrow_forward_ios_24),
+                contentDescription = stringResource(id = R.string.more_detail),
+                modifier = Modifier
+                    .width(25.dp)
+                    .height(25.dp)
+            )
+        }
+    }
+}
+
 /**
  * Большая кнопка с пользовательским текстом и фоном
  *

@@ -1,6 +1,6 @@
-package com.sadteam.assistantformafia.ui.gamecreation
+package com.sadteam.assistantformafia.ui.tags
 
-object SelectPlayersCountTags {
+object SelectCountTags {
     const val VALUE = "SelectPlayersCount:VALUE"
     const val ADD = "SelectPlayersCount:ADD"
     const val REMOVE = "SelectPlayersCount:REMOVE"
