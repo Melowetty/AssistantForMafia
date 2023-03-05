@@ -16,4 +16,5 @@
     <string name="role_harlot">Harlot</string>
     <string name="role_doctor">Doctor</string>
     <string name="role_maniac">Maniac</string>
+    <string name="role_innocent">Innocent</string>
 </resources>

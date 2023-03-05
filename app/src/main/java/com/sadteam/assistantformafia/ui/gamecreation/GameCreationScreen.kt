@@ -3,23 +3,30 @@ package com.sadteam.assistantformafia.ui.gamecreation
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.ui.components.BigButton
 import com.sadteam.assistantformafia.ui.components.Header
 import com.sadteam.assistantformafia.ui.components.MenuButton
 import com.sadteam.assistantformafia.ui.components.SelectCount
+import com.sadteam.assistantformafia.ui.navigation.Screen
 import com.sadteam.assistantformafia.ui.theme.DarkBlue
 
 /**
  * Экран создания игры
  */
 @Composable
-fun GameCreationScreen() {
+fun GameCreationScreen(
+    navController: NavController
+) {
+    var players by remember {
+        mutableStateOf(4)
+    }
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background,
@@ -28,7 +35,8 @@ fun GameCreationScreen() {
             modifier = Modifier.fillMaxSize(),
         ) {
             Header(
-                title = stringResource(id = R.string.game_creation)
+                title = stringResource(id = R.string.game_creation),
+                navController = navController
             )
             Column(
                 modifier = Modifier
@@ -50,11 +58,17 @@ fun GameCreationScreen() {
                     SelectCount(
                         title = stringResource(id = R.string.players_count),
                         icon = painterResource(id = R.drawable.baseline_people_alt_24),
-                        minCount = 1
+                        minCount = 4,
+                        onValueChange = {
+                            players = it
+                        }
                     )
                     MenuButton(
                         icon = painterResource(id = R.drawable.ic_baseline_assignment_ind_24),
                         title = stringResource(id = R.string.roles),
+                        onClick = {
+                            navController.navigate(route = Screen.Roles.passPlayersValue(players))
+                        }
                     )
                     MenuButton(
                         icon = painterResource(id = R.drawable.baseline_tune_24),
