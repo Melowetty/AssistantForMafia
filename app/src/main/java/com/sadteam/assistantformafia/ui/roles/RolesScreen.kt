@@ -100,8 +100,6 @@ fun RolesScreen(
                             onValueChange = {
                                 commmissars = it
                             }
-                            icon = painterResource(id = R.drawable.ic_baseline_assignment_ind_24),
-                            minCount = 1,
                         )
                         SelectCount(
                             title = stringResource(id = R.string.role_harlot),
