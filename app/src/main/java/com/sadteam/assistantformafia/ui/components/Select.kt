@@ -42,13 +42,12 @@ import com.sadteam.assistantformafia.ui.theme.*
 fun SelectCountPopup(
     modifier: Modifier = Modifier,
     title: String,
-    minCount: Int,
-    maxCount: Int,
+    value: Int,
     isShowed: Boolean = false,
     onClose: () -> Unit,
-    onCountChange: (Int) -> Unit = {}
+    onIncreasing: () -> Unit,
+    onDecreasing: () -> Unit,
 ) {
-    var count by remember { mutableStateOf(minCount) }
     val interactionSource = remember { MutableInteractionSource() }
     if (isShowed) {
         Popup(
@@ -109,12 +108,8 @@ fun SelectCountPopup(
                                     .clickable(
                                         interactionSource = interactionSource,
                                         indication = null,
-                                        onClick = {
-                                            if (count > minCount) {
-                                                count -= 1
-                                                onCountChange(count)
-                                            }
-                                        })
+                                        onClick = onDecreasing
+                                    )
                                     .testTag(SelectCountTags.REMOVE),
                                 contentAlignment = Alignment.Center
                             ) {
@@ -125,7 +120,7 @@ fun SelectCountPopup(
                                 )
                             }
                             Text(
-                                text = "$count",
+                                text = "$value",
                                 color = Color.White,
                                 fontFamily = secondFontFamily,
                                 fontSize = 24.sp,
@@ -140,12 +135,8 @@ fun SelectCountPopup(
                                     .clickable(
                                         interactionSource = interactionSource,
                                         indication = null,
-                                        onClick = {
-                                            if (count < maxCount) {
-                                                count += 1
-                                                onCountChange(count)
-                                            }
-                                        })
+                                        onClick = onIncreasing
+                                    )
                                     .testTag(SelectCountTags.ADD),
                                 contentAlignment = Alignment.Center
                             ) {
@@ -164,9 +155,8 @@ fun SelectCountPopup(
                                 .clickable(
                                     interactionSource = interactionSource,
                                     indication = null,
-                                    onClick = {
-                                        onClose()
-                                    })
+                                    onClick = onClose
+                                )
                                 .testTag(SelectCountTags.SAVE)
                         )
                     }
@@ -190,14 +180,11 @@ fun SelectCountPopup(
 fun SelectCount(
     modifier: Modifier = Modifier,
     title: String,
+    value: Int,
     icon: Painter,
-    minCount: Int = 0,
-    maxCount: Int = Int.MAX_VALUE,
-    onValueChange: (Int) -> Unit = {},
+    onIncreasing: () -> Unit,
+    onDecreasing: () -> Unit,
 ) {
-    var value by remember {
-        mutableStateOf(minCount)
-    }
     var isPopupShowed by remember {
         mutableStateOf(false)
     }
@@ -214,18 +201,15 @@ fun SelectCount(
         )
         SelectCountPopup(
             title = title,
+            value = value,
             isShowed = isPopupShowed,
             onClose = {
                 isPopupShowed = false
             },
             modifier = Modifier
                 .testTag(SelectCountTags.BOX),
-            minCount = minCount,
-            maxCount = maxCount,
-            onCountChange = {
-                value = it
-                onValueChange(it)
-            }
+            onDecreasing = onDecreasing,
+            onIncreasing = onIncreasing,
         )
     }
 }

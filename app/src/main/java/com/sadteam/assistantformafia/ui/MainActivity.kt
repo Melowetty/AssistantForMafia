@@ -5,7 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.sadteam.assistantformafia.ui.gamecreation.GameCreationScreen
 import com.sadteam.assistantformafia.ui.navigation.SetupNavGraph
 import com.sadteam.assistantformafia.ui.theme.AssistantForMafiaTheme
 

@@ -1,18 +1,17 @@
 package com.sadteam.assistantformafia.ui.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
 import com.sadteam.assistantformafia.ui.gamecreation.GameCreationScreen
+import com.sadteam.assistantformafia.ui.gamecreation.GameCreationViewModel
 import com.sadteam.assistantformafia.ui.roles.RolesScreen
 
 @Composable
 fun SetupNavGraph(
-    navController: NavHostController
+    navController: NavHostController,
+    viewModel: GameCreationViewModel = GameCreationViewModel()
 ) {
     NavHost(
         navController = navController,
@@ -21,21 +20,12 @@ fun SetupNavGraph(
         composable(
             route = Screen.GameCreation.route
         ) {
-            GameCreationScreen(navController = navController)
+            GameCreationScreen(navController = navController, viewModel)
         }
         composable(
             route = Screen.Roles.route,
-            arguments = listOf(
-                navArgument(ROLES_ARGUMENT_KEY) {
-                    type = NavType.IntType
-                    defaultValue = 4
-                }
-            )
-
-
         ) {
-            RolesScreen(navController = navController, players = it.arguments?.getInt(
-                ROLES_ARGUMENT_KEY))
+            RolesScreen(navController = navController, viewModel)
         }
     }
 }

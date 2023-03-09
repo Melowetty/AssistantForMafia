@@ -3,7 +3,7 @@ package com.sadteam.assistantformafia.ui.gamecreation
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -22,11 +22,10 @@ import com.sadteam.assistantformafia.ui.theme.DarkBlue
  */
 @Composable
 fun GameCreationScreen(
-    navController: NavController
+    navController: NavController,
+    viewModel: GameCreationViewModel = GameCreationViewModel()
 ) {
-    var players by remember {
-        mutableStateOf(4)
-    }
+    val state = viewModel.state.value
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background,
@@ -58,16 +57,15 @@ fun GameCreationScreen(
                     SelectCount(
                         title = stringResource(id = R.string.players_count),
                         icon = painterResource(id = R.drawable.baseline_people_alt_24),
-                        minCount = 4,
-                        onValueChange = {
-                            players = it
-                        }
+                        onIncreasing = { viewModel.onEvent(GameCreationViewModel.UIEvent.IncrementPlayers) },
+                        onDecreasing = { viewModel.onEvent(GameCreationViewModel.UIEvent.DecrementPlayers) },
+                        value = state.players,
                     )
                     MenuButton(
                         icon = painterResource(id = R.drawable.ic_baseline_assignment_ind_24),
                         title = stringResource(id = R.string.roles),
                         onClick = {
-                            navController.navigate(route = Screen.Roles.passPlayersValue(players))
+                            navController.navigate(route = Screen.Roles.route)
                         }
                     )
                     MenuButton(
