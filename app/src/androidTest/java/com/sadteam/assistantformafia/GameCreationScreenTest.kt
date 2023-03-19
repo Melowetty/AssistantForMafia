@@ -1,7 +1,10 @@
 package com.sadteam.assistantformafia
 
-import androidx.compose.ui.test.*
+import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.assertTextEquals
+import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.performClick
 import com.sadteam.assistantformafia.ui.MainActivity
 import com.sadteam.assistantformafia.ui.gamecreation.GameCreationScreen
 import com.sadteam.assistantformafia.ui.tags.SelectCountTags
