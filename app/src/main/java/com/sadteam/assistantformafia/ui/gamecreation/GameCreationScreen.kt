@@ -47,7 +47,6 @@ fun GameCreationScreen(
                         start = 10.dp
                     ),
                 verticalArrangement = Arrangement.SpaceBetween
-
             ) {
                 Column(
                     modifier = Modifier

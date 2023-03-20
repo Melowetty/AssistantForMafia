@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.sadteam.assistantformafia.R
+import com.sadteam.assistantformafia.ui.navigation.Screen
 import com.sadteam.assistantformafia.ui.theme.primaryFontFamily
 
 /**
@@ -46,6 +47,9 @@ fun Header(
             painter = painterResource(id = R.drawable.ic_baseline_settings_24),
             backgroundColor = MaterialTheme.colorScheme.secondaryContainer,
             description = stringResource(id = R.string.app_settings),
+            onClick = {
+                navController.navigate(route = Screen.AppSettings.route)
+            }
         )
     }
 }

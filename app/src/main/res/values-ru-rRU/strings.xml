@@ -18,4 +18,7 @@
     <string name="role_doctor">Доктор</string>
     <string name="role_maniac">Маньяк</string>
     <string name="role_innocent">Мирный житель</string>
+    <string name="language">Язык</string>
+    <string name="volume">Звук</string>
+    <string name="music">Музыка</string>
 </resources>

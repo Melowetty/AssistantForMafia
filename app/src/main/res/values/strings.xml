@@ -17,4 +17,7 @@
     <string name="role_doctor">Doctor</string>
     <string name="role_maniac">Maniac</string>
     <string name="role_innocent">Innocent</string>
+    <string name="language">Language</string>
+    <string name="volume">Volume</string>
+    <string name="music">Music</string>
 </resources>
