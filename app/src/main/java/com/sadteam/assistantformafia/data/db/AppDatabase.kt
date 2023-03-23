@@ -35,7 +35,6 @@ abstract class AppDatabase : RoomDatabase() {
                         AppDatabase::class.java,
                         DB_NAME,
                     )
-                        .fallbackToDestructiveMigration()
                         .addCallback(RolesCallback())
                         .build()
                     INSTANCE = instance
@@ -50,64 +49,60 @@ abstract class AppDatabase : RoomDatabase() {
             super.onCreate(db)
             INSTANCE?.let {appDatabase ->  
                 CoroutineScope(Dispatchers.Main).launch(Dispatchers.IO) {
-                    appDatabase.getRolesDao().insertRole(
-                        Role(
-                            id = 1,
-                            name = "Мафия",
-                            description = "",
-                            possibilities = listOf(Possibility.KILL),
-                            max = 5,
-                            icon = ""
-                        )
-                    )
-                    appDatabase.getRolesDao().insertRole(
-                        Role(
-                            id = 2,
-                            name = "Комиссар",
-                            description = "",
-                            possibilities = listOf(Possibility.CHECK_ROLE),
-                            max = 1,
-                            icon = ""
-                        )
-                    )
-                    appDatabase.getRolesDao().insertRole(
-                        Role(
-                            id = 3,
-                            name = "Бабочка",
-                            description = "",
-                            possibilities = listOf(Possibility.FREEZE_OR_DEAD),
-                            max = 1,
-                            icon = ""
-                        )
-                    )
-                    appDatabase.getRolesDao().insertRole(
-                        Role(
-                            id = 4,
-                            name = "Доктор",
-                            description = "",
-                            possibilities = listOf(Possibility.HEAL),
-                            max = 1,
-                            icon = ""
-                        )
-                    )
-                    appDatabase.getRolesDao().insertRole(
-                        Role(
-                            id = 5,
-                            name = "Маньяк",
-                            description = "",
-                            possibilities = listOf(Possibility.KILL),
-                            max = 1,
-                            icon = ""
-                        )
-                    )
-                    appDatabase.getRolesDao().insertRole(
-                        Role(
-                            id = 6,
-                            name = "Мирный житель",
-                            description = "",
-                            possibilities = listOf(),
-                            max = 5,
-                            icon = ""
+                    appDatabase.getRolesDao().insertRoles(
+                        listOf(
+                            Role(
+                                id = 1,
+                                name = "Мафия",
+                                description = "",
+                                possibilities = listOf(Possibility.KILL),
+                                min = 1,
+                                icon = ""
+                            ),
+                            Role(
+                                id = 2,
+                                name = "Комиссар",
+                                description = "",
+                                possibilities = listOf(Possibility.CHECK_ROLE),
+                                min = 0,
+                                max = 1,
+                                icon = ""
+                            ),
+                            Role(
+                                id = 3,
+                                name = "Бабочка",
+                                description = "",
+                                possibilities = listOf(Possibility.FREEZE_OR_DEAD),
+                                min = 0,
+                                max = 1,
+                                icon = ""
+                            ),
+                            Role(
+                                id = 4,
+                                name = "Доктор",
+                                description = "",
+                                possibilities = listOf(Possibility.HEAL),
+                                min = 0,
+                                max = 1,
+                                icon = ""
+                            ),
+                            Role(
+                                id = 5,
+                                name = "Маньяк",
+                                description = "",
+                                possibilities = listOf(Possibility.KILL),
+                                min = 0,
+                                max = 1,
+                                icon = ""
+                            ),
+                            Role(
+                                id = 6,
+                                name = "Мирный житель",
+                                description = "",
+                                possibilities = listOf(Possibility.NONE),
+                                min = 1,
+                                icon = ""
+                            )
                         )
                     )
                 }

@@ -6,5 +6,6 @@ enum class Possibility {
     FREEZE_OR_DEAD,
     STEAL_ROLE,
     INVINCIBLE,
-    HEAL
+    HEAL,
+    NONE
 }

@@ -10,6 +10,9 @@ interface RolesDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertRole(role: Role)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertRoles(roles: List<Role>)
+
     @Delete
     suspend fun deleteRole(role: Role)
 

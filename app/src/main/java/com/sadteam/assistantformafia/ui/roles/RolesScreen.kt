@@ -8,11 +8,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.ui.components.Header
+import com.sadteam.assistantformafia.ui.components.SelectCount
 import com.sadteam.assistantformafia.ui.gamecreation.GameCreationViewModel
 import com.sadteam.assistantformafia.ui.theme.AssistantForMafiaTheme
 
@@ -51,62 +53,20 @@ fun RolesScreen(
                         verticalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
                         for (pair in state.roles) {
-                            Text(pair.key.name)
+                            SelectCount(
+                                title = pair.key.name,
+                                icon = painterResource(id = R.drawable.baseline_help_24),
+                                value = pair.value,
+                                onDecreasing = {
+                                    viewModel.onEvent(
+                                        GameCreationViewModel.UIEvent.DecrementRole(pair.key))
+                                },
+                                onIncreasing = {
+                                    viewModel.onEvent(
+                                        GameCreationViewModel.UIEvent.IncrementRole(pair.key))
+                                }
+                            )
                         }
-//                        SelectCount(
-//                            title = stringResource(id = R.string.role_mafia),
-//                            icon = painterResource(id = R.drawable.baseline_help_24),
-//                            minCount = 1,
-//                            maxCount = availableCount + mafias,
-//                            onValueChange = {
-//                                mafias = it
-//                            }
-//                        )
-//                        SelectCount(
-//                            title = stringResource(id = R.string.role_innocent),
-//                            icon = painterResource(id = R.drawable.baseline_help_24),
-//                            minCount = 1,
-//                            maxCount = availableCount + innocents,
-//                            onValueChange = {
-//                                innocents = it
-//                            }
-//                        )
-//                        SelectCount(
-//                            title = stringResource(id = R.string.role_commissar),
-//                            icon = painterResource(id = R.drawable.baseline_help_24),
-//                            minCount = 0,
-//                            maxCount = availableCount + commmissars,
-//                            onValueChange = {
-//                                commmissars = it
-//                            }
-//                        )
-//                        SelectCount(
-//                            title = stringResource(id = R.string.role_harlot),
-//                            icon = painterResource(id = R.drawable.baseline_help_24),
-//                            minCount = 0,
-//                            maxCount = availableCount + harlots,
-//                            onValueChange = {
-//                                harlots = it
-//                            }
-//                        )
-//                        SelectCount(
-//                            title = stringResource(id = R.string.role_doctor),
-//                            icon = painterResource(id = R.drawable.baseline_help_24),
-//                            minCount = 0,
-//                            maxCount = availableCount + doctors,
-//                            onValueChange = {
-//                                doctors = it
-//                            }
-//                        )
-//                        SelectCount(
-//                            title = stringResource(id = R.string.role_maniac),
-//                            icon = painterResource(id = R.drawable.baseline_help_24),
-//                            minCount = 0,
-//                            maxCount = availableCount + maniacs,
-//                            onValueChange = {
-//                                maniacs = it
-//                            }
-//                        )
                     }
                 }
             }

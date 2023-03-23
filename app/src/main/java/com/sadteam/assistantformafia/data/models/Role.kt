@@ -9,6 +9,7 @@ data class Role(
     val icon: String,
     val name: String,
     val description: String,
-    val max: Int,
+    val min: Int,
+    val max: Int = Int.MAX_VALUE,
     val possibilities: List<Possibility>,
 )
