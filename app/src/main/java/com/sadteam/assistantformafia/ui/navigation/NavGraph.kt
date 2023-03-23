@@ -11,7 +11,7 @@ import com.sadteam.assistantformafia.ui.roles.RolesScreen
 @Composable
 fun SetupNavGraph(
     navController: NavHostController,
-    viewModel: GameCreationViewModel = GameCreationViewModel()
+    gameCreationViewModel: GameCreationViewModel
 ) {
     NavHost(
         navController = navController,
@@ -20,12 +20,12 @@ fun SetupNavGraph(
         composable(
             route = Screen.GameCreation.route
         ) {
-            GameCreationScreen(navController = navController, viewModel)
+            GameCreationScreen(navController = navController, gameCreationViewModel)
         }
         composable(
             route = Screen.Roles.route,
         ) {
-            RolesScreen(navController = navController, viewModel)
+            RolesScreen(navController = navController, gameCreationViewModel)
         }
     }
 }

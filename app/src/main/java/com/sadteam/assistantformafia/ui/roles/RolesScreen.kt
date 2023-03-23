@@ -1,10 +1,13 @@
 package com.sadteam.assistantformafia.ui.roles
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -16,29 +19,9 @@ import com.sadteam.assistantformafia.ui.theme.AssistantForMafiaTheme
 @Composable
 fun RolesScreen(
     navController: NavController,
-    viewModel: GameCreationViewModel = GameCreationViewModel(),
+    viewModel: GameCreationViewModel,
 ){
     val state = viewModel.state.value
-    var mafias by remember {
-        mutableStateOf(1)
-    }
-    var innocents by remember {
-        mutableStateOf(1)
-    }
-    var commmissars by remember {
-        mutableStateOf(0)
-    }
-    var harlots by remember {
-        mutableStateOf(0)
-    }
-    var doctors by remember {
-        mutableStateOf(0)
-    }
-    var maniacs by remember {
-        mutableStateOf(0)
-    }
-    val rolesCount = mafias + commmissars + harlots + doctors + maniacs
-    val availableCount = state.players.minus(rolesCount)
     AssistantForMafiaTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
@@ -67,6 +50,9 @@ fun RolesScreen(
                             .fillMaxWidth(),
                         verticalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
+                        for (pair in state.roles) {
+                            Text(pair.key.name)
+                        }
 //                        SelectCount(
 //                            title = stringResource(id = R.string.role_mafia),
 //                            icon = painterResource(id = R.drawable.baseline_help_24),

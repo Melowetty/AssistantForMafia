@@ -1,4 +1,4 @@
-package com.sadteam.assistantformafia.models
+package com.sadteam.assistantformafia.data.models
 
 enum class Possibility {
     KILL,
