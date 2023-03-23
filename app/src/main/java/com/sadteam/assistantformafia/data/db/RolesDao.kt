@@ -1,6 +1,5 @@
 package com.sadteam.assistantformafia.data.db
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.sadteam.assistantformafia.data.models.Role
 

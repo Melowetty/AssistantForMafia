@@ -1,6 +1,5 @@
 package com.sadteam.assistantformafia.data.repository
 
-import androidx.lifecycle.LiveData
 import com.sadteam.assistantformafia.data.db.RolesDao
 import com.sadteam.assistantformafia.data.models.Role
 
