@@ -60,6 +60,56 @@ abstract class AppDatabase : RoomDatabase() {
                             icon = ""
                         )
                     )
+                    appDatabase.getRolesDao().insertRole(
+                        Role(
+                            id = 2,
+                            name = "Комиссар",
+                            description = "",
+                            possibilities = listOf(Possibility.CHECK_ROLE),
+                            max = 1,
+                            icon = ""
+                        )
+                    )
+                    appDatabase.getRolesDao().insertRole(
+                        Role(
+                            id = 3,
+                            name = "Бабочка",
+                            description = "",
+                            possibilities = listOf(Possibility.FREEZE_OR_DEAD),
+                            max = 1,
+                            icon = ""
+                        )
+                    )
+                    appDatabase.getRolesDao().insertRole(
+                        Role(
+                            id = 4,
+                            name = "Доктор",
+                            description = "",
+                            possibilities = listOf(Possibility.HEAL),
+                            max = 1,
+                            icon = ""
+                        )
+                    )
+                    appDatabase.getRolesDao().insertRole(
+                        Role(
+                            id = 5,
+                            name = "Маньяк",
+                            description = "",
+                            possibilities = listOf(Possibility.KILL),
+                            max = 1,
+                            icon = ""
+                        )
+                    )
+                    appDatabase.getRolesDao().insertRole(
+                        Role(
+                            id = 6,
+                            name = "Мирный житель",
+                            description = "",
+                            possibilities = listOf(),
+                            max = 5,
+                            icon = ""
+                        )
+                    )
                 }
             }
         }
