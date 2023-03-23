@@ -1,9 +1,6 @@
 package com.sadteam.assistantformafia.ui.components
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,7 +24,8 @@ import com.sadteam.assistantformafia.ui.theme.primaryFontFamily
 fun Header(
     modifier: Modifier = Modifier,
     navController: NavController,
-    title: String
+    title: String,
+    isVisibleSettingsButton: Boolean = true
 ) {
     Row(
         modifier = modifier
@@ -43,13 +41,20 @@ fun Header(
             fontWeight = FontWeight.Bold,
             fontSize = 24.sp,
         )
-        IconButton(
-            painter = painterResource(id = R.drawable.ic_baseline_settings_24),
-            backgroundColor = MaterialTheme.colorScheme.secondaryContainer,
-            description = stringResource(id = R.string.app_settings),
-            onClick = {
-                navController.navigate(route = Screen.AppSettings.route)
-            }
-        )
+        if(isVisibleSettingsButton) {
+            IconButton(
+                painter = painterResource(id = R.drawable.ic_baseline_settings_24),
+                backgroundColor = MaterialTheme.colorScheme.secondaryContainer,
+                description = stringResource(id = R.string.app_settings),
+                onClick = {
+                    navController.navigate(route = Screen.AppSettings.route)
+                }
+            )
+        }
+        else {
+            Spacer(modifier = Modifier
+                .width(24.dp)
+                .height(24.dp))
+        }
     }
 }

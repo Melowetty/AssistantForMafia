@@ -1,10 +1,12 @@
 package com.sadteam.assistantformafia.ui.appsettings
 
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -18,8 +20,10 @@ import com.sadteam.assistantformafia.ui.navigation.Screen
 
 @Composable
 fun AppSettingsScreen(
-    navController: NavController
+    navController: NavController,
+    viewModel: AppSettingsViewModel = AppSettingsViewModel()
 ) {
+    val context = LocalContext.current
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colorScheme.background
@@ -29,7 +33,8 @@ fun AppSettingsScreen(
         ) {
             Header(
                 navController = navController,
-                title = stringResource(id = R.string.app_settings)
+                title = stringResource(id = R.string.app_settings),
+                isVisibleSettingsButton = false,
             )
             Column(
                 modifier = Modifier
@@ -49,7 +54,13 @@ fun AppSettingsScreen(
                 ) {
                     MenuButton(
                         icon = painterResource(id = R.drawable.baseline_language_24),
-                        title = stringResource(id = R.string.language)
+                        title = stringResource(id = R.string.language),
+                        onClick = {
+                            viewModel.onEvent(AppSettingsViewModel.UIEvent.LanguageChange(
+                                context,
+                                "en"
+                            ))
+                        }
                     )
                     MenuButton(
                         icon = painterResource(id = R.drawable.baseline_volume_up_24),

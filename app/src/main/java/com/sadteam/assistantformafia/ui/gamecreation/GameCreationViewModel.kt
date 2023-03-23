@@ -52,7 +52,6 @@ class GameCreationViewModel: ViewModel() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 state.value.roles.values.stream().forEach { rolesCount += it }
             }
-
         }
     }
 }
