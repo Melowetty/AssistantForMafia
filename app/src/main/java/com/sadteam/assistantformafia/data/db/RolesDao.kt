@@ -1,5 +1,6 @@
 package com.sadteam.assistantformafia.data.db
 
+import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.sadteam.assistantformafia.data.models.Role
 
@@ -19,7 +20,7 @@ interface RolesDao {
     suspend fun updateRole(role: Role)
 
     @Query("SELECT * FROM roles order by id ASC")
-    fun getAllRoles(): List<Role>
+    fun getAllRoles(): LiveData<List<Role>>
 
     @Query("DELETE FROM roles")
     suspend fun clearRoles()
