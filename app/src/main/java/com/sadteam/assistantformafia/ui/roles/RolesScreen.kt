@@ -54,6 +54,8 @@ fun RolesScreen(
                                 title = pair.key.name,
                                 icon = painterResource(id = R.drawable.baseline_help_24),
                                 value = pair.value,
+                                min = pair.key.min,
+                                max = viewModel.getRoleCountLimit(pair.key, pair.value),
                                 onDecreasing = {
                                     viewModel.onEvent(
                                         GameCreationViewModel.UIEvent.DecrementRole(pair.key))
