@@ -39,7 +39,9 @@ class GameCreationViewModel(private val context: Context): ViewModel() {
         val appDatabase = AppDatabase.getDatabase(context)
         val rolesDao = appDatabase.getRolesDao()
         roleRepository = RoleRepository(rolesDao)
-        roleRepository.getAllRoles().observeForever(observer)
+        viewModelScope.launch(Dispatchers.Main) {
+            roleRepository.getAllRoles().observeForever(observer)
+        }
     }
 
     override fun onCleared() {
