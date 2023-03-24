@@ -45,7 +45,7 @@ fun Header(
         if(isVisibleSettingsButton) {
             IconButton(
                 painter = painterResource(id = R.drawable.ic_baseline_settings_24),
-                backgroundColor = DarkBlue,
+                backgroundColor = MaterialTheme.colors.secondary,
                 description = stringResource(id = R.string.app_settings),
                 onClick = {
                     navController.navigate(route = Screen.AppSettings.route)

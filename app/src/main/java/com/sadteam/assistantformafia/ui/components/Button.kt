@@ -142,7 +142,7 @@ fun ExtendedMenuButton(
                     fontWeight = FontWeight.Bold,
                     fontSize = 24.sp
                 )
-                content
+                content()
             }
         }
     }

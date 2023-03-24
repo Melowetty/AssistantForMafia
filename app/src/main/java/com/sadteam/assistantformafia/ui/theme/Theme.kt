@@ -1,19 +1,20 @@
 package com.sadteam.assistantformafia.ui.theme
 
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.darkColors
 import androidx.compose.runtime.Composable
 
-//val colorScheme = darkColorScheme(
-//    background = DarkGreen,
-//    secondaryContainer = DarkBlue,
-//)
+val colorScheme = darkColors(
+    background = DarkGreen,
+    secondary = DarkBlue,
+)
 
 @Composable
 fun AssistantForMafiaTheme(
     content: @Composable () -> Unit,
 ) {
     MaterialTheme(
-        //colorScheme = colorScheme,
+        colors = colorScheme,
         typography = Typography,
         content = content
     )

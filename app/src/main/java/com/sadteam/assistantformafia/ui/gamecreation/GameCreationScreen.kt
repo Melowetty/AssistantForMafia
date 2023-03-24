@@ -29,7 +29,7 @@ fun GameCreationScreen(
     val state = viewModel.state.value
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = DarkBackground,
+        color = MaterialTheme.colors.background,
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),

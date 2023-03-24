@@ -43,7 +43,7 @@ fun RolesScreen(
     AssistantForMafiaTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
-            color = DarkBackground
+            color = MaterialTheme.colors.background
         ) {
             Column(
                 modifier = Modifier.fillMaxSize()
