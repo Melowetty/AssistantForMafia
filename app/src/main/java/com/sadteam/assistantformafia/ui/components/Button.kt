@@ -5,6 +5,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -20,8 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.sadteam.assistantformafia.R
-import com.sadteam.assistantformafia.ui.theme.BloodRed
-import com.sadteam.assistantformafia.ui.theme.secondFontFamily
+import com.sadteam.assistantformafia.ui.theme.*
 
 /**
  * Кнопка, нажатие на которой вызывает какое-либо действие
@@ -107,11 +107,7 @@ fun ExtendedMenuButton(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .background(
-                color = BloodRed,
-                shape = CircleShape
-            )
-            .padding(top = 8.dp, end = 10.dp, bottom = 8.dp, start = 20.dp)
+            .padding(top = 8.dp, end = 20.dp, bottom = 8.dp, start = 20.dp)
             .clickable(
                 interactionSource = interactionSource,
                 indication = null,
@@ -128,19 +124,19 @@ fun ExtendedMenuButton(
                 painter = icon,
                 contentDescription = title,
                 modifier = Modifier
-                    .width(25.dp)
-                    .height(25.dp)
+                    .width(45.dp)
+                    .height(45.dp)
             )
             Column(
                 modifier = Modifier
                     .fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 Text(
                     text = title,
-                    fontFamily = secondFontFamily,
+                    color = SettingsTitle,
+                    fontFamily = primaryFontFamily,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 24.sp
+                    fontSize = 20.sp,
                 )
                 content()
             }
@@ -154,16 +150,12 @@ fun ExtendedMenuButton(
     icon: Painter,
     title: String,
     onClick: () -> Unit = {},
-    currentValue: String? = null,
+    currentValue: String,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .background(
-                color = BloodRed,
-                shape = CircleShape
-            )
             .padding(top = 8.dp, end = 10.dp, bottom = 8.dp, start = 20.dp)
             .clickable(
                 interactionSource = interactionSource,
@@ -181,25 +173,26 @@ fun ExtendedMenuButton(
                 painter = icon,
                 contentDescription = title,
                 modifier = Modifier
-                    .width(25.dp)
-                    .height(25.dp)
+                    .width(45.dp)
+                    .height(45.dp)
             )
             Column(
                 modifier = Modifier
                     .fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 Text(
                     text = title,
-                    fontFamily = secondFontFamily,
+                    color = SettingsTitle,
+                    fontFamily = primaryFontFamily,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 24.sp
+                    fontSize = 20.sp,
                 )
-                if(currentValue != null) Text(
+                Text(
                     text = currentValue,
-                    fontFamily = secondFontFamily,
+                    color = SettingsDescription,
+                    fontFamily = primaryFontFamily,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 24.sp
+                    fontSize = 16.sp
                 )
             }
         }

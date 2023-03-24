@@ -1,7 +1,9 @@
 package com.sadteam.assistantformafia.ui.appsettings
 
-import android.widget.Toast
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Divider
 import androidx.compose.material.Slider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -10,17 +12,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.ui.components.ExtendedMenuButton
 import com.sadteam.assistantformafia.ui.components.Header
-import com.sadteam.assistantformafia.ui.components.MenuButton
-import com.sadteam.assistantformafia.ui.components.SmallButton
-import com.sadteam.assistantformafia.ui.gamecreation.GameCreationViewModel
-import com.sadteam.assistantformafia.ui.navigation.Screen
-import com.sadteam.assistantformafia.ui.theme.DarkBackground
+import com.sadteam.assistantformafia.ui.theme.SettingsBackground
 
 @Composable
 fun AppSettingsScreen(
@@ -57,6 +54,11 @@ fun AppSettingsScreen(
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     ExtendedMenuButton(
+                        modifier = Modifier
+                            .background(
+                                color = SettingsBackground,
+                                shape = RoundedCornerShape(20.dp)
+                            ),
                         icon = painterResource(id = R.drawable.baseline_language_24),
                         title = stringResource(id = R.string.language),
                         onClick = {
@@ -64,12 +66,17 @@ fun AppSettingsScreen(
                                 context,
                                 "en"
                             ))
-                        }
+                        },
+                        currentValue = "русськая язика",
                     )
                     Column(
                         modifier = Modifier
-                        .fillMaxWidth(),
-                        verticalArrangement = Arrangement.spacedBy(10.dp)
+                            .fillMaxWidth()
+                            .background(
+                                color = SettingsBackground,
+                                shape = RoundedCornerShape(20.dp)
+                            ),
+                        verticalArrangement = Arrangement.spacedBy(0.dp)
                     ) {
                         ExtendedMenuButton(
                             icon = painterResource(id = R.drawable.baseline_volume_up_24),
@@ -83,9 +90,23 @@ fun AppSettingsScreen(
                                 )
                             }
                         )
+                        Divider(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(3.dp)
+                                .padding(end = 20.dp, start = 20.dp)
+                        )
                         ExtendedMenuButton(
                             icon = painterResource(id = R.drawable.baseline_music_note_24),
                             title = stringResource(id = R.string.music),
+                            content = {
+                                Slider(
+                                    value = viewModel.state.value.musicVolume,
+                                    onValueChange = {
+                                        viewModel.onEvent(AppSettingsViewModel.UIEvent.MusicVolumeChange(value = it))
+                                    }
+                                )
+                            }
                         )
                     }
                 }
