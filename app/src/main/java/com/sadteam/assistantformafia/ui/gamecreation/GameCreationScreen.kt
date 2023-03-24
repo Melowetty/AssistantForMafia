@@ -23,7 +23,7 @@ import com.sadteam.assistantformafia.ui.theme.DarkBlue
 @Composable
 fun GameCreationScreen(
     navController: NavController,
-    viewModel: GameCreationViewModel = GameCreationViewModel()
+    viewModel: GameCreationViewModel
 ) {
     val state = viewModel.state.value
     Surface(
