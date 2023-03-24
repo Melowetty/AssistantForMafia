@@ -32,6 +32,30 @@ class AppSettingsViewModel: ViewModel() {
         when(event) {
             is UIEvent.LanguageChange -> 
                 setLanguage(context = event.context, language = "")
+            UIEvent.IncrementMusicVolume ->
+                if (_state.value.musicVolume < 1.0f) {
+                    _state.value = state.value.copy(
+                        musicVolume = state.value.musicVolume + 0.1f
+                    )
+                }
+            UIEvent.DecrementMusicVolume ->
+                if (_state.value.musicVolume > 0.0f) {
+                    _state.value = state.value.copy(
+                        musicVolume = state.value.musicVolume - 0.1f
+                    )
+                }
+            UIEvent.IncrementSoundVolume ->
+                if (_state.value.soundVolume < 1.0f) {
+                    _state.value = state.value.copy(
+                        soundVolume = state.value.soundVolume + 0.1f
+                    )
+                }
+            UIEvent.DecrementSoundVolume ->
+                if (_state.value.soundVolume > 0.0f) {
+                    _state.value = state.value.copy(
+                        soundVolume = state.value.soundVolume - 0.1f
+                    )
+                }
         }
     }
 
@@ -43,4 +67,5 @@ class AppSettingsViewModel: ViewModel() {
         configuration.locale = locale
         resources.updateConfiguration(configuration, resources.displayMetrics)
     }
+
 }

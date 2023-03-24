@@ -62,14 +62,20 @@ fun AppSettingsScreen(
                             ))
                         }
                     )
-                    MenuButton(
-                        icon = painterResource(id = R.drawable.baseline_volume_up_24),
-                        title = stringResource(id = R.string.volume)
-                    )
-                    MenuButton(
-                        icon = painterResource(id = R.drawable.baseline_music_note_24),
-                        title = stringResource(id = R.string.music)
-                    )
+                    Column(
+                        modifier = Modifier
+                        .fillMaxWidth(),
+                        verticalArrangement = Arrangement.spacedBy(10.dp)
+                    ) {
+                        MenuButton(
+                            icon = painterResource(id = R.drawable.baseline_volume_up_24),
+                            title = stringResource(id = R.string.volume)
+                        )
+                        MenuButton(
+                            icon = painterResource(id = R.drawable.baseline_music_note_24),
+                            title = stringResource(id = R.string.music)
+                        )
+                    }
                 }
             }
         }
