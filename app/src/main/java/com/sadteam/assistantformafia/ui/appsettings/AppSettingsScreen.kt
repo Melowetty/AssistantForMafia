@@ -64,10 +64,10 @@ fun AppSettingsScreen(
                         onClick = {
                             viewModel.onEvent(AppSettingsViewModel.UIEvent.LanguageChange(
                                 context,
-                                "en"
+                                "ru_RU"
                             ))
                         },
-                        currentValue = "русськая язика",
+                        currentValue = viewModel.state.value.language.displayLanguage,
                     )
                     Column(
                         modifier = Modifier

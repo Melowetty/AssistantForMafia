@@ -11,7 +11,7 @@ import java.util.*
 
 
 data class AppSettingsState(
-    val language: String = "en",
+    val language: Locale = Locale.getDefault(),
     val musicVolume: Float = 1.0f,
     val soundVolume: Float = 1.0f
 )
@@ -42,12 +42,15 @@ class AppSettingsViewModel: ViewModel() {
     }
 
     fun setLanguage(context: Context, language: String){
-        val locale = Locale(language)
+        val locale = Locale("ru", "RU")
         Locale.setDefault(locale)
         var resources = context.resources
         val configuration = resources.configuration
         configuration.locale = locale
         resources.updateConfiguration(configuration, resources.displayMetrics)
+        _state.value = state.value.copy(
+            language = locale
+        )
     }
 
 }
