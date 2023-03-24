@@ -44,6 +44,7 @@ fun Header(
         )
         IconButton(
             painter = painterResource(id = R.drawable.ic_baseline_settings_24),
+            size = 40.dp,
             backgroundColor = MaterialTheme.colorScheme.secondaryContainer,
             description = stringResource(id = R.string.app_settings),
         )

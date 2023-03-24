@@ -11,6 +11,7 @@ import com.sadteam.assistantformafia.data.models.Role
 import com.sadteam.assistantformafia.data.repository.RoleRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.lang.Math.min
 
 data class GameCreationState(
     val players: Int = 4,
@@ -95,8 +96,7 @@ class GameCreationViewModel(private val context: Context): ViewModel() {
     }
 
     private fun increaseRoleCount(role: Role, currentValue: Int) {
-        if (state.value.distributedPlayers < state.value.players
-            && currentValue < role.max) {
+        if (getRoleCountLimit(role, currentValue) > currentValue) {
             val roles = state.value.roles.toMutableMap()
             roles[role] = currentValue + 1
             _state.value = state.value.copy(
@@ -104,5 +104,10 @@ class GameCreationViewModel(private val context: Context): ViewModel() {
                 distributedPlayers = state.value.distributedPlayers + 1
             )
         }
+    }
+
+    fun getRoleCountLimit(role: Role, currentValue: Int): Int {
+        return min(state.value.players - state.value.distributedPlayers + currentValue,
+            role.max)
     }
 }

@@ -43,6 +43,8 @@ fun SelectCountPopup(
     modifier: Modifier = Modifier,
     title: String,
     value: Int,
+    min: Int,
+    max: Int,
     isShowed: Boolean = false,
     onClose: () -> Unit,
     onIncreasing: () -> Unit,
@@ -101,24 +103,17 @@ fun SelectCountPopup(
                                 .fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-                            Box(
+                            IconButton(
+                                painter = painterResource(id = R.drawable.baseline_remove_24),
+                                size = 33.dp,
+                                backgroundColor = if(value > min) DarkBlue else Gray,
+                                iconColor = if(value > min) Color.White else LightGray,
+                                disabled = value == min,
+                                description = "remove",
+                                onClick = onDecreasing,
                                 modifier = Modifier
-                                    .size(width = 33.dp, height = 33.dp)
-                                    .background(color = DarkBlue, shape = CircleShape)
-                                    .clickable(
-                                        interactionSource = interactionSource,
-                                        indication = null,
-                                        onClick = onDecreasing
-                                    )
-                                    .testTag(SelectCountTags.REMOVE),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.baseline_remove_24),
-                                    contentDescription = "remove",
-                                    tint = Color.White
-                                )
-                            }
+                                    .testTag(SelectCountTags.REMOVE)
+                            )
                             Text(
                                 text = "$value",
                                 color = Color.White,
@@ -128,24 +123,17 @@ fun SelectCountPopup(
                                 modifier = Modifier
                                     .testTag(SelectCountTags.VALUE)
                             )
-                            Box(
+                            IconButton(
+                                painter = painterResource(id = R.drawable.baseline_add_24),
+                                size = 33.dp,
+                                backgroundColor = if(value < max) DarkBlue else Gray,
+                                iconColor = if(value < max) Color.White else LightGray,
+                                disabled = value == max,
+                                description = "add",
+                                onClick = onIncreasing,
                                 modifier = Modifier
-                                    .size(width = 33.dp, height = 33.dp)
-                                    .background(color = DarkBlue, shape = CircleShape)
-                                    .clickable(
-                                        interactionSource = interactionSource,
-                                        indication = null,
-                                        onClick = onIncreasing
-                                    )
-                                    .testTag(SelectCountTags.ADD),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Icon(
-                                    painter = painterResource(id = R.drawable.baseline_add_24),
-                                    contentDescription = "add",
-                                    tint = Color.White
-                                )
-                            }
+                                    .testTag(SelectCountTags.ADD)
+                            )
                         }
                         SmallButton(
                             title = stringResource(id = R.string.save),
@@ -181,6 +169,8 @@ fun SelectCount(
     modifier: Modifier = Modifier,
     title: String,
     value: Int,
+    min: Int = Int.MIN_VALUE,
+    max: Int = Int.MAX_VALUE,
     icon: Painter,
     onIncreasing: () -> Unit,
     onDecreasing: () -> Unit,
@@ -202,6 +192,8 @@ fun SelectCount(
         SelectCountPopup(
             title = title,
             value = value,
+            min = min,
+            max = max,
             isShowed = isPopupShowed,
             onClose = {
                 isPopupShowed = false
