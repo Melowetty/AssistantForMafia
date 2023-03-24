@@ -1,11 +1,12 @@
 package com.sadteam.assistantformafia.data.repository
 
+import androidx.lifecycle.LiveData
 import com.sadteam.assistantformafia.data.db.RolesDao
 import com.sadteam.assistantformafia.data.models.Role
 
 class RoleRepository(private val rolesDao: RolesDao) {
 
-    fun getAllEvents(): List<Role> = rolesDao.getAllRoles()
+    fun getAllRoles(): LiveData<List<Role>> = rolesDao.getAllRoles()
 
     suspend fun insertRole(role: Role) = rolesDao.insertRole(role = role)
 

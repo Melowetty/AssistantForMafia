@@ -3,6 +3,7 @@ package com.sadteam.assistantformafia.ui.gamecreation
 import android.content.Context
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sadteam.assistantformafia.data.db.AppDatabase
@@ -21,25 +22,31 @@ class GameCreationViewModel(private val context: Context): ViewModel() {
     private val _state = mutableStateOf(GameCreationState())
     private val roleRepository: RoleRepository
     val state: State<GameCreationState> = _state
+    private val observer = Observer<List<Role>> { roles ->
+        val rolesFromDb: MutableMap<Role, Int> = mutableMapOf()
+        var distributedPlayers: Int = 0
+        for (role in roles) {
+            rolesFromDb[role] = role.min
+            distributedPlayers += role.min
+        }
+        _state.value = state.value.copy(
+            roles = rolesFromDb,
+            distributedPlayers = distributedPlayers
+        )
+    }
 
     init {
         val appDatabase = AppDatabase.getDatabase(context)
         val rolesDao = appDatabase.getRolesDao()
         roleRepository = RoleRepository(rolesDao)
-
-        viewModelScope.launch(Dispatchers.IO) {
-            val roles = roleRepository.getAllEvents()
-            val rolesFromDb: MutableMap<Role, Int> = mutableMapOf()
-            var distributedPlayers: Int = 0
-            for (role in roles) {
-                rolesFromDb[role] = role.min
-                distributedPlayers += role.min
-            }
-            _state.value = state.value.copy(
-                roles = rolesFromDb,
-                distributedPlayers = distributedPlayers
-            )
+        viewModelScope.launch(Dispatchers.Main) {
+            roleRepository.getAllRoles().observeForever(observer)
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        roleRepository.getAllRoles().removeObserver(observer)
     }
 
     sealed class UIEvent {
