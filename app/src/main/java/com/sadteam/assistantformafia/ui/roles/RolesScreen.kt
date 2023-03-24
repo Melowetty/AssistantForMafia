@@ -1,8 +1,8 @@
 package com.sadteam.assistantformafia.ui.roles
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -12,6 +12,7 @@ import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.ui.components.Header
 import com.sadteam.assistantformafia.ui.gamecreation.GameCreationViewModel
 import com.sadteam.assistantformafia.ui.theme.AssistantForMafiaTheme
+import com.sadteam.assistantformafia.ui.theme.DarkBackground
 
 @Composable
 fun RolesScreen(
@@ -42,7 +43,7 @@ fun RolesScreen(
     AssistantForMafiaTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background
+            color = DarkBackground
         ) {
             Column(
                 modifier = Modifier.fillMaxSize()

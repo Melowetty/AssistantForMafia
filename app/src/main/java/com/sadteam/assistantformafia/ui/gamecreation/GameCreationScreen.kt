@@ -1,8 +1,8 @@
 package com.sadteam.assistantformafia.ui.gamecreation
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -15,6 +15,7 @@ import com.sadteam.assistantformafia.ui.components.Header
 import com.sadteam.assistantformafia.ui.components.MenuButton
 import com.sadteam.assistantformafia.ui.components.SelectCount
 import com.sadteam.assistantformafia.ui.navigation.Screen
+import com.sadteam.assistantformafia.ui.theme.DarkBackground
 import com.sadteam.assistantformafia.ui.theme.DarkBlue
 
 /**
@@ -28,7 +29,7 @@ fun GameCreationScreen(
     val state = viewModel.state.value
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background,
+        color = DarkBackground,
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),

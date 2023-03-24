@@ -22,40 +22,22 @@ class AppSettingsViewModel: ViewModel() {
 
     sealed class UIEvent {
         data class LanguageChange(val context: Context, val language: String): UIEvent()
-        object IncrementMusicVolume: UIEvent()
-        object DecrementMusicVolume: UIEvent()
-        object IncrementSoundVolume: UIEvent()
-        object DecrementSoundVolume: UIEvent()
+        data class SoundVolumeChange(val value: Float): UIEvent()
+        data class MusicVolumeChange(val value: Float): UIEvent()
     }
 
     fun onEvent (event: UIEvent) {
         when(event) {
             is UIEvent.LanguageChange -> 
                 setLanguage(context = event.context, language = "")
-            UIEvent.IncrementMusicVolume ->
-                if (_state.value.musicVolume < 1.0f) {
-                    _state.value = state.value.copy(
-                        musicVolume = state.value.musicVolume + 0.1f
-                    )
-                }
-            UIEvent.DecrementMusicVolume ->
-                if (_state.value.musicVolume > 0.0f) {
-                    _state.value = state.value.copy(
-                        musicVolume = state.value.musicVolume - 0.1f
-                    )
-                }
-            UIEvent.IncrementSoundVolume ->
-                if (_state.value.soundVolume < 1.0f) {
-                    _state.value = state.value.copy(
-                        soundVolume = state.value.soundVolume + 0.1f
-                    )
-                }
-            UIEvent.DecrementSoundVolume ->
-                if (_state.value.soundVolume > 0.0f) {
-                    _state.value = state.value.copy(
-                        soundVolume = state.value.soundVolume - 0.1f
-                    )
-                }
+            is UIEvent.SoundVolumeChange ->
+                _state.value = state.value.copy(
+                    soundVolume = event.value
+                )
+            is UIEvent.MusicVolumeChange ->
+                _state.value = state.value.copy(
+                    musicVolume = event.value
+                )
         }
     }
 

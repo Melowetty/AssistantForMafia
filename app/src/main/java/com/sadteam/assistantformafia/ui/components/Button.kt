@@ -5,8 +5,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
+import androidx.compose.material.Icon
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -91,6 +91,117 @@ fun MenuButton(
                     .width(25.dp)
                     .height(25.dp)
             )
+        }
+    }
+}
+
+@Composable
+fun ExtendedMenuButton(
+    modifier: Modifier = Modifier,
+    icon: Painter,
+    title: String,
+    onClick: () -> Unit = {},
+    content: @Composable() (() -> (Unit)),
+) {
+    val interactionSource = remember { MutableInteractionSource() }
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(
+                color = BloodRed,
+                shape = CircleShape
+            )
+            .padding(top = 8.dp, end = 10.dp, bottom = 8.dp, start = 20.dp)
+            .clickable(
+                interactionSource = interactionSource,
+                indication = null,
+                onClick = onClick
+            ),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                painter = icon,
+                contentDescription = title,
+                modifier = Modifier
+                    .width(25.dp)
+                    .height(25.dp)
+            )
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                Text(
+                    text = title,
+                    fontFamily = secondFontFamily,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 24.sp
+                )
+                content
+            }
+        }
+    }
+}
+
+@Composable
+fun ExtendedMenuButton(
+    modifier: Modifier = Modifier,
+    icon: Painter,
+    title: String,
+    onClick: () -> Unit = {},
+    currentValue: String? = null,
+) {
+    val interactionSource = remember { MutableInteractionSource() }
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(
+                color = BloodRed,
+                shape = CircleShape
+            )
+            .padding(top = 8.dp, end = 10.dp, bottom = 8.dp, start = 20.dp)
+            .clickable(
+                interactionSource = interactionSource,
+                indication = null,
+                onClick = onClick
+            ),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                painter = icon,
+                contentDescription = title,
+                modifier = Modifier
+                    .width(25.dp)
+                    .height(25.dp)
+            )
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                Text(
+                    text = title,
+                    fontFamily = secondFontFamily,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 24.sp
+                )
+                if(currentValue != null) Text(
+                    text = currentValue,
+                    fontFamily = secondFontFamily,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 24.sp
+                )
+            }
         }
     }
 }

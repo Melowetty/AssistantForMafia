@@ -2,8 +2,9 @@ package com.sadteam.assistantformafia.ui.appsettings
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
+import androidx.compose.material.Slider
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -13,10 +14,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.sadteam.assistantformafia.R
+import com.sadteam.assistantformafia.ui.components.ExtendedMenuButton
 import com.sadteam.assistantformafia.ui.components.Header
 import com.sadteam.assistantformafia.ui.components.MenuButton
 import com.sadteam.assistantformafia.ui.components.SmallButton
+import com.sadteam.assistantformafia.ui.gamecreation.GameCreationViewModel
 import com.sadteam.assistantformafia.ui.navigation.Screen
+import com.sadteam.assistantformafia.ui.theme.DarkBackground
 
 @Composable
 fun AppSettingsScreen(
@@ -26,7 +30,7 @@ fun AppSettingsScreen(
     val context = LocalContext.current
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background
+        color = DarkBackground
     ) {
         Column(
             modifier = Modifier.fillMaxSize()
@@ -52,7 +56,7 @@ fun AppSettingsScreen(
                         .fillMaxWidth(),
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    MenuButton(
+                    ExtendedMenuButton(
                         icon = painterResource(id = R.drawable.baseline_language_24),
                         title = stringResource(id = R.string.language),
                         onClick = {
@@ -67,13 +71,21 @@ fun AppSettingsScreen(
                         .fillMaxWidth(),
                         verticalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
-                        MenuButton(
+                        ExtendedMenuButton(
                             icon = painterResource(id = R.drawable.baseline_volume_up_24),
-                            title = stringResource(id = R.string.volume)
+                            title = stringResource(id = R.string.volume),
+                            content = {
+                                Slider(
+                                    value = viewModel.state.value.soundVolume,
+                                    onValueChange = {
+                                        viewModel.onEvent(AppSettingsViewModel.UIEvent.SoundVolumeChange(value = it))
+                                    }
+                                )
+                            }
                         )
-                        MenuButton(
+                        ExtendedMenuButton(
                             icon = painterResource(id = R.drawable.baseline_music_note_24),
-                            title = stringResource(id = R.string.music)
+                            title = stringResource(id = R.string.music),
                         )
                     }
                 }
