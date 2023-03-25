@@ -15,6 +15,8 @@ val SettingsTitle = Color(0xFFF5F5F5)
 
 val DarkGreen = Color(0xFF18545C)
 val DarkBlue = Color(0xFF132C3A)
+val Gray = Color(0xFF727374)
+val LightGray = Color(0xFFC5C5C5)
 val BloodRed = Color(0xFFAB3428)
 
 val DarkBackground = Color(red = 0f, green = 0f, blue = 0f, alpha = 0.65f)

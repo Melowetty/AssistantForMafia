@@ -1,8 +1,11 @@
 package com.sadteam.assistantformafia.ui.components
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -13,8 +16,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.sadteam.assistantformafia.R
-import com.sadteam.assistantformafia.ui.navigation.Screen
-import com.sadteam.assistantformafia.ui.theme.DarkBlue
 import com.sadteam.assistantformafia.ui.theme.primaryFontFamily
 
 /**
@@ -46,6 +47,7 @@ fun Header(
             IconButton(
                 painter = painterResource(id = R.drawable.ic_baseline_settings_24),
                 backgroundColor = MaterialTheme.colors.secondary,
+                size = 40.dp,
                 description = stringResource(id = R.string.app_settings),
                 onClick = {
                     navController.navigate(route = Screen.AppSettings.route)
@@ -54,8 +56,8 @@ fun Header(
         }
         else {
             Spacer(modifier = Modifier
-                .width(24.dp)
-                .height(24.dp))
+                .width(40.dp)
+                .height(40.dp))
         }
     }
 }

@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -278,16 +279,19 @@ fun SmallButton(
 @Composable
 fun IconButton(
     modifier: Modifier = Modifier,
+    size: Dp,
     painter: Painter,
     backgroundColor: Color,
+    iconColor: Color? = null,
     description: String,
+    disabled: Boolean = false,
     onClick: () -> Unit = {}
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     Box(
         modifier = modifier
-            .width(40.dp)
-            .height(40.dp)
+            .width(size)
+            .height(size)
             .background(
                 color = backgroundColor,
                 shape = CircleShape
@@ -295,15 +299,26 @@ fun IconButton(
             .clickable(
                 interactionSource = interactionSource,
                 indication = null,
-                onClick = onClick
+                onClick = {
+                    if (!disabled) onClick()
+                }
             ),
         contentAlignment = Alignment.Center
 
     ) {
-        Icon(
-            painter = painter,
-            contentDescription = description,
-        )
+        if (iconColor != null) {
+            Icon(
+                painter = painter,
+                contentDescription = description,
+                tint = iconColor,
+            )
+        }
+        else {
+            Icon(
+                painter = painter,
+                contentDescription = description,
+            )
+        }
     }
 }
 

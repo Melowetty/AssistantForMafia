@@ -1,9 +1,11 @@
-package com.sadteam.assistantformafia.models
+package com.sadteam.assistantformafia.data.models
 
 enum class Possibility {
     KILL,
-    CHECK_ALL,
+    CHECK_ROLE,
     FREEZE_OR_DEAD,
     STEAL_ROLE,
     INVINCIBLE,
+    HEAL,
+    NONE
 }
