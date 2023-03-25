@@ -1,11 +1,8 @@
 package com.sadteam.assistantformafia.ui.appsettings
 
 import android.content.Context
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import java.util.*
 

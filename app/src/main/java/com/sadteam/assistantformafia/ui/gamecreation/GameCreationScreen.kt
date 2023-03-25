@@ -15,7 +15,6 @@ import com.sadteam.assistantformafia.ui.components.Header
 import com.sadteam.assistantformafia.ui.components.MenuButton
 import com.sadteam.assistantformafia.ui.components.SelectCount
 import com.sadteam.assistantformafia.ui.navigation.Screen
-import com.sadteam.assistantformafia.ui.theme.DarkBackground
 import com.sadteam.assistantformafia.ui.theme.DarkBlue
 
 /**
