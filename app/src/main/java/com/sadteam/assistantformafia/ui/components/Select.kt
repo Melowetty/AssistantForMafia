@@ -10,6 +10,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
@@ -170,6 +171,58 @@ fun SelectCount(
     min: Int = Int.MIN_VALUE,
     max: Int = Int.MAX_VALUE,
     icon: Painter,
+    onIncreasing: () -> Unit,
+    onDecreasing: () -> Unit,
+) {
+    var isPopupShowed by remember {
+        mutableStateOf(false)
+    }
+    Box(modifier = modifier) {
+        MenuButton(
+            icon = icon,
+            title = title,
+            onClick = {
+                isPopupShowed = true
+            },
+            modifier = Modifier
+                .testTag(SelectCountTags.OPENING_BUTTON),
+            currentValue = value.toString()
+        )
+        SelectCountPopup(
+            title = title,
+            value = value,
+            min = min,
+            max = max,
+            isShowed = isPopupShowed,
+            onClose = {
+                isPopupShowed = false
+            },
+            modifier = Modifier
+                .testTag(SelectCountTags.BOX),
+            onDecreasing = onDecreasing,
+            onIncreasing = onIncreasing,
+        )
+    }
+}
+
+/**
+ * Кнопка-меню, нажатие на которую вызывает показ всплывающего окна с выбором количества игроков
+ *
+ * @param modifier модификатор элемента
+ * @param title заголовок для кнопки
+ * @param icon иконка для кнопки
+ * @param minCount минимальное число
+ * @param maxCount максимальное число
+ * @param onValueChange callback изменения значения
+ */
+@Composable
+fun SelectCount(
+    modifier: Modifier = Modifier,
+    title: String,
+    value: Int,
+    min: Int = Int.MIN_VALUE,
+    max: Int = Int.MAX_VALUE,
+    icon: ImageBitmap,
     onIncreasing: () -> Unit,
     onDecreasing: () -> Unit,
 ) {

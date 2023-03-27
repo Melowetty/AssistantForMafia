@@ -9,25 +9,9 @@ import androidx.compose.ui.graphics.asImageBitmap
 class IconUtils {
     companion object {
 
-        /**
-         * Конвертация закодированного изображения без указания типа из Base64 в ImageBitmap
-         *
-         * @return раскодированное изображение
-         */
         fun String.toImageBitmap(): ImageBitmap {
-            val decodeBitmap = this.toBitmap()
-            return decodeBitmap.asImageBitmap()
-        }
-
-        /**
-         * Конвертация закодированного изображения без указания типа из Base64 в Bitmap
-         *
-         * @return раскодированный текст в bitmap
-         */
-        fun String.toBitmap(): Bitmap {
-            Base64.decode(this, Base64.DEFAULT).apply {
-                return BitmapFactory.decodeByteArray(this, 0, size)
-            }
+            val imageBytes = Base64.decode(this, 0)
+            return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size).asImageBitmap()
         }
     }
 }

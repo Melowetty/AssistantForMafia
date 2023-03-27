@@ -1,6 +1,7 @@
 package com.sadteam.assistantformafia.ui.gamecreation
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
@@ -16,6 +17,8 @@ import com.sadteam.assistantformafia.ui.components.MenuButton
 import com.sadteam.assistantformafia.ui.components.SelectCount
 import com.sadteam.assistantformafia.ui.navigation.Screen
 import com.sadteam.assistantformafia.ui.theme.DarkBlue
+import com.sadteam.assistantformafia.utils.IconUtils
+import com.sadteam.assistantformafia.utils.IconUtils.Companion.toImageBitmap
 
 /**
  * Экран создания игры
