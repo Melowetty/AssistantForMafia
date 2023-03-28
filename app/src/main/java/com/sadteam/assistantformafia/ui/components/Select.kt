@@ -1,6 +1,7 @@
 package com.sadteam.assistantformafia.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
@@ -11,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -21,8 +23,10 @@ import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
 import androidx.compose.ui.zIndex
 import com.sadteam.assistantformafia.R
+import com.sadteam.assistantformafia.ui.appsettings.AppSettingsViewModel
 import com.sadteam.assistantformafia.ui.tags.SelectCountTags
 import com.sadteam.assistantformafia.ui.theme.*
+import java.util.*
 
 /**
 * Всплывающее окно с выбором количества игроков
@@ -212,6 +216,7 @@ fun SelectLanguagePopup(
     onClose: () -> Unit,
     onSetRussian: () -> Unit,
     onSetEnglish: () -> Unit,
+    currentLocale: Locale
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     if (isShowed) {
@@ -265,7 +270,18 @@ fun SelectLanguagePopup(
                                 .fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
-
+                            LanguageButton(
+                                painter = painterResource(id = R.drawable.russian),
+                                onClick = onSetRussian,
+                                enabled = currentLocale != Locale("ru", "RU"),
+                                modifier = if (currentLocale == Locale("ru", "RU")) Modifier.padding(3.dp).border(width = 3.dp, color = BloodRed) else Modifier
+                            )
+                            LanguageButton(
+                                painter = painterResource(id = R.drawable.english),
+                                onClick = onSetEnglish,
+                                enabled = currentLocale != Locale.ENGLISH,
+                                modifier = if (currentLocale == Locale.ENGLISH) Modifier.padding(3.dp).border(width = 3.dp, color = BloodRed) else Modifier
+                            )
                         }
                         SmallButton(
                             title = stringResource(id = R.string.save),
@@ -283,5 +299,47 @@ fun SelectLanguagePopup(
                 }
             }
         }
+    }
+}
+
+@Composable
+fun SelectLanguage(
+    modifier: Modifier = Modifier,
+    title: String,
+    onSetRussian: () -> Unit,
+    onSetEnglish: () -> Unit,
+    currentLocale: Locale
+) {
+    var isPopupShowed by remember {
+        mutableStateOf(false)
+    }
+    val context = LocalContext.current
+    Box(modifier = modifier) {
+        ExtendedMenuButton(
+            modifier = Modifier
+                .background(
+                    color = SettingsBackground,
+                    shape = RoundedCornerShape(20.dp)
+                ),
+            icon = painterResource(id = R.drawable.baseline_language_24),
+            title = stringResource(id = R.string.language),
+            onClick = { isPopupShowed = true },
+            currentValue = currentLocale.displayLanguage,
+        )
+        SelectLanguagePopup(
+            title = title,
+            onClose = { isPopupShowed = false },
+            isShowed = isPopupShowed,
+            onSetRussian = /*{ viewModel.onEvent(
+                AppSettingsViewModel.UIEvent.LanguageChange(
+                context,
+                Locale("ru", "RU")
+            ))}*/ onSetRussian,
+            onSetEnglish = /*{viewModel.onEvent(AppSettingsViewModel.UIEvent.LanguageChange(
+                context,
+                Locale.ENGLISH
+            )) }*/ onSetEnglish,
+            currentLocale = currentLocale
+        )
     }
 }

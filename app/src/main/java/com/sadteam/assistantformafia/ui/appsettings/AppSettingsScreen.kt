@@ -17,6 +17,7 @@ import androidx.navigation.NavController
 import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.ui.components.ExtendedMenuButton
 import com.sadteam.assistantformafia.ui.components.Header
+import com.sadteam.assistantformafia.ui.components.SelectLanguage
 import com.sadteam.assistantformafia.ui.theme.SettingsBackground
 
 @Composable
@@ -53,21 +54,11 @@ fun AppSettingsScreen(
                         .fillMaxWidth(),
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    ExtendedMenuButton(
-                        modifier = Modifier
-                            .background(
-                                color = SettingsBackground,
-                                shape = RoundedCornerShape(20.dp)
-                            ),
-                        icon = painterResource(id = R.drawable.baseline_language_24),
-                        title = stringResource(id = R.string.language),
-                        onClick = {
-                            viewModel.onEvent(AppSettingsViewModel.UIEvent.LanguageChange(
-                                context,
-                                "ru_RU"
-                            ))
-                        },
-                        currentValue = viewModel.state.value.language.displayLanguage,
+                    SelectLanguage(
+                        title = stringResource(id = R.string.select_language),
+                        onSetEnglish = { viewModel.onEvent(AppSettingsViewModel.UIEvent.SetEnglish(context)) },
+                        onSetRussian = { viewModel.onEvent(AppSettingsViewModel.UIEvent.SetRussian(context)) },
+                        currentLocale = viewModel.state.value.language
                     )
                     Column(
                         modifier = Modifier

@@ -18,15 +18,18 @@ class AppSettingsViewModel: ViewModel() {
     val state: State<AppSettingsState> = _state
 
     sealed class UIEvent {
-        data class LanguageChange(val context: Context, val language: String): UIEvent()
+        data class SetRussian(val context: Context): UIEvent()
+        data class SetEnglish(val context: Context): UIEvent()
         data class SoundVolumeChange(val value: Float): UIEvent()
         data class MusicVolumeChange(val value: Float): UIEvent()
     }
 
     fun onEvent (event: UIEvent) {
         when(event) {
-            is UIEvent.LanguageChange -> 
-                setLanguage(context = event.context, language = "")
+            is UIEvent.SetRussian ->
+                setLanguage(context = event.context, locale = Locale("ru", "RU"))
+            is UIEvent.SetEnglish ->
+                setLanguage(context = event.context, locale = Locale.ENGLISH)
             is UIEvent.SoundVolumeChange ->
                 _state.value = state.value.copy(
                     soundVolume = event.value
@@ -38,8 +41,7 @@ class AppSettingsViewModel: ViewModel() {
         }
     }
 
-    fun setLanguage(context: Context, language: String){
-        val locale = Locale("ru", "RU")
+    fun setLanguage(context: Context, locale: Locale){
         Locale.setDefault(locale)
         var resources = context.resources
         val configuration = resources.configuration
