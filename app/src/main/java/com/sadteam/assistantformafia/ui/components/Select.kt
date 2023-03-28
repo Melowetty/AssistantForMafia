@@ -203,3 +203,85 @@ fun SelectCount(
         )
     }
 }
+
+@Composable
+fun SelectLanguagePopup(
+    modifier: Modifier = Modifier,
+    title: String,
+    isShowed: Boolean = false,
+    onClose: () -> Unit,
+    onSetRussian: () -> Unit,
+    onSetEnglish: () -> Unit,
+) {
+    val interactionSource = remember { MutableInteractionSource() }
+    if (isShowed) {
+        Popup(
+            alignment = Alignment.Center,
+            properties = PopupProperties(),
+        ) {
+            Box(
+                modifier = modifier
+                    .fillMaxSize()
+                    .background(
+                        color = DarkBackground,
+                    )
+                    .clickable(
+                        interactionSource = interactionSource,
+                        indication = null,
+                        onClick = onClose
+                    )
+                    .padding(horizontal = 10.dp)
+                    .zIndex(1f),
+                contentAlignment = Alignment.Center,
+            ) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                        .background(color = DarkGreen, shape = RoundedCornerShape(21))
+                        .clickable(
+                            interactionSource = interactionSource,
+                            indication = null,
+                            onClick = {})
+                        .padding(horizontal = 70.dp, vertical = 10.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .align(Alignment.Center),
+                        verticalArrangement = Arrangement.spacedBy(18.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = title,
+                            color = Color.White,
+                            fontFamily = secondFontFamily,
+                            fontSize = 24.sp,
+                            fontWeight = FontWeight.Bold,
+                        )
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+
+                        }
+                        SmallButton(
+                            title = stringResource(id = R.string.save),
+                            backgroundColor = BloodRed,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable(
+                                    interactionSource = interactionSource,
+                                    indication = null,
+                                    onClick = onClose
+                                )
+                                .testTag(SelectCountTags.SAVE)
+                        )
+                    }
+                }
+            }
+        }
+    }
+}

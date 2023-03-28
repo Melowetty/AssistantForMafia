@@ -1,11 +1,13 @@
 package com.sadteam.assistantformafia.ui.components
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
+import androidx.compose.material.SnackbarDefaults.backgroundColor
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -22,6 +24,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.ui.theme.*
+import org.intellij.lang.annotations.Language
 
 /**
  * Кнопка, нажатие на которой вызывает какое-либо действие
@@ -349,4 +352,49 @@ fun BackButton(
             .height(24.dp)
             .width(24.dp))
     }
+}
+
+@Composable
+fun LanguageButton(
+    modifier: Modifier = Modifier,
+    width: Dp,
+    height: Dp,
+    painter: Painter,
+    description: String = "",
+    enabled: Boolean = true,
+    onClick: () -> Unit
+) {
+    val interactionSource = remember { MutableInteractionSource() }
+    Box(
+        modifier = modifier
+            .width(width)
+            .height(height)
+            .background(
+                color = backgroundColor,
+                shape = CircleShape
+            )
+            .clickable(
+                interactionSource = interactionSource,
+                indication = null,
+                onClick = {
+                    if (enabled) onClick()
+                }
+            ),
+        contentAlignment = Alignment.Center
+    ) {
+        Icon(
+            painter = painter,
+            contentDescription = description
+        )
+    }
+}
+
+@Composable
+fun LanguageCheckBox(
+    modifier: Modifier = Modifier,
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
+    enabled: Boolean = true,
+) {
+
 }
