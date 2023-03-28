@@ -17,7 +17,6 @@ import androidx.navigation.NavController
 import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.ui.components.ExtendedMenuButton
 import com.sadteam.assistantformafia.ui.components.Header
-import com.sadteam.assistantformafia.ui.components.SelectLanguage
 import com.sadteam.assistantformafia.ui.theme.SettingsBackground
 
 @Composable

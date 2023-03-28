@@ -54,107 +54,43 @@ fun SelectCountPopup(
     onIncreasing: () -> Unit,
     onDecreasing: () -> Unit,
 ) {
-    val interactionSource = remember { MutableInteractionSource() }
-    if (isShowed) {
-        Popup(
-            alignment = Alignment.Center,
-            properties = PopupProperties(),
-        ) {
-
-            Box(
-                modifier = modifier
-                    .fillMaxSize()
-                    .background(
-                        color = DarkBackground,
-                    )
-                    .clickable(
-                        interactionSource = interactionSource,
-                        indication = null,
-                        onClick = onClose
-                    )
-                    .padding(horizontal = 10.dp)
-                    .zIndex(1f),
-                contentAlignment = Alignment.Center,
-            ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight()
-                        .background(color = DarkGreen, shape = RoundedCornerShape(21))
-                        .clickable(
-                            interactionSource = interactionSource,
-                            indication = null,
-                            onClick = {})
-                        .padding(horizontal = 70.dp, vertical = 10.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .align(Alignment.Center),
-                        verticalArrangement = Arrangement.spacedBy(18.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Text(
-                            text = title,
-                            color = Color.White,
-                            fontFamily = secondFontFamily,
-                            fontSize = 24.sp,
-                            fontWeight = FontWeight.Bold,
-                        )
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            IconButton(
-                                painter = painterResource(id = R.drawable.baseline_remove_24),
-                                size = 33.dp,
-                                backgroundColor = if(value > min) DarkBlue else Gray,
-                                iconColor = if(value > min) Color.White else LightGray,
-                                disabled = value == min,
-                                description = "remove",
-                                onClick = onDecreasing,
-                                modifier = Modifier
-                                    .testTag(SelectCountTags.REMOVE)
-                            )
-                            Text(
-                                text = "$value",
-                                color = Color.White,
-                                fontFamily = secondFontFamily,
-                                fontSize = 24.sp,
-                                fontWeight = FontWeight.Bold,
-                                modifier = Modifier
-                                    .testTag(SelectCountTags.VALUE)
-                            )
-                            IconButton(
-                                painter = painterResource(id = R.drawable.baseline_add_24),
-                                size = 33.dp,
-                                backgroundColor = if(value < max) DarkBlue else Gray,
-                                iconColor = if(value < max) Color.White else LightGray,
-                                disabled = value == max,
-                                description = "add",
-                                onClick = onIncreasing,
-                                modifier = Modifier
-                                    .testTag(SelectCountTags.ADD)
-                            )
-                        }
-                        SmallButton(
-                            title = stringResource(id = R.string.save),
-                            backgroundColor = BloodRed,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable(
-                                    interactionSource = interactionSource,
-                                    indication = null,
-                                    onClick = onClose
-                                )
-                                .testTag(SelectCountTags.SAVE)
-                        )
-                    }
-                }
-            }
-        }
+    CustomPopup(
+        modifier = modifier,
+        title = title,
+        isShowed = isShowed,
+        onClose = onClose
+    ) {
+        IconButton(
+            painter = painterResource(id = R.drawable.baseline_remove_24),
+            size = 33.dp,
+            backgroundColor = if(value > min) DarkBlue else Gray,
+            iconColor = if(value > min) Color.White else LightGray,
+            disabled = value == min,
+            description = "remove",
+            onClick = onDecreasing,
+            modifier = Modifier
+                .testTag(SelectCountTags.REMOVE)
+        )
+        Text(
+            text = "$value",
+            color = Color.White,
+            fontFamily = secondFontFamily,
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold,
+            modifier = Modifier
+                .testTag(SelectCountTags.VALUE)
+        )
+        IconButton(
+            painter = painterResource(id = R.drawable.baseline_add_24),
+            size = 33.dp,
+            backgroundColor = if(value < max) DarkBlue else Gray,
+            iconColor = if(value < max) Color.White else LightGray,
+            disabled = value == max,
+            description = "add",
+            onClick = onIncreasing,
+            modifier = Modifier
+                .testTag(SelectCountTags.ADD)
+        )
     }
 }
 
@@ -207,142 +143,6 @@ fun SelectCount(
                 .testTag(SelectCountTags.BOX),
             onDecreasing = onDecreasing,
             onIncreasing = onIncreasing,
-        )
-    }
-}
-
-@Composable
-fun SelectLanguagePopup(
-    modifier: Modifier = Modifier,
-    title: String,
-    isShowed: Boolean = false,
-    onClose: () -> Unit,
-    onSetRussian: () -> Unit,
-    onSetEnglish: () -> Unit,
-    currentLocale: Locale
-) {
-    val interactionSource = remember { MutableInteractionSource() }
-    if (isShowed) {
-        Popup(
-            alignment = Alignment.Center,
-            properties = PopupProperties(),
-        ) {
-            Box(
-                modifier = modifier
-                    .fillMaxSize()
-                    .background(
-                        color = DarkBackground,
-                    )
-                    .clickable(
-                        interactionSource = interactionSource,
-                        indication = null,
-                        onClick = onClose
-                    )
-                    .padding(horizontal = 10.dp)
-                    .zIndex(1f),
-                contentAlignment = Alignment.Center,
-            ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .wrapContentHeight()
-                        .background(color = DarkGreen, shape = RoundedCornerShape(21))
-                        .clickable(
-                            interactionSource = interactionSource,
-                            indication = null,
-                            onClick = {})
-                        .padding(horizontal = 70.dp, vertical = 10.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .align(Alignment.Center),
-                        verticalArrangement = Arrangement.spacedBy(18.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Text(
-                            text = title,
-                            color = Color.White,
-                            fontFamily = secondFontFamily,
-                            fontSize = 24.sp,
-                            fontWeight = FontWeight.Bold,
-                        )
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            LanguageButton(
-                                painter = painterResource(id = R.drawable.russian),
-                                onClick = onSetRussian,
-                                enabled = currentLocale != Locale("ru", "RU"),
-                                modifier = if (currentLocale == Locale("ru", "RU")) Modifier.padding(3.dp).border(width = 3.dp, color = BloodRed) else Modifier
-                            )
-                            LanguageButton(
-                                painter = painterResource(id = R.drawable.english),
-                                onClick = onSetEnglish,
-                                enabled = currentLocale != Locale.ENGLISH,
-                                modifier = if (currentLocale == Locale.ENGLISH) Modifier.padding(3.dp).border(width = 3.dp, color = BloodRed) else Modifier
-                            )
-                        }
-                        SmallButton(
-                            title = stringResource(id = R.string.save),
-                            backgroundColor = BloodRed,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable(
-                                    interactionSource = interactionSource,
-                                    indication = null,
-                                    onClick = onClose
-                                )
-                                .testTag(SelectCountTags.SAVE)
-                        )
-                    }
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun SelectLanguage(
-    modifier: Modifier = Modifier,
-    title: String,
-    onSetRussian: () -> Unit,
-    onSetEnglish: () -> Unit,
-    currentLocale: Locale
-) {
-    var isPopupShowed by remember {
-        mutableStateOf(false)
-    }
-    val context = LocalContext.current
-    Box(modifier = modifier) {
-        ExtendedMenuButton(
-            modifier = Modifier
-                .background(
-                    color = SettingsBackground,
-                    shape = RoundedCornerShape(20.dp)
-                ),
-            icon = painterResource(id = R.drawable.baseline_language_24),
-            title = stringResource(id = R.string.language),
-            onClick = { isPopupShowed = true },
-            currentValue = currentLocale.displayLanguage,
-        )
-        SelectLanguagePopup(
-            title = title,
-            onClose = { isPopupShowed = false },
-            isShowed = isPopupShowed,
-            onSetRussian = /*{ viewModel.onEvent(
-                AppSettingsViewModel.UIEvent.LanguageChange(
-                context,
-                Locale("ru", "RU")
-            ))}*/ onSetRussian,
-            onSetEnglish = /*{viewModel.onEvent(AppSettingsViewModel.UIEvent.LanguageChange(
-                context,
-                Locale.ENGLISH
-            )) }*/ onSetEnglish,
-            currentLocale = currentLocale
         )
     }
 }

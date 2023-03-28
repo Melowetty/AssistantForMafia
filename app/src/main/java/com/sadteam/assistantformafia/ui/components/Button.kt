@@ -189,7 +189,7 @@ fun ExtendedMenuButton(
     icon: Painter,
     title: String,
     onClick: () -> Unit = {},
-    content: @Composable() (() -> (Unit)),
+    content: @Composable () -> Unit,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     Row(
@@ -455,36 +455,5 @@ fun BackButton(
         Spacer(modifier = Modifier
             .height(24.dp)
             .width(24.dp))
-    }
-}
-
-@Composable
-fun LanguageButton(
-    modifier: Modifier = Modifier,
-    painter: Painter,
-    description: String = "",
-    enabled: Boolean = false,
-    onClick: () -> Unit
-) {
-    val interactionSource = remember { MutableInteractionSource() }
-    Box(
-        modifier = modifier
-            .background(
-                color = backgroundColor,
-                shape = RoundedCornerShape(20)
-            )
-            .clickable(
-                interactionSource = interactionSource,
-                indication = null,
-                onClick = {
-                    if (enabled) onClick()
-                }
-            ),
-        contentAlignment = Alignment.Center
-    ) {
-        Image(
-            painter = painter,
-            contentDescription = description
-        )
     }
 }
