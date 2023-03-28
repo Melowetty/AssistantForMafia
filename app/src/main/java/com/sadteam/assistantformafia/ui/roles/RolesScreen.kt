@@ -1,5 +1,6 @@
 package com.sadteam.assistantformafia.ui.roles
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -14,6 +15,7 @@ import com.sadteam.assistantformafia.ui.components.Header
 import com.sadteam.assistantformafia.ui.components.SelectCount
 import com.sadteam.assistantformafia.ui.gamecreation.GameCreationViewModel
 import com.sadteam.assistantformafia.ui.theme.AssistantForMafiaTheme
+import com.sadteam.assistantformafia.utils.IconUtils.Companion.toImageBitmap
 
 @Composable
 fun RolesScreen(
@@ -52,7 +54,7 @@ fun RolesScreen(
                         for (pair in state.roles) {
                             SelectCount(
                                 title = pair.key.name,
-                                icon = painterResource(id = R.drawable.baseline_help_24),
+                                icon = pair.key.icon.toImageBitmap(),
                                 value = pair.value,
                                 min = pair.key.min,
                                 max = viewModel.getRoleCountLimit(pair.key, pair.value),
