@@ -168,6 +168,15 @@ fun MenuButton(
     }
 }
 
+/**
+ * Кнопка-меню с контентом внутри
+ *
+ * @param modifier модификатор элемента
+ * @param icon Иконка для кнопки
+ * @param title Заголовок кнопки
+ * @param onClick callback-функция при нажатии
+ * @param content composable-контент
+ */
 @Composable
 fun ExtendedMenuButton(
     modifier: Modifier = Modifier,
@@ -217,6 +226,15 @@ fun ExtendedMenuButton(
     }
 }
 
+/**
+ * Кнопка-меню с контентом внутри
+ *
+ * @param modifier модификатор элемента
+ * @param icon Иконка для кнопки
+ * @param title Заголовок кнопки
+ * @param onClick callback-функция при нажатии
+ * @param currentValue текущее значение
+ */
 @Composable
 fun ExtendedMenuButton(
     modifier: Modifier = Modifier,
@@ -343,9 +361,12 @@ fun SmallButton(
  * Круглая кнопка с иконкой внутри
  *
  * @param modifier модификатор элемента
+ * @param size размер иконки
  * @param painter иконка
  * @param backgroundColor цвет фона-круга сзади иконки
+ * @param iconColor цвет иконки
  * @param description описание действия кнопки
+ * @param disabled отключена кнопка или нет
  * @param onClick callback функция, срабатывающая при нажатии на кнопку
  */
 @Composable
@@ -394,6 +415,13 @@ fun IconButton(
     }
 }
 
+/**
+ * Кнопка назад, которая видна если можно уйти назад
+ *
+ * @param modifier модификатор элемента
+ * @param navController навигационный контроллер, для проверки возможности уйти назад
+ * @param onClick callback-функция при нажатии назад
+ */
 @Composable
 fun BackButton(
     modifier: Modifier = Modifier,

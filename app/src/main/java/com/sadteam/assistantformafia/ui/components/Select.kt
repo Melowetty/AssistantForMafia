@@ -31,11 +31,12 @@ import com.sadteam.assistantformafia.ui.theme.*
 *
 * @param modifier модификатор элемента
 * @param title Заголовок окна
-* @param minCount минимальное число
-* @param maxCount максимальное число
+* @param min минимальное число
+* @param max максимальное число
 * @param isShowed показано ли окно
 * @param onClose callback функция, срабатывающая при попытки закрытия окна
-* @param onCountChange callback функция, срабатывающая при измненении количества игроков
+* @param onIncreasing callback увеличения значения
+* @param onDecreasing callback уменьшения значения
 */
 @Composable
 fun SelectCountPopup(
@@ -159,9 +160,10 @@ fun SelectCountPopup(
  * @param modifier модификатор элемента
  * @param title заголовок для кнопки
  * @param icon иконка для кнопки
- * @param minCount минимальное число
- * @param maxCount максимальное число
- * @param onValueChange callback изменения значения
+ * @param min минимальное число
+ * @param max максимальное число
+ * @param onIncreasing callback увеличения значения
+ * @param onDecreasing callback уменьшения значения
  */
 @Composable
 fun SelectCount(
@@ -211,9 +213,10 @@ fun SelectCount(
  * @param modifier модификатор элемента
  * @param title заголовок для кнопки
  * @param icon иконка для кнопки
- * @param minCount минимальное число
- * @param maxCount максимальное число
- * @param onValueChange callback изменения значения
+ * @param min минимальное число
+ * @param max максимальное число
+ * @param onIncreasing callback увеличения значения
+ * @param onDecreasing callback уменьшения значения
  */
 @Composable
 fun SelectCount(

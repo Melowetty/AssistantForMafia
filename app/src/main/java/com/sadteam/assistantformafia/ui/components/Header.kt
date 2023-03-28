@@ -19,6 +19,9 @@ import com.sadteam.assistantformafia.ui.theme.primaryFontFamily
 /**
  * Шапка с вопросами-ответами и настройками
  * @param modifier модификатор элемента
+ * @param navController навигационный контроллер, для обработки кнопки назад
+ * @param title заголовок шапки
+ * @param isVisibleSettingsButton видимость кнопки настроек
  */
 @Composable
 fun Header(
