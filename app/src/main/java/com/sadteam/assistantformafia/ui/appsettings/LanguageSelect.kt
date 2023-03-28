@@ -92,7 +92,7 @@ fun SelectLanguagePopup(
        LanguageButton(
            painter = painterResource(id = R.drawable.english),
            onClick = onSetEnglish,
-           isSelected = currentLocale == Locale.ENGLISH,
+           isSelected = currentLocale == Locale.US,
        )
    }
 }
