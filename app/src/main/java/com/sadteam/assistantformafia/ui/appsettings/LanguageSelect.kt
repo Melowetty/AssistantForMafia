@@ -18,6 +18,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -119,7 +120,7 @@ fun SelectLanguage(
             icon = painterResource(id = R.drawable.baseline_language_24),
             title = stringResource(id = R.string.language),
             onClick = { isPopupShowed = true },
-            currentValue = currentLocale.displayLanguage,
+            currentValue = currentLocale.displayLanguage.capitalize(Locale.ROOT),
         )
         SelectLanguagePopup(
             title = title,
