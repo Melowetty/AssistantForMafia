@@ -18,7 +18,6 @@ import com.sadteam.assistantformafia.ui.components.SelectCount
 import com.sadteam.assistantformafia.ui.navigation.Screen
 import com.sadteam.assistantformafia.ui.theme.DarkBlue
 import com.sadteam.assistantformafia.utils.IconUtils
-import com.sadteam.assistantformafia.utils.IconUtils.Companion.toImageBitmap
 
 /**
  * Экран создания игры
