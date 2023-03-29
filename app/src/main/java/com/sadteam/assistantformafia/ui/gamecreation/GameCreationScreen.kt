@@ -1,8 +1,8 @@
 package com.sadteam.assistantformafia.ui.gamecreation
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -28,7 +28,7 @@ fun GameCreationScreen(
     val state = viewModel.state.value
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.background,
+        color = MaterialTheme.colors.background,
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -47,7 +47,6 @@ fun GameCreationScreen(
                         start = 10.dp
                     ),
                 verticalArrangement = Arrangement.SpaceBetween
-
             ) {
                 Column(
                     modifier = Modifier

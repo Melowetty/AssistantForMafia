@@ -1,32 +1,23 @@
 package com.sadteam.assistantformafia.utils
 
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Base64
-import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.res.painterResource
+import com.sadteam.assistantformafia.R
 
 class IconUtils {
     companion object {
 
-        /**
-         * Конвертация закодированного изображения без указания типа из Base64 в ImageBitmap
-         *
-         * @return раскодированное изображение
-         */
-        fun String.toImageBitmap(): ImageBitmap {
-            val decodeBitmap = this.toBitmap()
-            return decodeBitmap.asImageBitmap()
-        }
-
-        /**
-         * Конвертация закодированного изображения без указания типа из Base64 в Bitmap
-         *
-         * @return раскодированный текст в bitmap
-         */
-        fun String.toBitmap(): Bitmap {
-            Base64.decode(this, Base64.DEFAULT).apply {
-                return BitmapFactory.decodeByteArray(this, 0, size)
+        @Composable
+        fun String.toRoleIcon(): Any {
+            return try {
+                val imageBytes = Base64.decode(this, 0)
+                BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size).asImageBitmap()
+            } catch (expection: java.lang.Exception) {
+                expection.printStackTrace()
+                painterResource(id = R.drawable.baseline_help_24)
             }
         }
     }

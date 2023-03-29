@@ -5,13 +5,14 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
+import androidx.compose.material.Icon
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -21,8 +22,79 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.sadteam.assistantformafia.R
-import com.sadteam.assistantformafia.ui.theme.BloodRed
-import com.sadteam.assistantformafia.ui.theme.secondFontFamily
+import com.sadteam.assistantformafia.ui.theme.*
+
+/**
+ * Кнопка, нажатие на которой вызывает какое-либо действие
+ *
+ * @param modifier модификатор элемента
+ * @param icon иконка-подсказка внури кнопки
+ * @param title текст на кнопке
+ * @param currentValue текущее значение
+ * @param onClick callback функция, срабатывающая при клике на кнопку
+ */
+@Composable
+fun MenuButton(
+    modifier: Modifier = Modifier,
+    icon: ImageBitmap,
+    title: String,
+    currentValue: String? = null,
+    onClick: () -> Unit = {},
+){
+    val interactionSource = remember { MutableInteractionSource() }
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(
+                color = BloodRed,
+                shape = CircleShape
+            )
+            .padding(top = 8.dp, end = 10.dp, bottom = 8.dp, start = 20.dp)
+            .clickable(
+                interactionSource = interactionSource,
+                indication = null,
+                onClick = onClick
+            ),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                bitmap = icon,
+                contentDescription = title,
+                modifier = Modifier
+                    .width(25.dp)
+                    .height(25.dp)
+            )
+            Text(
+                text = title,
+                fontFamily = secondFontFamily,
+                fontWeight = FontWeight.Bold,
+                fontSize = 24.sp
+            )
+        }
+        Row(
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            if(currentValue != null) Text(
+                text = currentValue,
+                fontFamily = secondFontFamily,
+                fontWeight = FontWeight.Bold,
+                fontSize = 24.sp
+            )
+            Icon(
+                painter = painterResource(id = R.drawable.ic_baseline_arrow_forward_ios_24),
+                contentDescription = stringResource(id = R.string.more_detail),
+                modifier = Modifier
+                    .width(25.dp)
+                    .height(25.dp)
+            )
+        }
+    }
+}
 
 /**
  * Кнопка, нажатие на которой вызывает какое-либо действие
@@ -92,6 +164,128 @@ fun MenuButton(
                     .width(25.dp)
                     .height(25.dp)
             )
+        }
+    }
+}
+
+/**
+ * Кнопка-меню с контентом внутри
+ *
+ * @param modifier модификатор элемента
+ * @param icon Иконка для кнопки
+ * @param title Заголовок кнопки
+ * @param onClick callback-функция при нажатии
+ * @param content composable-контент
+ */
+@Composable
+fun ExtendedMenuButton(
+    modifier: Modifier = Modifier,
+    icon: Painter,
+    title: String,
+    onClick: () -> Unit = {},
+    content: @Composable () -> Unit,
+) {
+    val interactionSource = remember { MutableInteractionSource() }
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(top = 8.dp, end = 20.dp, bottom = 8.dp, start = 20.dp)
+            .clickable(
+                interactionSource = interactionSource,
+                indication = null,
+                onClick = onClick
+            ),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                painter = icon,
+                contentDescription = title,
+                modifier = Modifier
+                    .width(45.dp)
+                    .height(45.dp)
+            )
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth(),
+            ) {
+                Text(
+                    text = title,
+                    color = SettingsTitle,
+                    fontFamily = primaryFontFamily,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 20.sp,
+                )
+                content()
+            }
+        }
+    }
+}
+
+/**
+ * Кнопка-меню с контентом внутри
+ *
+ * @param modifier модификатор элемента
+ * @param icon Иконка для кнопки
+ * @param title Заголовок кнопки
+ * @param onClick callback-функция при нажатии
+ * @param currentValue текущее значение
+ */
+@Composable
+fun ExtendedMenuButton(
+    modifier: Modifier = Modifier,
+    icon: Painter,
+    title: String,
+    onClick: () -> Unit = {},
+    currentValue: String,
+) {
+    val interactionSource = remember { MutableInteractionSource() }
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(top = 8.dp, end = 10.dp, bottom = 8.dp, start = 20.dp)
+            .clickable(
+                interactionSource = interactionSource,
+                indication = null,
+                onClick = onClick
+            ),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                painter = icon,
+                contentDescription = title,
+                modifier = Modifier
+                    .width(45.dp)
+                    .height(45.dp)
+            )
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth(),
+            ) {
+                Text(
+                    text = title,
+                    color = SettingsTitle,
+                    fontFamily = primaryFontFamily,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 20.sp,
+                )
+                Text(
+                    text = currentValue,
+                    color = SettingsDescription,
+                    fontFamily = primaryFontFamily,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp
+                )
+            }
         }
     }
 }
@@ -167,9 +361,12 @@ fun SmallButton(
  * Круглая кнопка с иконкой внутри
  *
  * @param modifier модификатор элемента
+ * @param size размер иконки
  * @param painter иконка
  * @param backgroundColor цвет фона-круга сзади иконки
+ * @param iconColor цвет иконки
  * @param description описание действия кнопки
+ * @param disabled отключена кнопка или нет
  * @param onClick callback функция, срабатывающая при нажатии на кнопку
  */
 @Composable
@@ -218,6 +415,13 @@ fun IconButton(
     }
 }
 
+/**
+ * Кнопка назад, которая видна если можно уйти назад
+ *
+ * @param modifier модификатор элемента
+ * @param navController навигационный контроллер, для проверки возможности уйти назад
+ * @param onClick callback-функция при нажатии назад
+ */
 @Composable
 fun BackButton(
     modifier: Modifier = Modifier,

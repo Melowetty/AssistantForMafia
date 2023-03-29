@@ -1,6 +1,6 @@
 package com.sadteam.assistantformafia.ui.theme
 
-import androidx.compose.material3.Typography
+import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -20,7 +20,7 @@ val primaryFontFamily = FontFamily(
 
 // Set of Material typography styles to start with
 val Typography = Typography(
-    bodyLarge = TextStyle(
+    body1 = TextStyle(
         fontFamily = primaryFontFamily,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp,
