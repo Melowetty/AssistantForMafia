@@ -2,7 +2,6 @@ package com.sadteam.assistantformafia.ui.appsettings
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.provider.Settings.Global.getString
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
