@@ -29,7 +29,7 @@ class AppSettingsViewModel: ViewModel() {
             is UIEvent.SetRussian ->
                 setLanguage(context = event.context, locale = Locale("ru", "RU"))
             is UIEvent.SetEnglish ->
-                setLanguage(context = event.context, locale = Locale.ENGLISH)
+                setLanguage(context = event.context, locale = Locale.US)
             is UIEvent.SoundVolumeChange ->
                 _state.value = state.value.copy(
                     soundVolume = event.value
@@ -41,7 +41,7 @@ class AppSettingsViewModel: ViewModel() {
         }
     }
 
-    fun setLanguage(context: Context, locale: Locale){
+    private fun setLanguage(context: Context, locale: Locale){
         Locale.setDefault(locale)
         var resources = context.resources
         val configuration = resources.configuration
