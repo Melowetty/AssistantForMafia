@@ -22,7 +22,7 @@ import com.sadteam.assistantformafia.ui.theme.SettingsBackground
 @Composable
 fun AppSettingsScreen(
     navController: NavController,
-    viewModel: AppSettingsViewModel = AppSettingsViewModel()
+    viewModel: AppSettingsViewModel,
 ) {
     val context = LocalContext.current
     Surface(

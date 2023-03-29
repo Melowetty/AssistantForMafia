@@ -14,7 +14,7 @@ import com.sadteam.assistantformafia.ui.roles.RolesScreen
 fun SetupNavGraph(
     navController: NavHostController,
     gameCreationViewModel: GameCreationViewModel,
-    appSettingsViewModel: AppSettingsViewModel = AppSettingsViewModel(),
+    appSettingsViewModel: AppSettingsViewModel,
 ) {
     NavHost(
         navController = navController,

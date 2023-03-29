@@ -1,6 +1,8 @@
 package com.sadteam.assistantformafia.ui.appsettings
 
 import android.content.Context
+import android.content.SharedPreferences
+import android.provider.Settings.Global.getString
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -13,7 +15,7 @@ data class AppSettingsState(
     val soundVolume: Float = 1.0f
 )
 
-class AppSettingsViewModel: ViewModel() {
+class AppSettingsViewModel(private val preferences: SharedPreferences): ViewModel() {
     private val _state = mutableStateOf(AppSettingsState())
     val state: State<AppSettingsState> = _state
 
@@ -22,6 +24,7 @@ class AppSettingsViewModel: ViewModel() {
         data class SetEnglish(val context: Context): UIEvent()
         data class SoundVolumeChange(val value: Float): UIEvent()
         data class MusicVolumeChange(val value: Float): UIEvent()
+        data class SetSavedLanguage(val context: Context): UIEvent()
     }
 
     fun onEvent (event: UIEvent) {
@@ -38,10 +41,12 @@ class AppSettingsViewModel: ViewModel() {
                 _state.value = state.value.copy(
                     musicVolume = event.value
                 )
+            is UIEvent.SetSavedLanguage ->
+                setSavedLanguage(context = event.context)
         }
     }
 
-    private fun setLanguage(context: Context, locale: Locale){
+    private fun setLanguage(context: Context, locale: Locale, save: Boolean = true){
         Locale.setDefault(locale)
         var resources = context.resources
         val configuration = resources.configuration
@@ -50,6 +55,18 @@ class AppSettingsViewModel: ViewModel() {
         _state.value = state.value.copy(
             language = locale
         )
+        if (save) with (preferences.edit()) {
+            putString("app_language", "${locale.language}_${locale.country}")
+            apply()
+        }
+    }
+
+    private fun setSavedLanguage(context: Context) {
+        val defaultValue = "${Locale.getDefault().language}_{Locale.getDefault().country}"
+        val appLanguage = preferences.getString("app_language", defaultValue)!!.split("_")
+        val language = appLanguage[0]
+        val country = appLanguage[1]
+        setLanguage(context, Locale(language, country), false)
     }
 
 }
