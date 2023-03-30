@@ -9,9 +9,12 @@ import androidx.lifecycle.viewModelScope
 import com.sadteam.assistantformafia.data.db.AppDatabase
 import com.sadteam.assistantformafia.data.models.Role
 import com.sadteam.assistantformafia.data.repository.RoleRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.lang.Math.min
+import javax.inject.Inject
 
 data class GameCreationState(
     val players: Int = 4,
@@ -19,9 +22,12 @@ data class GameCreationState(
     val distributedPlayers: Int = 0,
 )
 
-class GameCreationViewModel(private val context: Context): ViewModel() {
-    private val _state = mutableStateOf(GameCreationState())
+@HiltViewModel
+class GameCreationViewModel @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val roleRepository: RoleRepository
+    ): ViewModel() {
+    private val _state = mutableStateOf(GameCreationState())
     val state: State<GameCreationState> = _state
     private val observer = Observer<List<Role>> { roles ->
         val rolesFromDb: MutableMap<Role, Int> = mutableMapOf()
@@ -37,9 +43,6 @@ class GameCreationViewModel(private val context: Context): ViewModel() {
     }
 
     init {
-        val appDatabase = AppDatabase.getDatabase(context)
-        val rolesDao = appDatabase.getRolesDao()
-        roleRepository = RoleRepository(rolesDao)
         viewModelScope.launch(Dispatchers.Main) {
             roleRepository.getAllRoles().observeForever(observer)
         }
