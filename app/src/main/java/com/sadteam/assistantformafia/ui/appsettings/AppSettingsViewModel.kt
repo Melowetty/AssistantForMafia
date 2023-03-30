@@ -5,7 +5,9 @@ import android.content.SharedPreferences
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.*
+import javax.inject.Inject
 
 
 data class AppSettingsState(
@@ -14,7 +16,10 @@ data class AppSettingsState(
     val soundVolume: Float = 1.0f
 )
 
-class AppSettingsViewModel(private val preferences: SharedPreferences): ViewModel() {
+@HiltViewModel
+class AppSettingsViewModel @Inject constructor(
+    private val preferences: SharedPreferences
+    ): ViewModel() {
     private val _state = mutableStateOf(AppSettingsState())
     val state: State<AppSettingsState> = _state
 

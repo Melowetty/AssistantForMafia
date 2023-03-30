@@ -3,9 +3,13 @@ package com.sadteam.assistantformafia.data.repository
 import androidx.lifecycle.LiveData
 import com.sadteam.assistantformafia.data.db.RolesDao
 import com.sadteam.assistantformafia.data.models.Role
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class RoleRepository(private val rolesDao: RolesDao) {
-
+@Singleton
+class RoleRepository @Inject constructor(
+    private val rolesDao: RolesDao
+    ) {
     fun getAllRoles(): LiveData<List<Role>> = rolesDao.getAllRoles()
 
     suspend fun insertRole(role: Role) = rolesDao.insertRole(role = role)
