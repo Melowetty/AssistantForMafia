@@ -6,7 +6,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sadteam.assistantformafia.data.db.AppDatabase
 import com.sadteam.assistantformafia.data.models.Role
 import com.sadteam.assistantformafia.data.repository.RoleRepository
 import dagger.hilt.android.lifecycle.HiltViewModel

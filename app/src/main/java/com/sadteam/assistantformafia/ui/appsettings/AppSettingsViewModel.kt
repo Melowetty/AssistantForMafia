@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.*
 import javax.inject.Inject
-import javax.inject.Singleton
 
 
 data class AppSettingsState(

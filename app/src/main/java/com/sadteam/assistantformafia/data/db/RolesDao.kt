@@ -3,11 +3,6 @@ package com.sadteam.assistantformafia.data.db
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.sadteam.assistantformafia.data.models.Role
-import com.sadteam.assistantformafia.data.repository.RoleRepository
-import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
-import dagger.hilt.components.SingletonComponent
 
 @Dao
 interface RolesDao {

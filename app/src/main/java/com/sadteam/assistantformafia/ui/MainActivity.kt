@@ -1,11 +1,9 @@
 package com.sadteam.assistantformafia.ui
 
-import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.sadteam.assistantformafia.ui.appsettings.AppSettingsViewModel
