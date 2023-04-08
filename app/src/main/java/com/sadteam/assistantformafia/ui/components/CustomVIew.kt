@@ -5,12 +5,14 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -62,25 +64,23 @@ fun CustomPopup(
                     .zIndex(1f),
                 contentAlignment = Alignment.Center,
             ) {
-                Box(
+                Column(
                     modifier = Modifier
                         .fillMaxWidth()
                         .wrapContentHeight()
                         .background(color = DarkGreen, shape = RoundedCornerShape(21))
-                        .clickable(
-                            interactionSource = interactionSource,
-                            indication = null,
-                            onClick = {})
-                        .padding(horizontal = 70.dp, vertical = 10.dp),
-                    contentAlignment = Alignment.Center
+                        .padding(vertical = 10.dp),
                 ) {
-                    Column(
+                    Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .align(Alignment.Center),
-                        verticalArrangement = Arrangement.spacedBy(18.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
+                            .padding(horizontal = 20.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
+                        Spacer(modifier = Modifier
+                            .size(33.dp)
+                        )
                         Text(
                             text = title,
                             color = Color.White,
@@ -88,6 +88,25 @@ fun CustomPopup(
                             fontSize = 24.sp,
                             fontWeight = FontWeight.Bold,
                         )
+                        Icon(
+                            painter = painterResource(id = R.drawable.close),
+                            contentDescription = "close popup",
+                            modifier = Modifier
+                                .clickable(
+                                    interactionSource = interactionSource,
+                                    indication = null,
+                                    onClick = onClose
+                                )
+                        )
+                    }
+                    Spacer(modifier = Modifier.size(width = 0.dp, height = 18.dp))
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 70.dp),
+                        verticalArrangement = Arrangement.spacedBy(18.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth(),
