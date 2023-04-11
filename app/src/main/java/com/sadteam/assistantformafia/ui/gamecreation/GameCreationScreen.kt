@@ -3,6 +3,7 @@ package com.sadteam.assistantformafia.ui.gamecreation
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -60,6 +61,9 @@ fun GameCreationScreen(
                         onDecreasing = { viewModel.onEvent(GameCreationViewModel.UIEvent.DecrementPlayers) },
                         value = state.players,
                         min = 4,
+                        content = {
+                            Text(text = "durak")
+                        }
                     )
                     MenuButton(
                         icon = painterResource(id = R.drawable.ic_baseline_assignment_ind_24),

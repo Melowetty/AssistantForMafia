@@ -107,13 +107,7 @@ fun CustomPopup(
                         verticalArrangement = Arrangement.spacedBy(18.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            content()
-                        }
+                        content()
                         SmallButton(
                             title = stringResource(id = R.string.save),
                             backgroundColor = BloodRed,
