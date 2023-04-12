@@ -5,8 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -76,16 +75,23 @@ fun SelectLanguagePopup(
        onClose = onClose,
        isShowed = isShowed,
    ) {
-       LanguageButton(
-           painter = painterResource(id = R.drawable.russian),
-           onClick = onSetRussian,
-           isSelected = currentLocale == Locale("ru", "RU"),
-       )
-       LanguageButton(
-           painter = painterResource(id = R.drawable.english),
-           onClick = onSetEnglish,
-           isSelected = currentLocale == Locale.US,
-       )
+       Row(
+           modifier = Modifier
+               .fillMaxWidth()
+               .padding(horizontal = 20.dp),
+           horizontalArrangement = Arrangement.SpaceBetween,
+       ) {
+           LanguageButton(
+               painter = painterResource(id = R.drawable.russian),
+               onClick = onSetRussian,
+               isSelected = currentLocale == Locale("ru", "RU"),
+           )
+           LanguageButton(
+               painter = painterResource(id = R.drawable.english),
+               onClick = onSetEnglish,
+               isSelected = currentLocale == Locale.US,
+           )
+       }
    }
 }
 

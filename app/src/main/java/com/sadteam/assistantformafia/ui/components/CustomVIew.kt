@@ -68,7 +68,7 @@ fun CustomPopup(
                     modifier = Modifier
                         .fillMaxWidth()
                         .wrapContentHeight()
-                        .background(color = DarkGreen, shape = RoundedCornerShape(21))
+                        .background(color = DarkGreen, shape = RoundedCornerShape(10))
                         .padding(vertical = 10.dp),
                 ) {
                     Row(
@@ -103,7 +103,7 @@ fun CustomPopup(
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 70.dp),
+                            .padding(horizontal = 50.dp),
                         verticalArrangement = Arrangement.spacedBy(18.dp),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
@@ -118,6 +118,7 @@ fun CustomPopup(
                                     indication = null,
                                     onClick = onClose
                                 )
+                                .padding(horizontal = 20.dp)
                         )
                     }
                 }
