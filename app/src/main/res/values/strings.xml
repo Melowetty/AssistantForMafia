@@ -23,4 +23,5 @@
     <string name="select_language">Select a language</string>
     <string name="introduction_text">Choose the players whose role is:</string>
     <string name="next">Next</string>
+    <string name="player">Player</string>
 </resources>

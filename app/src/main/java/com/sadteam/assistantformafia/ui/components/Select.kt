@@ -44,7 +44,7 @@ fun SelectCountPopup(
     onClose: () -> Unit,
     onIncreasing: () -> Unit,
     onDecreasing: () -> Unit,
-    content: @Composable () -> Unit = {},
+    content: @Composable (() -> Unit) = {},
 ) {
     CustomPopup(
         modifier = modifier,
@@ -115,7 +115,7 @@ fun SelectCount(
     icon: Painter,
     onIncreasing: () -> Unit,
     onDecreasing: () -> Unit,
-    content: @Composable () -> Unit = {},
+    content: @Composable (() -> Unit) = {},
 ) {
     var isPopupShowed by remember {
         mutableStateOf(false)

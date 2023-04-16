@@ -4,7 +4,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -47,7 +49,7 @@ fun CustomPopup(
     if (isShowed) {
         Popup(
             alignment = Alignment.Center,
-            properties = PopupProperties(),
+            properties = PopupProperties(focusable = true),
         ) {
             Box(
                 modifier = modifier
@@ -60,8 +62,7 @@ fun CustomPopup(
                         indication = null,
                         onClick = onClose
                     )
-                    .padding(horizontal = 10.dp)
-                    .zIndex(1f),
+                    .padding(horizontal = 10.dp),
                 contentAlignment = Alignment.Center,
             ) {
                 Column(
@@ -103,9 +104,10 @@ fun CustomPopup(
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 50.dp),
+                            .padding(horizontal = 30.dp)
+                            .verticalScroll(rememberScrollState()),
                         verticalArrangement = Arrangement.spacedBy(18.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
+                        horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
                         content()
                         SmallButton(
@@ -118,7 +120,7 @@ fun CustomPopup(
                                     indication = null,
                                     onClick = onClose
                                 )
-                                .padding(horizontal = 20.dp)
+                                .padding(horizontal = 40.dp)
                         )
                     }
                 }

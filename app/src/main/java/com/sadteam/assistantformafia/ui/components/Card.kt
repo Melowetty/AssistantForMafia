@@ -41,6 +41,44 @@ fun Card(
     onMainIconClick: () -> Unit = {},
     onSecondIconClick: () -> Unit = {},
 ) {
+    Card(
+        modifier = modifier,
+        content = {
+            Text(
+                text = text,
+                fontWeight = FontWeight.Bold,
+                fontSize = 20.sp,
+            )
+        },
+        mainIcon = mainIcon,
+        secondIcon = secondIcon,
+        onClick = onClick,
+        onMainIconClick = onMainIconClick,
+        onSecondIconClick = onSecondIconClick
+    )
+}
+
+/**
+ * Карточка с именем и иконками
+ *
+ * @param modifier модификатор
+ * @param content контент в карточке
+ * @param mainIcon главная иконка (слева)
+ * @param secondIcon вспомогательная иконка (справа)
+ * @param onClick callback-функция срабатывающая при клике на карточку
+ * @param onMainIconClick callback-функция срабатывающая при клике на главную иконку
+ * @param onSecondIconClick callback-функция срабатывающая при клике на вспомогательную икноку
+ */
+@Composable
+fun Card(
+    modifier: Modifier = Modifier,
+    content: @Composable (() -> Unit),
+    mainIcon: Painter,
+    secondIcon: Painter,
+    onClick: () -> Unit = {},
+    onMainIconClick: () -> Unit = {},
+    onSecondIconClick: () -> Unit = {},
+) {
     val interactionSource = remember { MutableInteractionSource() }
     Row(
         modifier = modifier
@@ -63,7 +101,7 @@ fun Card(
         Row(
             modifier = modifier
                 .wrapContentWidth(),
-            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Box(
@@ -87,11 +125,7 @@ fun Card(
                     contentDescription = "main icon"
                 )
             }
-            Text(
-                text = text,
-                fontWeight = FontWeight.Bold,
-                fontSize = 20.sp,
-            )
+            content()
         }
         Box(
             modifier = Modifier
@@ -112,6 +146,8 @@ fun Card(
             Icon(
                 painter = secondIcon,
                 contentDescription = "second icon",
+                modifier = Modifier.size(20.dp),
+                tint = Color.Black
             )
         }
     }
