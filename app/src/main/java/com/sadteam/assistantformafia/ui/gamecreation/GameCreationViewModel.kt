@@ -16,7 +16,7 @@ import java.lang.Math.min
 import javax.inject.Inject
 
 data class GameCreationState(
-    val players: Int = 4,
+    val players: Int = 6,
     val roles: Map<Role, Int> = mapOf(),
     val distributedPlayers: Int = 0,
 )
@@ -68,7 +68,7 @@ class GameCreationViewModel @Inject constructor(
                     )
 
                 UIEvent.DecrementPlayers ->
-                    if (state.value.players > 4) {
+                    if (state.value.players > 6) {
                         _state.value = state.value.copy(
                             players = state.value.players - 1
                         )

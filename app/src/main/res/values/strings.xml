@@ -21,4 +21,5 @@
     <string name="volume">Volume</string>
     <string name="music">Music</string>
     <string name="select_language">Select a language</string>
+    <string name="player">Player</string>
 </resources>
