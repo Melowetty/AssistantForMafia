@@ -1,5 +1,6 @@
 package com.sadteam.assistantformafia.ui.gamecreation
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -25,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -84,7 +86,7 @@ fun GameCreationScreen(
                         icon = painterResource(id = R.drawable.baseline_people_alt_24),
                         onIncreasing = { viewModel.onEvent(GameCreationViewModel.UIEvent.IncrementPlayers) },
                         onDecreasing = { viewModel.onEvent(GameCreationViewModel.UIEvent.DecrementPlayers) },
-                        value = state.players,
+                        value = state.players.size,
                         min = 6,
                         content = {
                             Column(modifier = Modifier
@@ -93,23 +95,27 @@ fun GameCreationScreen(
                                 .padding(20.dp),
                                 verticalArrangement = Arrangement.spacedBy(5.dp)
                             ) {
-                                for (number in 1..state.players) {
-                                    val mes = remember {
-                                        mutableStateOf("")
-                                    }
+                                for ((i, player) in state.players.withIndex()) {
                                     Card(
                                         content = {
                                             PlayerNameKeyboard(
                                                 modifier = Modifier.width(160.dp),
-                                                value = mes.value,
+                                                value = player.name,
                                                 onValueChange = { newText ->
-                                                    mes.value = newText
+                                                    viewModel.onEvent(
+                                                        GameCreationViewModel.UIEvent.SetPlayerName(i, newText)
+                                                    )
                                                 },
-                                                placeholder = "${stringResource(id = R.string.player)} $number",
+                                                placeholder = "${stringResource(id = R.string.player)} ${i + 1}",
                                             )
                                         },
                                         mainIcon = painterResource(id = R.drawable.add_a_photo),
-                                        secondIcon = painterResource(id = R.drawable.delete)
+                                        secondIcon = painterResource(id = R.drawable.delete),
+                                        onSecondIconClick = {
+                                            viewModel.onEvent(
+                                                GameCreationViewModel.UIEvent.DeletePlayer(i)
+                                            )
+                                        }
                                     )
                                 }
                             }
