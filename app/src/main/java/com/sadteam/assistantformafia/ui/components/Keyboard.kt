@@ -13,6 +13,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.sp
 
 @Composable
@@ -32,7 +33,12 @@ fun PlayerNameKeyboard(
             fontWeight = FontWeight.Bold
         ),
         placeholder = {
-            Text(text = placeholder, fontSize = 16.sp)
+            Text(
+                text = placeholder,
+                fontSize = 16.sp,
+                textDecoration = TextDecoration.Underline,
+                fontWeight = FontWeight.Bold
+            )
         },
         singleLine = true,
         keyboardOptions = KeyboardOptions(

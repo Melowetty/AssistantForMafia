@@ -25,4 +25,5 @@
     <string name="introduction_text">Выберите игроков с ролью:</string>
     <string name="next">Далее</string>
     <string name="player">Игрок</string>
+    <string name="enter_name">Введите имя</string>
 </resources>

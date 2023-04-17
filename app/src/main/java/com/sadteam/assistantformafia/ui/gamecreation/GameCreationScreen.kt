@@ -88,7 +88,7 @@ fun GameCreationScreen(
                                                         GameCreationViewModel.UIEvent.SetPlayerName(i, newText)
                                                     )
                                                 },
-                                                placeholder = "${stringResource(id = R.string.player)} ${i + 1}",
+                                                placeholder = "${stringResource(id = R.string.enter_name)}",
                                             )
                                         },
                                         mainIcon = painterResource(id = R.drawable.add_a_photo),

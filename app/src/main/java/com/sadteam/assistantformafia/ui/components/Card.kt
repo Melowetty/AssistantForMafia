@@ -108,7 +108,7 @@ fun Card(
         Row(
             modifier = modifier
                 .wrapContentWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Box(
