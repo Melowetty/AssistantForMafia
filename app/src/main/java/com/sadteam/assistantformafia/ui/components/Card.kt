@@ -245,6 +245,6 @@ fun Card(
                 checkedColor = Color.White,
                 checkmarkColor = BloodRed
             )
-            )
+        )
     }
 }
