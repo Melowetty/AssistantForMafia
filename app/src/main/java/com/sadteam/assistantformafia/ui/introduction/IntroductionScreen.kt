@@ -67,17 +67,14 @@ fun IntroductionScreen(
                         Card(
                             text = "Денис",
                             mainIcon = painterResource(id = R.drawable.add_a_photo),
-                            secondIcon = painterResource(id = R.drawable.add_a_photo),
                         )
                         Card(
                             text = "Миша",
                             mainIcon = painterResource(id = R.drawable.add_a_photo),
-                            secondIcon = painterResource(id = R.drawable.add_a_photo),
                         )
                         Card(
                             text = "Антон",
                             mainIcon = painterResource(id = R.drawable.add_a_photo),
-                            secondIcon = painterResource(id = R.drawable.add_a_photo),
                         )
                     }
                     BigButton(
