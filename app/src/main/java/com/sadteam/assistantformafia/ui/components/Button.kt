@@ -3,7 +3,15 @@ package com.sadteam.assistantformafia.ui.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
@@ -22,7 +30,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.sadteam.assistantformafia.R
-import com.sadteam.assistantformafia.ui.theme.*
+import com.sadteam.assistantformafia.ui.theme.BloodRed
+import com.sadteam.assistantformafia.ui.theme.SettingsDescription
+import com.sadteam.assistantformafia.ui.theme.SettingsTitle
+import com.sadteam.assistantformafia.ui.theme.primaryFontFamily
+import com.sadteam.assistantformafia.ui.theme.secondFontFamily
 
 /**
  * Кнопка, нажатие на которой вызывает какое-либо действие
