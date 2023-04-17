@@ -1,6 +1,14 @@
 package com.sadteam.assistantformafia.ui.gamecreation
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
@@ -11,8 +19,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.ui.components.BigButton
+import com.sadteam.assistantformafia.ui.components.Card
 import com.sadteam.assistantformafia.ui.components.Header
 import com.sadteam.assistantformafia.ui.components.MenuButton
+import com.sadteam.assistantformafia.ui.components.PlayerNameKeyboard
 import com.sadteam.assistantformafia.ui.components.SelectCount
 import com.sadteam.assistantformafia.ui.navigation.Screen
 import com.sadteam.assistantformafia.ui.theme.DarkBlue
@@ -58,8 +68,40 @@ fun GameCreationScreen(
                         icon = painterResource(id = R.drawable.baseline_people_alt_24),
                         onIncreasing = { viewModel.onEvent(GameCreationViewModel.UIEvent.IncrementPlayers) },
                         onDecreasing = { viewModel.onEvent(GameCreationViewModel.UIEvent.DecrementPlayers) },
-                        value = state.players,
-                        min = 4,
+                        value = state.players.size,
+                        min = 6,
+                        content = {
+                            Column(modifier = Modifier
+                                .height(350.dp)
+                                .verticalScroll(rememberScrollState())
+                                .padding(20.dp),
+                                verticalArrangement = Arrangement.spacedBy(5.dp)
+                            ) {
+                                for ((i, player) in state.players.withIndex()) {
+                                    Card(
+                                        content = {
+                                            PlayerNameKeyboard(
+                                                modifier = Modifier.width(160.dp),
+                                                value = player.name,
+                                                onValueChange = { newText ->
+                                                    viewModel.onEvent(
+                                                        GameCreationViewModel.UIEvent.SetPlayerName(i, newText)
+                                                    )
+                                                },
+                                                placeholder = "${stringResource(id = R.string.player)} ${i + 1}",
+                                            )
+                                        },
+                                        mainIcon = painterResource(id = R.drawable.add_a_photo),
+                                        secondIcon = painterResource(id = R.drawable.delete),
+                                        onSecondIconClick = {
+                                            viewModel.onEvent(
+                                                GameCreationViewModel.UIEvent.DeletePlayer(i)
+                                            )
+                                        }
+                                    )
+                                }
+                            }
+                        }
                     )
                     MenuButton(
                         icon = painterResource(id = R.drawable.ic_baseline_assignment_ind_24),

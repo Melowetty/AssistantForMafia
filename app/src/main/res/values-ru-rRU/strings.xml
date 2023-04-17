@@ -22,4 +22,5 @@
     <string name="volume">Звук</string>
     <string name="music">Музыка</string>
     <string name="select_language">Выберите язык</string>
+    <string name="player">Игрок</string>
 </resources>

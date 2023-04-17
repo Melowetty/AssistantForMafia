@@ -1,8 +1,16 @@
 package com.sadteam.assistantformafia.ui.components
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
@@ -43,6 +51,7 @@ fun SelectCountPopup(
     onClose: () -> Unit,
     onIncreasing: () -> Unit,
     onDecreasing: () -> Unit,
+    content: @Composable (() -> Unit) = {},
 ) {
     CustomPopup(
         modifier = modifier,
@@ -50,37 +59,45 @@ fun SelectCountPopup(
         isShowed = isShowed,
         onClose = onClose
     ) {
-        IconButton(
-            painter = painterResource(id = R.drawable.baseline_remove_24),
-            size = 33.dp,
-            backgroundColor = if(value > min) DarkBlue else Gray,
-            iconColor = if(value > min) Color.White else LightGray,
-            disabled = value == min,
-            description = "remove",
-            onClick = onDecreasing,
+        Row(
             modifier = Modifier
-                .testTag(SelectCountTags.REMOVE)
-        )
-        Text(
-            text = "$value",
-            color = Color.White,
-            fontFamily = secondFontFamily,
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier
-                .testTag(SelectCountTags.VALUE)
-        )
-        IconButton(
-            painter = painterResource(id = R.drawable.baseline_add_24),
-            size = 33.dp,
-            backgroundColor = if(value < max) DarkBlue else Gray,
-            iconColor = if(value < max) Color.White else LightGray,
-            disabled = value == max,
-            description = "add",
-            onClick = onIncreasing,
-            modifier = Modifier
-                .testTag(SelectCountTags.ADD)
-        )
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+        ) {
+            IconButton(
+                painter = painterResource(id = R.drawable.baseline_remove_24),
+                size = 33.dp,
+                backgroundColor = if (value > min) DarkBlue else Gray,
+                iconColor = if (value > min) Color.White else LightGray,
+                disabled = value == min,
+                description = "remove",
+                onClick = onDecreasing,
+                modifier = Modifier
+                    .testTag(SelectCountTags.REMOVE)
+            )
+            Text(
+                text = "$value",
+                color = Color.White,
+                fontFamily = secondFontFamily,
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .testTag(SelectCountTags.VALUE)
+            )
+            IconButton(
+                painter = painterResource(id = R.drawable.baseline_add_24),
+                size = 33.dp,
+                backgroundColor = if (value < max) DarkBlue else Gray,
+                iconColor = if (value < max) Color.White else LightGray,
+                disabled = value == max,
+                description = "add",
+                onClick = onIncreasing,
+                modifier = Modifier
+                    .testTag(SelectCountTags.ADD)
+            )
+        }
+        content()
     }
 }
 
@@ -105,6 +122,7 @@ fun SelectCount(
     icon: Painter,
     onIncreasing: () -> Unit,
     onDecreasing: () -> Unit,
+    content: @Composable (() -> Unit) = {},
 ) {
     var isPopupShowed by remember {
         mutableStateOf(false)
@@ -133,6 +151,7 @@ fun SelectCount(
                 .testTag(SelectCountTags.BOX),
             onDecreasing = onDecreasing,
             onIncreasing = onIncreasing,
+            content = content,
         )
     }
 }
@@ -158,6 +177,7 @@ fun SelectCount(
     icon: ImageBitmap,
     onIncreasing: () -> Unit,
     onDecreasing: () -> Unit,
+    content: @Composable () -> Unit = {},
 ) {
     var isPopupShowed by remember {
         mutableStateOf(false)
@@ -186,6 +206,7 @@ fun SelectCount(
                 .testTag(SelectCountTags.BOX),
             onDecreasing = onDecreasing,
             onIncreasing = onIncreasing,
+            content = content,
         )
     }
 }

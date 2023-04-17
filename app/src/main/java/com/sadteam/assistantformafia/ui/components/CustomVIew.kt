@@ -3,8 +3,19 @@ package com.sadteam.assistantformafia.ui.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -19,7 +30,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Popup
 import androidx.compose.ui.window.PopupProperties
-import androidx.compose.ui.zIndex
 import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.ui.theme.BloodRed
 import com.sadteam.assistantformafia.ui.theme.DarkBackground
@@ -47,7 +57,7 @@ fun CustomPopup(
     if (isShowed) {
         Popup(
             alignment = Alignment.Center,
-            properties = PopupProperties(),
+            properties = PopupProperties(focusable = true),
         ) {
             Box(
                 modifier = modifier
@@ -60,16 +70,20 @@ fun CustomPopup(
                         indication = null,
                         onClick = onClose
                     )
-                    .padding(horizontal = 10.dp)
-                    .zIndex(1f),
+                    .padding(horizontal = 10.dp),
                 contentAlignment = Alignment.Center,
             ) {
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
                         .wrapContentHeight()
-                        .background(color = DarkGreen, shape = RoundedCornerShape(21))
-                        .padding(vertical = 10.dp),
+                        .background(color = DarkGreen, shape = RoundedCornerShape(10))
+                        .padding(vertical = 10.dp)
+                        .clickable(
+                            interactionSource = interactionSource,
+                            indication = null,
+                            onClick = {}
+                        ),
                 ) {
                     Row(
                         modifier = Modifier
@@ -103,17 +117,12 @@ fun CustomPopup(
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 70.dp),
+                            .padding(horizontal = 30.dp)
+                            .verticalScroll(rememberScrollState()),
                         verticalArrangement = Arrangement.spacedBy(18.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
+                        horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            content()
-                        }
+                        content()
                         SmallButton(
                             title = stringResource(id = R.string.save),
                             backgroundColor = BloodRed,
@@ -124,6 +133,7 @@ fun CustomPopup(
                                     indication = null,
                                     onClick = onClose
                                 )
+                                .padding(horizontal = 40.dp)
                         )
                     }
                 }
