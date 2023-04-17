@@ -95,7 +95,11 @@ fun GameCreationScreen(
                 }
                 BigButton(
                     title = stringResource(id = R.string.start),
-                    backgroundColor = DarkBlue)
+                    backgroundColor = DarkBlue,
+                    onClick = {
+                        navController.navigate(route = Screen.Introduction.route)
+                    }
+                )
             }
         }
     }

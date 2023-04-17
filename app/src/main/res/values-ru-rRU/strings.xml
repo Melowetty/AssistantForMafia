@@ -22,4 +22,6 @@
     <string name="volume">Звук</string>
     <string name="music">Музыка</string>
     <string name="select_language">Выберите язык</string>
+    <string name="introduction_text">Выберите игроков с ролью:</string>
+    <string name="next">Далее</string>
 </resources>
