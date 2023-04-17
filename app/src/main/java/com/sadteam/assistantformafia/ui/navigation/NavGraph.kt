@@ -8,6 +8,7 @@ import com.sadteam.assistantformafia.ui.appsettings.AppSettingsScreen
 import com.sadteam.assistantformafia.ui.appsettings.AppSettingsViewModel
 import com.sadteam.assistantformafia.ui.gamecreation.GameCreationScreen
 import com.sadteam.assistantformafia.ui.gamecreation.GameCreationViewModel
+import com.sadteam.assistantformafia.ui.introduction.IntroductionScreen
 import com.sadteam.assistantformafia.ui.roles.RolesScreen
 
 @Composable
@@ -34,6 +35,11 @@ fun SetupNavGraph(
             route = Screen.AppSettings.route,
         ) {
             AppSettingsScreen(navController = navController, appSettingsViewModel)
+        }
+        composable(
+            route = Screen.Introduction.route,
+        ) {
+            IntroductionScreen(navController = navController)
         }
     }
 }

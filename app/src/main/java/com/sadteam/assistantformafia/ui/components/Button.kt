@@ -314,7 +314,9 @@ fun BigButton(
     modifier: Modifier = Modifier,
     title: String,
     backgroundColor: Color,
-){
+    onClick: () -> Unit = {},
+) {
+    val interactionSource = remember { MutableInteractionSource() }
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -322,7 +324,12 @@ fun BigButton(
                 color = backgroundColor,
                 shape = CircleShape
             )
-            .padding(top = 16.dp, bottom = 16.dp),
+            .padding(top = 16.dp, bottom = 16.dp)
+            .clickable(
+                interactionSource = interactionSource,
+                indication = null,
+                onClick = onClick
+            )
     ){
         Text(
             text = title,
