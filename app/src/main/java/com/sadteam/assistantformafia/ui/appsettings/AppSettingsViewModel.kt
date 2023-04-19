@@ -9,13 +9,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.Locale
 import javax.inject.Inject
 
-
-data class AppSettingsState(
-    val language: Locale = Locale.getDefault(),
-    val musicVolume: Float = 1.0f,
-    val soundVolume: Float = 1.0f
-)
-
 @HiltViewModel
 class AppSettingsViewModel @Inject constructor(
     private val preferences: SharedPreferences
@@ -23,29 +16,21 @@ class AppSettingsViewModel @Inject constructor(
     private val _state = mutableStateOf(AppSettingsState())
     val state: State<AppSettingsState> = _state
 
-    sealed class UIEvent {
-        data class SetRussian(val context: Context): UIEvent()
-        data class SetEnglish(val context: Context): UIEvent()
-        data class SoundVolumeChange(val value: Float): UIEvent()
-        data class MusicVolumeChange(val value: Float): UIEvent()
-        data class SetSavedLanguage(val context: Context): UIEvent()
-    }
-
-    fun onEvent (event: UIEvent) {
+    fun onEvent (event: AppSettingsEvent) {
         when(event) {
-            is UIEvent.SetRussian ->
+            is AppSettingsEvent.SetRussian ->
                 setLanguage(context = event.context, locale = Locale("ru", "RU"))
-            is UIEvent.SetEnglish ->
+            is AppSettingsEvent.SetEnglish ->
                 setLanguage(context = event.context, locale = Locale.US)
-            is UIEvent.SoundVolumeChange ->
+            is AppSettingsEvent.SoundVolumeChange ->
                 _state.value = state.value.copy(
                     soundVolume = event.value
                 )
-            is UIEvent.MusicVolumeChange ->
+            is AppSettingsEvent.MusicVolumeChange ->
                 _state.value = state.value.copy(
                     musicVolume = event.value
                 )
-            is UIEvent.SetSavedLanguage ->
+            is AppSettingsEvent.SetSavedLanguage ->
                 setSavedLanguage(context = event.context)
         }
     }

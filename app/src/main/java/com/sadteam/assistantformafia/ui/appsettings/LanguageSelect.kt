@@ -114,7 +114,6 @@ fun SelectLanguage(
     var isPopupShowed by remember {
         mutableStateOf(false)
     }
-    val context = LocalContext.current
     Box(modifier = modifier) {
         ExtendedMenuButton(
             modifier = Modifier

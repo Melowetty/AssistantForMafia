@@ -27,7 +27,8 @@ import com.sadteam.assistantformafia.ui.theme.SettingsBackground
 @Composable
 fun AppSettingsScreen(
     navController: NavController,
-    viewModel: AppSettingsViewModel,
+    state: AppSettingsState,
+    onEvent: (AppSettingsEvent) -> Unit,
 ) {
     val context = LocalContext.current
     Surface(
@@ -60,9 +61,9 @@ fun AppSettingsScreen(
                 ) {
                     SelectLanguage(
                         title = stringResource(id = R.string.select_language),
-                        onSetEnglish = { viewModel.onEvent(AppSettingsViewModel.UIEvent.SetEnglish(context)) },
-                        onSetRussian = { viewModel.onEvent(AppSettingsViewModel.UIEvent.SetRussian(context)) },
-                        currentLocale = viewModel.state.value.language
+                        onSetEnglish = { onEvent(AppSettingsEvent.SetEnglish(context)) },
+                        onSetRussian = { onEvent(AppSettingsEvent.SetRussian(context)) },
+                        currentLocale = state.language
                     )
                     Column(
                         modifier = Modifier
@@ -78,9 +79,9 @@ fun AppSettingsScreen(
                             title = stringResource(id = R.string.volume),
                             content = {
                                 Slider(
-                                    value = viewModel.state.value.soundVolume,
+                                    value = state.soundVolume,
                                     onValueChange = {
-                                        viewModel.onEvent(AppSettingsViewModel.UIEvent.SoundVolumeChange(value = it))
+                                        onEvent(AppSettingsEvent.SoundVolumeChange(value = it))
                                     }
                                 )
                             }
@@ -96,9 +97,9 @@ fun AppSettingsScreen(
                             title = stringResource(id = R.string.music),
                             content = {
                                 Slider(
-                                    value = viewModel.state.value.musicVolume,
+                                    value = state.musicVolume,
                                     onValueChange = {
-                                        viewModel.onEvent(AppSettingsViewModel.UIEvent.MusicVolumeChange(value = it))
+                                        onEvent(AppSettingsEvent.MusicVolumeChange(value = it))
                                     }
                                 )
                             }

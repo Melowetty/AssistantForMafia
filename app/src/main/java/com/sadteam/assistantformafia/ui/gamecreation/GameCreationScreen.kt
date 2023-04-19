@@ -12,6 +12,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -33,9 +34,9 @@ import com.sadteam.assistantformafia.ui.theme.DarkBlue
 @Composable
 fun GameCreationScreen(
     navController: NavController,
-    viewModel: GameCreationViewModel
+    state: GameCreationState,
+    onEvent: (GameCreationEvent) -> Unit,
 ) {
-    val state = viewModel.state.value
     Surface(
         modifier = Modifier.fillMaxSize(),
         color = MaterialTheme.colors.background,
@@ -66,8 +67,8 @@ fun GameCreationScreen(
                     SelectCount(
                         title = stringResource(id = R.string.players_count),
                         icon = painterResource(id = R.drawable.baseline_people_alt_24),
-                        onIncreasing = { viewModel.onEvent(GameCreationViewModel.UIEvent.IncrementPlayers) },
-                        onDecreasing = { viewModel.onEvent(GameCreationViewModel.UIEvent.DecrementPlayers) },
+                        onIncreasing = { onEvent(GameCreationEvent.IncrementPlayers) },
+                        onDecreasing = { onEvent(GameCreationEvent.DecrementPlayers) },
                         value = state.players.size,
                         min = 6,
                         content = {
@@ -84,8 +85,8 @@ fun GameCreationScreen(
                                                 modifier = Modifier.width(160.dp),
                                                 value = player.name,
                                                 onValueChange = { newText ->
-                                                    viewModel.onEvent(
-                                                        GameCreationViewModel.UIEvent.SetPlayerName(i, newText)
+                                                    onEvent(
+                                                        GameCreationEvent.SetPlayerName(i, newText)
                                                     )
                                                 },
                                                 placeholder = "${stringResource(id = R.string.enter_name)}",
@@ -94,8 +95,8 @@ fun GameCreationScreen(
                                         mainIcon = painterResource(id = R.drawable.add_a_photo),
                                         secondIcon = painterResource(id = R.drawable.delete),
                                         onSecondIconClick = {
-                                            viewModel.onEvent(
-                                                GameCreationViewModel.UIEvent.DeletePlayer(i)
+                                            onEvent(
+                                                GameCreationEvent.DeletePlayer(i)
                                             )
                                         }
                                     )

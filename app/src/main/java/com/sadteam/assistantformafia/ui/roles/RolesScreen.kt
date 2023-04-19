@@ -17,16 +17,19 @@ import androidx.navigation.NavController
 import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.ui.components.Header
 import com.sadteam.assistantformafia.ui.components.SelectCount
+import com.sadteam.assistantformafia.ui.gamecreation.GameCreationEvent
+import com.sadteam.assistantformafia.ui.gamecreation.GameCreationState
 import com.sadteam.assistantformafia.ui.gamecreation.GameCreationViewModel
 import com.sadteam.assistantformafia.ui.theme.AssistantForMafiaTheme
 import com.sadteam.assistantformafia.utils.IconUtils.Companion.toRoleIcon
+import com.sadteam.assistantformafia.utils.Utils
 
 @Composable
 fun RolesScreen(
     navController: NavController,
-    viewModel: GameCreationViewModel,
+    state: GameCreationState,
+    onEvent: (GameCreationEvent) -> Unit,
 ){
-    val state = viewModel.state.value
     AssistantForMafiaTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
@@ -57,20 +60,21 @@ fun RolesScreen(
                     ) {
                         for (pair in state.roles) {
                             var roleIcon = pair.key.icon.toRoleIcon()
+                            val max = Utils.getRoleCountLimit(pair.key, pair.value, state.players.size, state.distributedPlayers)
                             if (roleIcon is ImageBitmap) SelectCount(
                             title = pair.key.name,
                             icon = roleIcon,
                             value = pair.value,
                             min = pair.key.min,
-                            max = viewModel.getRoleCountLimit(pair.key, pair.value),
+                            max = max,
                             onDecreasing = {
-                                viewModel.onEvent(
-                                    GameCreationViewModel.UIEvent.DecrementRole(pair.key)
+                                onEvent(
+                                    GameCreationEvent.DecrementRole(pair.key)
                                 )
                             },
                             onIncreasing = {
-                                viewModel.onEvent(
-                                    GameCreationViewModel.UIEvent.IncrementRole(pair.key)
+                                onEvent(
+                                    GameCreationEvent.IncrementRole(pair.key)
                                 )
                             }
                         ) else SelectCount(
@@ -78,15 +82,15 @@ fun RolesScreen(
                             icon = roleIcon as Painter,
                             value = pair.value,
                             min = pair.key.min,
-                            max = viewModel.getRoleCountLimit(pair.key, pair.value),
+                            max = max,
                             onDecreasing = {
-                                viewModel.onEvent(
-                                    GameCreationViewModel.UIEvent.DecrementRole(pair.key)
+                                onEvent(
+                                    GameCreationEvent.DecrementRole(pair.key)
                                 )
                             },
                             onIncreasing = {
-                                viewModel.onEvent(
-                                    GameCreationViewModel.UIEvent.IncrementRole(pair.key)
+                                onEvent(
+                                    GameCreationEvent.IncrementRole(pair.key)
                                 )
                             }
                         )
