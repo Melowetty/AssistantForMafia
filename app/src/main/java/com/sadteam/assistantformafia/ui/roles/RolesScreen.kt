@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.ui.components.Header
+import com.sadteam.assistantformafia.ui.components.MainLayout
 import com.sadteam.assistantformafia.ui.components.SelectCount
 import com.sadteam.assistantformafia.ui.gamecreation.GameCreationEvent
 import com.sadteam.assistantformafia.ui.gamecreation.GameCreationState
@@ -29,75 +30,61 @@ fun RolesScreen(
     navController: NavController,
     state: GameCreationState,
     onEvent: (GameCreationEvent) -> Unit,
-){
-    AssistantForMafiaTheme {
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colors.background
+) {
+    MainLayout(
+        navController = navController,
+        title = stringResource(id = R.string.roles)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            Column(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                Header(
-                    title = stringResource(id = R.string.roles),
-                    navController = navController
+            for (pair in state.roles) {
+                var roleIcon = pair.key.icon.toRoleIcon()
+                val max = Utils.getRoleCountLimit(
+                    pair.key,
+                    pair.value,
+                    state.players.size,
+                    state.distributedPlayers
                 )
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(
-                            top = 30.dp,
-                            end = 10.dp,
-                            bottom = 30.dp,
-                            start = 10.dp
-                        ),
-                    verticalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth(),
-                        verticalArrangement = Arrangement.spacedBy(10.dp)
-                    ) {
-                        for (pair in state.roles) {
-                            var roleIcon = pair.key.icon.toRoleIcon()
-                            val max = Utils.getRoleCountLimit(pair.key, pair.value, state.players.size, state.distributedPlayers)
-                            if (roleIcon is ImageBitmap) SelectCount(
-                            title = pair.key.getTranslatedName(),
-                            icon = roleIcon,
-                            value = pair.value,
-                            min = pair.key.min,
-                            max = max,
-                            onDecreasing = {
-                                onEvent(
-                                    GameCreationEvent.DecrementRole(pair.key)
-                                )
-                            },
-                            onIncreasing = {
-                                onEvent(
-                                    GameCreationEvent.IncrementRole(pair.key)
-                                )
-                            }
-                        ) else SelectCount(
-                            title = pair.key.getTranslatedName(),
-                            icon = roleIcon as Painter,
-                            value = pair.value,
-                            min = pair.key.min,
-                            max = max,
-                            onDecreasing = {
-                                onEvent(
-                                    GameCreationEvent.DecrementRole(pair.key)
-                                )
-                            },
-                            onIncreasing = {
-                                onEvent(
-                                    GameCreationEvent.IncrementRole(pair.key)
-                                )
-                            }
+                if (roleIcon is ImageBitmap) SelectCount(
+                    title = pair.key.getTranslatedName(),
+                    icon = roleIcon,
+                    value = pair.value,
+                    min = pair.key.min,
+                    max = max,
+                    onDecreasing = {
+                        onEvent(
+                            GameCreationEvent.DecrementRole(pair.key)
                         )
-                        }
+                    },
+                    onIncreasing = {
+                        onEvent(
+                            GameCreationEvent.IncrementRole(pair.key)
+                        )
                     }
-                }
+                ) else SelectCount(
+                    title = pair.key.getTranslatedName(),
+                    icon = roleIcon as Painter,
+                    value = pair.value,
+                    min = pair.key.min,
+                    max = max,
+                    onDecreasing = {
+                        onEvent(
+                            GameCreationEvent.DecrementRole(pair.key)
+                        )
+                    },
+                    onIncreasing = {
+                        onEvent(
+                            GameCreationEvent.IncrementRole(pair.key)
+                        )
+                    }
+                )
             }
         }
     }
 }
+
+
+

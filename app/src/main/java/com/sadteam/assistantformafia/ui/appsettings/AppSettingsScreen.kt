@@ -22,6 +22,7 @@ import androidx.navigation.NavController
 import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.ui.components.ExtendedMenuButton
 import com.sadteam.assistantformafia.ui.components.Header
+import com.sadteam.assistantformafia.ui.components.MainLayout
 import com.sadteam.assistantformafia.ui.theme.SettingsBackground
 
 @Composable
@@ -31,81 +32,60 @@ fun AppSettingsScreen(
     onEvent: (AppSettingsEvent) -> Unit,
 ) {
     val context = LocalContext.current
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colors.background
+    MainLayout(
+        navController = navController,
+        title = stringResource(id = R.string.app_settings)
     ) {
         Column(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxWidth(),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            Header(
-                navController = navController,
-                title = stringResource(id = R.string.app_settings),
-                isVisibleSettingsButton = false,
+            SelectLanguage(
+                title = stringResource(id = R.string.select_language),
+                onSetEnglish = { onEvent(AppSettingsEvent.SetEnglish(context)) },
+                onSetRussian = { onEvent(AppSettingsEvent.SetRussian(context)) },
+                currentLocale = state.language
             )
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(
-                        top = 30.dp,
-                        end = 10.dp,
-                        bottom = 30.dp,
-                        start = 10.dp
+                    .fillMaxWidth()
+                    .background(
+                        color = SettingsBackground,
+                        shape = RoundedCornerShape(20.dp)
                     ),
-                verticalArrangement = Arrangement.SpaceBetween
+                verticalArrangement = Arrangement.spacedBy(0.dp)
             ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    verticalArrangement = Arrangement.spacedBy(10.dp)
-                ) {
-                    SelectLanguage(
-                        title = stringResource(id = R.string.select_language),
-                        onSetEnglish = { onEvent(AppSettingsEvent.SetEnglish(context)) },
-                        onSetRussian = { onEvent(AppSettingsEvent.SetRussian(context)) },
-                        currentLocale = state.language
-                    )
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(
-                                color = SettingsBackground,
-                                shape = RoundedCornerShape(20.dp)
-                            ),
-                        verticalArrangement = Arrangement.spacedBy(0.dp)
-                    ) {
-                        ExtendedMenuButton(
-                            icon = painterResource(id = R.drawable.baseline_volume_up_24),
-                            title = stringResource(id = R.string.volume),
-                            content = {
-                                Slider(
-                                    value = state.soundVolume,
-                                    onValueChange = {
-                                        onEvent(AppSettingsEvent.SoundVolumeChange(value = it))
-                                    }
-                                )
-                            }
-                        )
-                        Divider(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(3.dp)
-                                .padding(end = 20.dp, start = 20.dp)
-                        )
-                        ExtendedMenuButton(
-                            icon = painterResource(id = R.drawable.baseline_music_note_24),
-                            title = stringResource(id = R.string.music),
-                            content = {
-                                Slider(
-                                    value = state.musicVolume,
-                                    onValueChange = {
-                                        onEvent(AppSettingsEvent.MusicVolumeChange(value = it))
-                                    }
-                                )
+                ExtendedMenuButton(
+                    icon = painterResource(id = R.drawable.baseline_volume_up_24),
+                    title = stringResource(id = R.string.volume),
+                    content = {
+                        Slider(
+                            value = state.soundVolume,
+                            onValueChange = {
+                                onEvent(AppSettingsEvent.SoundVolumeChange(value = it))
                             }
                         )
                     }
-                }
+                )
+                Divider(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(3.dp)
+                        .padding(end = 20.dp, start = 20.dp)
+                )
+                ExtendedMenuButton(
+                    icon = painterResource(id = R.drawable.baseline_music_note_24),
+                    title = stringResource(id = R.string.music),
+                    content = {
+                        Slider(
+                            value = state.musicVolume,
+                            onValueChange = {
+                                onEvent(AppSettingsEvent.MusicVolumeChange(value = it))
+                            }
+                        )
+                    }
+                )
             }
         }
     }
