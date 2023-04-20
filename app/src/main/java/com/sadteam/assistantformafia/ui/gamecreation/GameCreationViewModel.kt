@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.sadteam.assistantformafia.data.models.Player
 import com.sadteam.assistantformafia.data.models.Role
 import com.sadteam.assistantformafia.data.repository.RoleRepository
+import com.sadteam.assistantformafia.utils.MIN_PLAYERS_COUNT
 import com.sadteam.assistantformafia.utils.Utils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -106,7 +107,7 @@ class GameCreationViewModel @Inject constructor(
     }
 
     private fun deletePlayer(pos: Int) {
-        if (state.value.players.size <= 6) return
+        if (state.value.players.size <= MIN_PLAYERS_COUNT) return
         val players = state.value.players.toMutableList()
         players.removeAt(pos)
         state.value = state.value.copy(
@@ -123,7 +124,7 @@ class GameCreationViewModel @Inject constructor(
     }
 
     private fun decreasePlayersCount() {
-        if (state.value.players.size <= 6) return
+        if (state.value.players.size <= MIN_PLAYERS_COUNT) return
         val players = state.value.players.toMutableList()
         players.removeLast()
         state.value = state.value.copy(

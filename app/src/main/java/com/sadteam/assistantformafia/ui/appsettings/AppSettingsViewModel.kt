@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
+import com.sadteam.assistantformafia.utils.APP_LANGUAGE_FIELD
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.Locale
 import javax.inject.Inject
@@ -45,14 +46,14 @@ class AppSettingsViewModel @Inject constructor(
             language = locale
         )
         if (save) with (preferences.edit()) {
-            putString("app_language", "${locale.language}_${locale.country}")
+            putString(APP_LANGUAGE_FIELD, "${locale.language}_${locale.country}")
             apply()
         }
     }
 
     private fun setSavedLanguage(context: Context) {
         val defaultValue = "${Locale.getDefault().language}_{Locale.getDefault().country}"
-        val appLanguage = preferences.getString("app_language", defaultValue)!!.split("_")
+        val appLanguage = preferences.getString(APP_LANGUAGE_FIELD, defaultValue)!!.split("_")
         val language = appLanguage[0]
         val country = appLanguage[1]
         setLanguage(context, Locale(language, country), false)

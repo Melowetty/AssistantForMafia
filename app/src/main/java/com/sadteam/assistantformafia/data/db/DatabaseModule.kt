@@ -2,6 +2,7 @@ package com.sadteam.assistantformafia.data.db
 
 import android.content.Context
 import androidx.room.Room
+import com.sadteam.assistantformafia.utils.DATABASE_NAME
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,8 +14,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 @Module
 class DatabaseModule {
-    private val DB_NAME = "app_database.db"
-
     @Singleton
     @Provides
     fun provideRolesDao(appDatabase: AppDatabase): RolesDao = appDatabase.getRolesDao()
@@ -28,7 +27,7 @@ class DatabaseModule {
         return Room.databaseBuilder(
             appContext,
             AppDatabase::class.java,
-            DB_NAME,
+            DATABASE_NAME,
         )
             .addCallback(RolesCallback(provider))
             .build()

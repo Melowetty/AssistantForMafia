@@ -21,7 +21,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sadteam.assistantformafia.R
-import com.sadteam.assistantformafia.ui.tags.SelectCountTags
 import com.sadteam.assistantformafia.ui.theme.DarkBlue
 import com.sadteam.assistantformafia.ui.theme.Gray
 import com.sadteam.assistantformafia.ui.theme.LightGray
@@ -73,8 +72,6 @@ fun SelectCountPopup(
                 disabled = value == min,
                 description = "remove",
                 onClick = onDecreasing,
-                modifier = Modifier
-                    .testTag(SelectCountTags.REMOVE)
             )
             Text(
                 text = "$value",
@@ -82,8 +79,6 @@ fun SelectCountPopup(
                 fontFamily = secondFontFamily,
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier
-                    .testTag(SelectCountTags.VALUE)
             )
             IconButton(
                 painter = painterResource(id = R.drawable.baseline_add_24),
@@ -93,8 +88,6 @@ fun SelectCountPopup(
                 disabled = value == max,
                 description = "add",
                 onClick = onIncreasing,
-                modifier = Modifier
-                    .testTag(SelectCountTags.ADD)
             )
         }
         content()
@@ -134,8 +127,6 @@ fun SelectCount(
             onClick = {
                 isPopupShowed = true
             },
-            modifier = Modifier
-                .testTag(SelectCountTags.OPENING_BUTTON),
             currentValue = value.toString()
         )
         SelectCountPopup(
@@ -147,8 +138,6 @@ fun SelectCount(
             onClose = {
                 isPopupShowed = false
             },
-            modifier = Modifier
-                .testTag(SelectCountTags.BOX),
             onDecreasing = onDecreasing,
             onIncreasing = onIncreasing,
             content = content,
@@ -189,8 +178,6 @@ fun SelectCount(
             onClick = {
                 isPopupShowed = true
             },
-            modifier = Modifier
-                .testTag(SelectCountTags.OPENING_BUTTON),
             currentValue = value.toString()
         )
         SelectCountPopup(
@@ -202,8 +189,6 @@ fun SelectCount(
             onClose = {
                 isPopupShowed = false
             },
-            modifier = Modifier
-                .testTag(SelectCountTags.BOX),
             onDecreasing = onDecreasing,
             onIncreasing = onIncreasing,
             content = content,
