@@ -62,7 +62,7 @@ fun RolesScreen(
                             var roleIcon = pair.key.icon.toRoleIcon()
                             val max = Utils.getRoleCountLimit(pair.key, pair.value, state.players.size, state.distributedPlayers)
                             if (roleIcon is ImageBitmap) SelectCount(
-                            title = pair.key.name,
+                            title = pair.key.getTranslatedName(),
                             icon = roleIcon,
                             value = pair.value,
                             min = pair.key.min,
@@ -78,7 +78,7 @@ fun RolesScreen(
                                 )
                             }
                         ) else SelectCount(
-                            title = pair.key.name,
+                            title = pair.key.getTranslatedName(),
                             icon = roleIcon as Painter,
                             value = pair.value,
                             min = pair.key.min,

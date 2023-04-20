@@ -1,8 +1,9 @@
 package com.sadteam.assistantformafia.data.db
 
+import android.content.Context
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.sadteam.assistantformafia.data.START_SET_ROLES
+import com.sadteam.assistantformafia.data.StartSetRoles
 import com.sadteam.assistantformafia.data.models.Possibility
 import com.sadteam.assistantformafia.data.models.Role
 import kotlinx.coroutines.CoroutineScope
@@ -12,7 +13,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Provider
 
 class RolesCallback(
-    private val provider: Provider<RolesDao>
+    private val provider: Provider<RolesDao>,
 ): RoomDatabase.Callback() {
     private val applicationScope = CoroutineScope(SupervisorJob())
 
@@ -25,7 +26,7 @@ class RolesCallback(
 
     private suspend fun prepopulateRoles() {
         provider.get().insertRoles(
-            START_SET_ROLES
+            StartSetRoles().getRoles()
         )
     }
 }
