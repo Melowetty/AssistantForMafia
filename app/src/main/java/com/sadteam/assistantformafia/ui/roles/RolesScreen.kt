@@ -2,11 +2,7 @@ package com.sadteam.assistantformafia.ui.roles
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
@@ -15,13 +11,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.sadteam.assistantformafia.R
-import com.sadteam.assistantformafia.ui.components.Header
 import com.sadteam.assistantformafia.ui.components.MainLayout
 import com.sadteam.assistantformafia.ui.components.SelectCount
 import com.sadteam.assistantformafia.ui.gamecreation.GameCreationEvent
 import com.sadteam.assistantformafia.ui.gamecreation.GameCreationState
-import com.sadteam.assistantformafia.ui.gamecreation.GameCreationViewModel
-import com.sadteam.assistantformafia.ui.theme.AssistantForMafiaTheme
 import com.sadteam.assistantformafia.utils.IconUtils.Companion.toRoleIcon
 import com.sadteam.assistantformafia.utils.Utils
 

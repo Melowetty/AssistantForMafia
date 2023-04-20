@@ -1,11 +1,8 @@
 package com.sadteam.assistantformafia.data.db
 
-import android.content.Context
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.sadteam.assistantformafia.data.StartSetRoles
-import com.sadteam.assistantformafia.data.models.Possibility
-import com.sadteam.assistantformafia.data.models.Role
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob

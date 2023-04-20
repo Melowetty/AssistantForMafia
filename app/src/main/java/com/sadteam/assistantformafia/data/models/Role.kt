@@ -1,6 +1,5 @@
 package com.sadteam.assistantformafia.data.models
 
-import android.content.Context
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.Locale

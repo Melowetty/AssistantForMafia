@@ -1,13 +1,8 @@
 package com.sadteam.assistantformafia.data
 
-import android.content.Context
-import androidx.compose.ui.res.stringResource
-import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.data.models.Possibility
 import com.sadteam.assistantformafia.data.models.Role
-import dagger.hilt.android.qualifiers.ActivityContext
 import java.util.Locale
-import javax.inject.Inject
 
 class StartSetRoles {
     private fun translatedWordsToMap(russian: String): Map<Locale, String> {
