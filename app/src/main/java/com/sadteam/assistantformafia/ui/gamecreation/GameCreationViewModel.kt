@@ -8,18 +8,13 @@ import androidx.lifecycle.viewModelScope
 import com.sadteam.assistantformafia.data.models.Player
 import com.sadteam.assistantformafia.data.models.Role
 import com.sadteam.assistantformafia.data.repository.RoleRepository
+import com.sadteam.assistantformafia.utils.MIN_PLAYERS_COUNT
+import com.sadteam.assistantformafia.utils.Utils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.lang.Math.min
 import javax.inject.Inject
-
-data class GameCreationState(
-    val players: List<Player> = List(6) { Player() },
-    val roles: Map<Role, Int> = mapOf(),
-    val distributedPlayers: Int = 0,
-)
 
 @HiltViewModel
 class GameCreationViewModel @Inject constructor(
@@ -52,36 +47,27 @@ class GameCreationViewModel @Inject constructor(
         roleRepository.getAllRoles().removeObserver(observer)
     }
 
-    sealed class UIEvent {
-        object IncrementPlayers : UIEvent()
-        object DecrementPlayers : UIEvent()
-        data class SetPlayerName(val pos: Int, val newName: String): UIEvent()
-        data class DeletePlayer(val pos: Int) : UIEvent()
-        data class DecrementRole(val role: Role): UIEvent()
-        data class IncrementRole(val role: Role): UIEvent()
-    }
-
-    fun onEvent(event: UIEvent) {
+    fun onEvent(event: GameCreationEvent) {
         viewModelScope.launch(Dispatchers.IO) {
             when (event) {
-                UIEvent.IncrementPlayers ->
+                GameCreationEvent.IncrementPlayers ->
                     increasePlayersCount()
 
-                UIEvent.DecrementPlayers ->
+                GameCreationEvent.DecrementPlayers ->
                     decreasePlayersCount()
 
-                is UIEvent.SetPlayerName ->
+                is GameCreationEvent.SetPlayerName ->
                     setPlayerName(event.pos, event.newName)
 
-                is UIEvent.DeletePlayer ->
+                is GameCreationEvent.DeletePlayer ->
                     deletePlayer(event.pos)
 
-                is UIEvent.DecrementRole -> {
+                is GameCreationEvent.DecrementRole -> {
                     val currentValue = state.value.roles[event.role]
                     decreaseRoleCount(event.role, currentValue!!)
                 }
 
-                is UIEvent.IncrementRole -> {
+                is GameCreationEvent.IncrementRole -> {
                     val currentValue = state.value.roles[event.role]
                     increaseRoleCount(event.role, currentValue!!)
                 }
@@ -101,7 +87,7 @@ class GameCreationViewModel @Inject constructor(
     }
 
     private fun increaseRoleCount(role: Role, currentValue: Int) {
-        if (getRoleCountLimit(role, currentValue) > currentValue) {
+        if (Utils.getRoleCountLimit(role, currentValue, state.value.players.size, state.value.distributedPlayers) > currentValue) {
             val roles = state.value.roles.toMutableMap()
             roles[role] = currentValue + 1
             state.value = state.value.copy(
@@ -120,7 +106,7 @@ class GameCreationViewModel @Inject constructor(
     }
 
     private fun deletePlayer(pos: Int) {
-        if (state.value.players.size <= 6) return
+        if (state.value.players.size <= MIN_PLAYERS_COUNT) return
         val players = state.value.players.toMutableList()
         players.removeAt(pos)
         state.value = state.value.copy(
@@ -137,16 +123,11 @@ class GameCreationViewModel @Inject constructor(
     }
 
     private fun decreasePlayersCount() {
-        if (state.value.players.size <= 6) return
+        if (state.value.players.size <= MIN_PLAYERS_COUNT) return
         val players = state.value.players.toMutableList()
         players.removeLast()
         state.value = state.value.copy(
             players = players
         )
-    }
-
-    fun getRoleCountLimit(role: Role, currentValue: Int): Int {
-        return min(state.value.players.size - state.value.distributedPlayers + currentValue,
-            role.max)
     }
 }

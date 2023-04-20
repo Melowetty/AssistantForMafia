@@ -2,6 +2,7 @@ package com.sadteam.assistantformafia.di
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.sadteam.assistantformafia.utils.SETTINGS_FILE
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,6 +17,6 @@ class AppModule {
     @Provides
     @Singleton
     fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences {
-        return context.getSharedPreferences("settings", Context.MODE_PRIVATE)
+        return context.getSharedPreferences(SETTINGS_FILE, Context.MODE_PRIVATE)
     }
 }

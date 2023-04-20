@@ -24,17 +24,29 @@ fun SetupNavGraph(
         composable(
             route = Screen.GameCreation.route
         ) {
-            GameCreationScreen(navController = navController, gameCreationViewModel)
+            GameCreationScreen(
+                navController = navController,
+                state = gameCreationViewModel.state.value,
+                onEvent = gameCreationViewModel::onEvent
+            )
         }
         composable(
             route = Screen.Roles.route,
         ) {
-            RolesScreen(navController = navController, gameCreationViewModel)
+            RolesScreen(
+                navController = navController,
+                state = gameCreationViewModel.state.value,
+                onEvent = gameCreationViewModel::onEvent
+            )
         }
 		composable(
             route = Screen.AppSettings.route,
         ) {
-            AppSettingsScreen(navController = navController, appSettingsViewModel)
+            AppSettingsScreen(
+                navController = navController,
+                state = appSettingsViewModel.state.value,
+                onEvent = appSettingsViewModel::onEvent
+            )
         }
         composable(
             route = Screen.Introduction.route,
