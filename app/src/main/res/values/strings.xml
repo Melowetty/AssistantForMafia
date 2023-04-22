@@ -25,4 +25,8 @@
     <string name="next">Next</string>
     <string name="player">Player</string>
     <string name="enter_name">Enter a name</string>
+    <string name="stage">Stage:</string>
+    <string name="night">Night</string>
+    <string name="day">Day</string>
+    <string name="target">choose target:</string>
 </resources>

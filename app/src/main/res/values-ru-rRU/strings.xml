@@ -26,4 +26,8 @@
     <string name="next">Далее</string>
     <string name="player">Игрок</string>
     <string name="enter_name">Введите имя</string>
+    <string name="stage">"Этап: "</string>
+    <string name="night">Ночь</string>
+    <string name="day">День</string>
+    <string name="target">выбирает цель:</string>
 </resources>
