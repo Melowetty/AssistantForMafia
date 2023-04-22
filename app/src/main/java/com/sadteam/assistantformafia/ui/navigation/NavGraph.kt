@@ -56,7 +56,7 @@ fun SetupNavGraph(
             IntroductionScreen(
                 navController = navController,
                 initialState = gameCreationViewModel.state.value,
-                state = gameViewModel.state.value,
+                state = gameViewModel.state.value.distributionOfRoles,
                 onEvent = gameViewModel::onEvent
             )
         }

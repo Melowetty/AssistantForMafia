@@ -62,7 +62,7 @@ fun GameCreationScreen(
                                 content = {
                                     PlayerNameKeyboard(
                                         modifier = Modifier.width(160.dp),
-                                        value = player.name,
+                                        value = player.name.value,
                                         onValueChange = { newText ->
                                             onEvent(
                                                 GameCreationEvent.SetPlayerName(i, newText)
