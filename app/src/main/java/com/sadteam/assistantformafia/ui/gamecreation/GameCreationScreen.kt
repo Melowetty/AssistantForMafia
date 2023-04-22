@@ -22,6 +22,7 @@ import com.sadteam.assistantformafia.ui.components.MenuButton
 import com.sadteam.assistantformafia.ui.components.PlayerNameKeyboard
 import com.sadteam.assistantformafia.ui.components.SelectCount
 import com.sadteam.assistantformafia.ui.navigation.Screen
+import com.sadteam.assistantformafia.ui.theme.BlueDisabledBackground
 import com.sadteam.assistantformafia.ui.theme.DarkBlue
 
 /**
@@ -62,7 +63,7 @@ fun GameCreationScreen(
                                 content = {
                                     PlayerNameKeyboard(
                                         modifier = Modifier.width(160.dp),
-                                        value = player.name,
+                                        value = player.name.value,
                                         onValueChange = { newText ->
                                             onEvent(
                                                 GameCreationEvent.SetPlayerName(i, newText)
@@ -102,6 +103,8 @@ fun GameCreationScreen(
         BigButton(
             title = stringResource(id = R.string.start),
             backgroundColor = DarkBlue,
+            isDisabled = !state.canStart,
+            disabledBackground = BlueDisabledBackground,
             onClick = {
                 navController.navigate(route = Screen.Introduction.route)
             }

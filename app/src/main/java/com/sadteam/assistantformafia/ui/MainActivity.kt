@@ -9,6 +9,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.sadteam.assistantformafia.ui.appsettings.AppSettingsEvent
 import com.sadteam.assistantformafia.ui.appsettings.AppSettingsViewModel
+import com.sadteam.assistantformafia.ui.game.GameViewModel
 import com.sadteam.assistantformafia.ui.gamecreation.GameCreationViewModel
 import com.sadteam.assistantformafia.ui.navigation.SetupNavGraph
 import com.sadteam.assistantformafia.ui.theme.AssistantForMafiaTheme
@@ -25,6 +26,8 @@ class MainActivity : ComponentActivity() {
                 GameCreationViewModel by viewModels()
         val appSettingsViewModel:
                 AppSettingsViewModel by viewModels()
+        val gameViewModel:
+                GameViewModel by viewModels()
         setContent {
             LaunchedEffect(key1 = true, block = {
                 appSettingsViewModel.onEvent(AppSettingsEvent.SetSavedLanguage(context))
@@ -33,7 +36,8 @@ class MainActivity : ComponentActivity() {
                 navController = rememberNavController()
                 SetupNavGraph(navController = navController,
                     gameCreationViewModel = gameCreationViewModel,
-                    appSettingsViewModel = appSettingsViewModel
+                    appSettingsViewModel = appSettingsViewModel,
+                    gameViewModel = gameViewModel,
                 )
             }
         }

@@ -25,12 +25,14 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.ui.theme.BloodRed
+import com.sadteam.assistantformafia.ui.theme.DarkBlue
 import com.sadteam.assistantformafia.ui.theme.SettingsDescription
 import com.sadteam.assistantformafia.ui.theme.SettingsTitle
 import com.sadteam.assistantformafia.ui.theme.primaryFontFamily
@@ -308,6 +310,8 @@ fun ExtendedMenuButton(
  * @param modifier модификатор элемента
  * @param title текст на кнопке
  * @param backgroundColor цвет фона кнопки
+ * @param onClick коллбэк функция при нажатии на кнопку
+ * @param isDisabled если включено, то кнопка не срабатывает на нажатия
  */
 @Composable
 fun BigButton(
@@ -315,20 +319,24 @@ fun BigButton(
     title: String,
     backgroundColor: Color,
     onClick: () -> Unit = {},
+    isDisabled: Boolean = false,
+    disabledBackground: Color = Color.Gray,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     Box(
         modifier = modifier
             .fillMaxWidth()
             .background(
-                color = backgroundColor,
+                color = if(!isDisabled) backgroundColor else disabledBackground,
                 shape = CircleShape
             )
             .padding(top = 16.dp, bottom = 16.dp)
             .clickable(
                 interactionSource = interactionSource,
                 indication = null,
-                onClick = onClick
+                onClick = {
+                    if (!isDisabled) onClick()
+                }
             )
     ){
         Text(
@@ -341,6 +349,15 @@ fun BigButton(
                 .align(Alignment.Center)
         )
     }
+}
+
+@Composable
+@Preview
+fun BigButtonPreview() {
+    BigButton(
+        title = "Next",
+        backgroundColor = DarkBlue,
+    )
 }
 
 /**
@@ -453,6 +470,7 @@ fun BackButton(
         Icon(
             painter = painterResource(id = R.drawable.baseline_arrow_back_24),
             contentDescription = "Back",
+            tint = Color.White,
             modifier = modifier
                 .clickable(
                     interactionSource = interactionSource,

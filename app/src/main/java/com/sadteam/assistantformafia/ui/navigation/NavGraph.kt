@@ -6,15 +6,17 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.sadteam.assistantformafia.ui.appsettings.AppSettingsScreen
 import com.sadteam.assistantformafia.ui.appsettings.AppSettingsViewModel
+import com.sadteam.assistantformafia.ui.game.GameViewModel
 import com.sadteam.assistantformafia.ui.gamecreation.GameCreationScreen
 import com.sadteam.assistantformafia.ui.gamecreation.GameCreationViewModel
-import com.sadteam.assistantformafia.ui.introduction.IntroductionScreen
+import com.sadteam.assistantformafia.ui.game.introduction.IntroductionScreen
 import com.sadteam.assistantformafia.ui.roles.RolesScreen
 
 @Composable
 fun SetupNavGraph(
     navController: NavHostController,
     gameCreationViewModel: GameCreationViewModel,
+    gameViewModel: GameViewModel,
     appSettingsViewModel: AppSettingsViewModel,
 ) {
     NavHost(
@@ -51,7 +53,12 @@ fun SetupNavGraph(
         composable(
             route = Screen.Introduction.route,
         ) {
-            IntroductionScreen(navController = navController)
+            IntroductionScreen(
+                navController = navController,
+                initialState = gameCreationViewModel.state.value,
+                state = gameViewModel.state.value.distributionOfRoles,
+                onEvent = gameViewModel::onEvent
+            )
         }
     }
 }
