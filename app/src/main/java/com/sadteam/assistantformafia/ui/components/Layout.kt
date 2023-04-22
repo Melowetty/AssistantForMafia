@@ -1,51 +1,69 @@
 package com.sadteam.assistantformafia.ui.components
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
 import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.ui.theme.AssistantForMafiaTheme
+import com.sadteam.assistantformafia.ui.theme.DarkGreen
 
 @Composable
 fun MainLayout(
     navController: NavController,
     title: String,
+    backgroundColor: Color = DarkGreen,
+    backgroundContent: @Composable () -> Unit = {},
     content: @Composable () -> Unit,
 ) {
     AssistantForMafiaTheme {
         Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colors.background,
+            color = backgroundColor,
+            modifier = Modifier
+                .fillMaxSize()
+                .background(backgroundColor)
         ) {
-            Column(
-                modifier = Modifier.fillMaxSize(),
-            ) {
-                Header(
-                    title = title,
-                    navController = navController
-                )
+            Box(modifier = Modifier.fillMaxSize()) {
+                backgroundContent()
                 Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(
-                            top = 30.dp,
-                            end = 10.dp,
-                            bottom = 30.dp,
-                            start = 10.dp
-                        ),
-                    verticalArrangement = Arrangement.SpaceBetween
+                    modifier = Modifier.fillMaxSize(),
                 ) {
-                    content()
+                    Header(
+                        title = title,
+                        navController = navController
+                    )
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(
+                                top = 30.dp,
+                                end = 10.dp,
+                                bottom = 30.dp,
+                                start = 10.dp
+                            ),
+                        verticalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        content()
+                    }
                 }
             }
         }

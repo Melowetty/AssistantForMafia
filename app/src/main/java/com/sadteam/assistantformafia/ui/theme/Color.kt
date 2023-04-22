@@ -20,3 +20,4 @@ val LightGray = Color(0xFFC5C5C5)
 val BloodRed = Color(0xFFAB3428)
 
 val DarkBackground = Color(red = 0f, green = 0f, blue = 0f, alpha = 0.65f)
+val NightStageBackground = Color(0xFF181D49)

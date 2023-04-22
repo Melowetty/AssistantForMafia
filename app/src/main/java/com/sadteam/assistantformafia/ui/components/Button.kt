@@ -19,7 +19,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.painter.Painter
@@ -465,6 +464,7 @@ fun BackButton(
         Icon(
             painter = painterResource(id = R.drawable.baseline_arrow_back_24),
             contentDescription = "Back",
+            tint = Color.White,
             modifier = modifier
                 .clickable(
                     interactionSource = interactionSource,
