@@ -28,5 +28,5 @@
     <string name="stage">Stage:</string>
     <string name="night">Night</string>
     <string name="day">Day</string>
-    <string name="target">choose target:</string>
+    <string name="target">choose a target:</string>
 </resources>
