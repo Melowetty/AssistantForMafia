@@ -90,7 +90,7 @@ class GameCreationViewModel @Inject constructor(
         if (Utils.getRoleCountLimit(role, currentValue, state.value.players.size, state.value.distributedPlayers) > currentValue) {
             val roles = state.value.roles.toMutableMap()
             roles[role] = currentValue + 1
-            val canStart = state.value.distributedPlayers == state.value.players.size
+            val canStart = state.value.distributedPlayers + 1 == state.value.players.size
             state.value = state.value.copy(
                 roles = roles,
                 distributedPlayers = state.value.distributedPlayers + 1,
