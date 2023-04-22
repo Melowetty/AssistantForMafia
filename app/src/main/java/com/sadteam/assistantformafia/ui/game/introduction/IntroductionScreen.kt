@@ -18,6 +18,8 @@ import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.ui.components.BigButton
 import com.sadteam.assistantformafia.ui.components.Card
 import com.sadteam.assistantformafia.ui.components.MainLayout
+import com.sadteam.assistantformafia.ui.components.SelectRoleCard
+import com.sadteam.assistantformafia.ui.game.DistributionOfRolesState
 import com.sadteam.assistantformafia.ui.game.GameEvent
 import com.sadteam.assistantformafia.ui.game.GameState
 import com.sadteam.assistantformafia.ui.gamecreation.GameCreationState
@@ -29,7 +31,7 @@ import com.sadteam.assistantformafia.ui.theme.secondFontFamily
 fun IntroductionScreen(
     navController: NavController,
     initialState: GameCreationState,
-    state: GameState,
+    state: DistributionOfRolesState,
     onEvent: (GameEvent) -> Unit,
 ) {
     LaunchedEffect(key1 = Unit, block = {
@@ -47,7 +49,7 @@ fun IntroductionScreen(
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             Text(
-                text = stringResource(id = R.string.introduction_text) + " Mafia",
+                text = stringResource(id = R.string.introduction_text) + " " + state.targetRole?.getTranslatedName(),
                 modifier = Modifier
                     .fillMaxWidth(),
                 fontFamily = secondFontFamily,
@@ -55,10 +57,15 @@ fun IntroductionScreen(
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center
             )
-            for ((player, _) in state.players) {
-                Card(
-                    text = player.name,
-                    mainIcon = painterResource(id = R.drawable.add_a_photo)
+            for ((player, checked) in state.queuePlayers) {
+                SelectRoleCard(
+                    text = player.name.value,
+                    mainIcon = painterResource(id = R.drawable.add_a_photo),
+                    checked = checked,
+                    onCheckboxClicked = {
+                        if (it) onEvent(GameEvent.SetRole(player, state.targetRole))
+                        else onEvent(GameEvent.ClearRole(player))
+                    },
                 )
             }
         }
@@ -66,7 +73,9 @@ fun IntroductionScreen(
             title = stringResource(id = R.string.next),
             backgroundColor = DarkBlue,
             onClick = {
-                navController.navigate(route = Screen.Roles.route)
+                onEvent(
+                    GameEvent.NextSelectRole
+                )
             }
         )
     }

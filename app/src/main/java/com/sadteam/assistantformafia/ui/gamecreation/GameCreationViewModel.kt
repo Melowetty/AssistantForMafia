@@ -116,7 +116,7 @@ class GameCreationViewModel @Inject constructor(
 
     private fun setPlayerName(pos: Int, newName: String) {
         val players = state.value.players.toMutableList()
-        players[pos].name = newName
+        players[pos].name.value = newName
         state.value = state.value.copy(
             players = players
         )

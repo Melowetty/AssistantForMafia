@@ -172,15 +172,17 @@ fun Card(
  * @param text текст на карточке
  * @param mainIcon главная иконка (слева)
  * @param onClick callback-функция срабатывающая при клике на карточку
- * @param onMainIconClick callback-функция срабатывающая при клике на главную иконку
+ * @param checked значение чекбокса
+ * @param onCheckboxClicked callback-функция при клике на чекбокс
  */
 @Composable
-fun Card(
+fun SelectRoleCard(
     modifier: Modifier = Modifier,
     text: String,
     mainIcon: Painter,
     onClick: () -> Unit = {},
-    onMainIconClick: () -> Unit = {},
+    checked: Boolean = false,
+    onCheckboxClicked: (Boolean) -> Unit = {}
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     Row(
@@ -214,18 +216,11 @@ fun Card(
                         color = DarkBlue,
                         CircleShape,
                     )
-                    .padding(12.dp)
-                    .clickable(
-                        interactionSource = interactionSource,
-                        indication = null,
-                        onClick = {
-                            onMainIconClick()
-                        }
-                    ),
+                    .padding(12.dp),
             ) {
                 Icon(
                     painter = mainIcon,
-                    contentDescription = "main icon"
+                    contentDescription = "player icon"
                 )
             }
             Text(
@@ -234,12 +229,9 @@ fun Card(
                 fontSize = 20.sp,
             )
         }
-        var value by remember {
-            mutableStateOf(false)
-        }
         Checkbox(
-            checked = value,
-            onCheckedChange = { value = value.not() },
+            checked = checked,
+            onCheckedChange = onCheckboxClicked,
             colors = CheckboxDefaults.colors(
                 checkedColor = Color.White,
                 checkmarkColor = BloodRed
