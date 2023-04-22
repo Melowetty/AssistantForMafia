@@ -71,14 +71,25 @@ fun IntroductionScreen(
                 )
             }
         }
-        BigButton(
-            title = stringResource(id = R.string.next),
-            backgroundColor = DarkBlue,
-            onClick = {
-                onEvent(
-                    GameEvent.NextSelectRole
-                )
-            }
-        )
+        if(state.isEnd) {
+            BigButton(
+                title = stringResource(id = R.string.start),
+                backgroundColor = DarkBlue,
+                onClick = {
+                    // TODO start game
+                }
+            )
+        }
+        else {
+            BigButton(
+                title = stringResource(id = R.string.next),
+                backgroundColor = DarkBlue,
+                onClick = {
+                    onEvent(
+                        GameEvent.NextSelectRole
+                    )
+                }
+            )
+        }
     }
 }
