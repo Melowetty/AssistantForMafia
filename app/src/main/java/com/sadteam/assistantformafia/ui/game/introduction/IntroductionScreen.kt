@@ -25,6 +25,7 @@ import com.sadteam.assistantformafia.ui.game.GameState
 import com.sadteam.assistantformafia.ui.gamecreation.GameCreationState
 import com.sadteam.assistantformafia.ui.navigation.Screen
 import com.sadteam.assistantformafia.ui.theme.BloodRed
+import com.sadteam.assistantformafia.ui.theme.BlueDisabledBackground
 import com.sadteam.assistantformafia.ui.theme.DarkBlue
 import com.sadteam.assistantformafia.ui.theme.secondFontFamily
 
@@ -75,6 +76,8 @@ fun IntroductionScreen(
             BigButton(
                 title = stringResource(id = R.string.start),
                 backgroundColor = DarkBlue,
+                isDisabled = !state.canNext,
+                disabledBackground = BlueDisabledBackground,
                 onClick = {
                     // TODO start game
                 }
@@ -84,6 +87,8 @@ fun IntroductionScreen(
             BigButton(
                 title = stringResource(id = R.string.next),
                 backgroundColor = DarkBlue,
+                isDisabled = !state.canNext,
+                disabledBackground = BlueDisabledBackground,
                 onClick = {
                     onEvent(
                         GameEvent.NextSelectRole
