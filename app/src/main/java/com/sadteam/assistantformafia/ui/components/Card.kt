@@ -178,6 +178,7 @@ fun Card(
 @Composable
 fun SelectRoleCard(
     modifier: Modifier = Modifier,
+    backgroundColor: Color,
     text: String,
     mainIcon: Painter,
     onClick: () -> Unit = {},
@@ -189,7 +190,7 @@ fun SelectRoleCard(
         modifier = modifier
             .fillMaxWidth()
             .background(
-                color = BloodRed,
+                color = backgroundColor,
                 shape = RoundedCornerShape(10.dp)
             )
             .padding(horizontal = 10.dp, vertical = 8.dp)
