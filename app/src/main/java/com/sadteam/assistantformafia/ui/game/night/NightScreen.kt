@@ -63,7 +63,7 @@ fun NightScreen(
                 contentDescription = ""
             )
             Text(
-                text = "Миша гей " + stringResource(id = R.string.target),
+                text = "Mafia " + stringResource(id = R.string.target),
                 modifier = Modifier
                     .fillMaxWidth(),
                 fontFamily = secondFontFamily,
