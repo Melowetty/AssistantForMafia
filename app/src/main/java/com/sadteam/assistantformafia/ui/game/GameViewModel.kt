@@ -54,7 +54,8 @@ class GameViewModel @Inject constructor(
                 targetRole = roles.keys.elementAt(0),
                 nextRole = roles.keys.elementAt(1),
                 queuePlayers = players.mapValues { (_, _) -> false },
-                maxCount = roles.values.first()
+                maxCount = roles.values.first(),
+                indexTargetRole = 0,
             )
         )
     }
@@ -62,16 +63,16 @@ class GameViewModel @Inject constructor(
     private fun nextSelectRole() {
         val (targetRole, nextRole, _, _, _, indexTargetRole, _) =
             state.value.distributionOfRoles
-        if (indexTargetRole + 1 == state.value.rolesCount.size) {
+        val newIndexTargetRole = indexTargetRole + 1
+        val newNextRole = if(state.value.rolesCount.size == newIndexTargetRole + 1) null
+            else state.value.rolesCount.keys.elementAt(newIndexTargetRole + 1)
+        if(newNextRole == null) {
             state.value = state.value.copy(
                 distributionOfRoles = state.value.distributionOfRoles.copy(
                     isEnd = true
                 )
             )
-            return
         }
-        val newIndexTargetRole = indexTargetRole + 1
-        val newNextRole = state.value.rolesCount.keys.elementAt(newIndexTargetRole)
         val newMax = state.value.rolesCount[nextRole] ?: 0
         val queuePlayers = state.value.players.filter {
             it.value == null
