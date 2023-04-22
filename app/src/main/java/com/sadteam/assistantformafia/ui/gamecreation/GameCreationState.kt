@@ -8,4 +8,5 @@ data class GameCreationState(
     val players: List<Player> = List(MIN_PLAYERS_COUNT) { Player() },
     val roles: Map<Role, Int> = mapOf(),
     val distributedPlayers: Int = 0,
+    val canStart: Boolean = false,
 )

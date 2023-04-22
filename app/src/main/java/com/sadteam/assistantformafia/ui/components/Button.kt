@@ -310,6 +310,8 @@ fun ExtendedMenuButton(
  * @param modifier модификатор элемента
  * @param title текст на кнопке
  * @param backgroundColor цвет фона кнопки
+ * @param onClick коллбэк функция при нажатии на кнопку
+ * @param isDisabled если включено, то кнопка не срабатывает на нажатия
  */
 @Composable
 fun BigButton(
@@ -317,20 +319,24 @@ fun BigButton(
     title: String,
     backgroundColor: Color,
     onClick: () -> Unit = {},
+    isDisabled: Boolean = false,
+    disabledBackground: Color = Color.Gray,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     Box(
         modifier = modifier
             .fillMaxWidth()
             .background(
-                color = backgroundColor,
+                color = if(!isDisabled) backgroundColor else disabledBackground,
                 shape = CircleShape
             )
             .padding(top = 16.dp, bottom = 16.dp)
             .clickable(
                 interactionSource = interactionSource,
                 indication = null,
-                onClick = onClick
+                onClick = {
+                    if (!isDisabled) onClick()
+                }
             )
     ){
         Text(
