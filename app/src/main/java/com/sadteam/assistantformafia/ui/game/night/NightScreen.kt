@@ -19,21 +19,25 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.ui.components.BigButton
 import com.sadteam.assistantformafia.ui.components.MainLayout
+import com.sadteam.assistantformafia.ui.game.GameEvent
+import com.sadteam.assistantformafia.ui.game.GameState
 import com.sadteam.assistantformafia.ui.theme.DarkBlue
 import com.sadteam.assistantformafia.ui.theme.NightStageBackground
 import com.sadteam.assistantformafia.ui.theme.secondFontFamily
 
 @Composable
 fun NightScreen(
-    /*navController: NavController,
-    state: DistributionOfRolesState*/
+    navController: NavController,
+    state: GameState,
+    onEvent: (GameEvent) -> Unit,
 ) {
     MainLayout(
-        navController = rememberNavController(),
+        navController = navController,
         title = stringResource(id = R.string.stage) + " " + stringResource(id = R.string.night),
         backgroundColor = NightStageBackground,
         backgroundContent = {

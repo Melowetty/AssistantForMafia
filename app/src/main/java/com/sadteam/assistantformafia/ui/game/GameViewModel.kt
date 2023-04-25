@@ -32,6 +32,8 @@ class GameViewModel @Inject constructor(
                     setRole(event.player, event.role)
                 is GameEvent.ClearRole ->
                     setRole(event.player, null)
+                is GameEvent.StartGame ->
+                    startGame()
             }
         }
     }
@@ -113,6 +115,12 @@ class GameViewModel @Inject constructor(
                 queuePlayers = playersChecked,
                 canNext = canNext
             )
+        )
+    }
+
+    private fun startGame() {
+        state.value = state.value.copy(
+            distributionOfRoles = DistributionOfRolesState()
         )
     }
 }

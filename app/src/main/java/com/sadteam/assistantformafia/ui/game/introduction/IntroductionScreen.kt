@@ -79,7 +79,10 @@ fun IntroductionScreen(
                 isDisabled = !state.canNext,
                 disabledBackground = BlueDisabledBackground,
                 onClick = {
-                    // TODO start game
+                    onEvent(
+                        GameEvent.StartGame
+                    )
+                    navController.navigate(Screen.NightStage.route)
                 }
             )
         }

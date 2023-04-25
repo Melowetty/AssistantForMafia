@@ -10,6 +10,7 @@ import com.sadteam.assistantformafia.ui.game.GameViewModel
 import com.sadteam.assistantformafia.ui.gamecreation.GameCreationScreen
 import com.sadteam.assistantformafia.ui.gamecreation.GameCreationViewModel
 import com.sadteam.assistantformafia.ui.game.introduction.IntroductionScreen
+import com.sadteam.assistantformafia.ui.game.night.NightScreen
 import com.sadteam.assistantformafia.ui.roles.RolesScreen
 
 @Composable
@@ -57,6 +58,15 @@ fun SetupNavGraph(
                 navController = navController,
                 initialState = gameCreationViewModel.state.value,
                 state = gameViewModel.state.value.distributionOfRoles,
+                onEvent = gameViewModel::onEvent
+            )
+        }
+        composable(
+            route = Screen.NightStage.route
+        ) {
+            NightScreen(
+                navController = navController,
+                state = gameViewModel.state.value,
                 onEvent = gameViewModel::onEvent
             )
         }

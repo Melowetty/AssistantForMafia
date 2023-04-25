@@ -9,4 +9,5 @@ sealed class GameEvent {
     object NextSelectRole: GameEvent()
     data class SetRole(val player: Player, val role: Role?): GameEvent()
     data class ClearRole(val player: Player): GameEvent()
+    object StartGame: GameEvent()
 }
