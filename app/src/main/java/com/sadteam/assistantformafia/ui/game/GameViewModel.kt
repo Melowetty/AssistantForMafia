@@ -88,6 +88,7 @@ class GameViewModel @Inject constructor(
                 queuePlayers = queuePlayers,
                 indexTargetRole = newIndexTargetRole,
                 currentCount = 0,
+                canNext = false,
             )
         )
     }
