@@ -30,4 +30,5 @@
     <string name="night">Ночь</string>
     <string name="day">День</string>
     <string name="target">выбирает цель:</string>
+    <string name="start_voting">Начать голосование</string>
 </resources>

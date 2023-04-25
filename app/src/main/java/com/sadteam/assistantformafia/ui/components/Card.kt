@@ -221,13 +221,15 @@ fun SelectRoleCard(
             ) {
                 Icon(
                     painter = mainIcon,
-                    contentDescription = "player icon"
+                    contentDescription = "player icon",
+                    tint = Color.White,
                 )
             }
             Text(
                 text = text,
                 fontWeight = FontWeight.Bold,
                 fontSize = 20.sp,
+                color = Color.White
             )
         }
         Checkbox(

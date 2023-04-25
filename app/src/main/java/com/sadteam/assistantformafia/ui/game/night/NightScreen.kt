@@ -6,8 +6,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
@@ -24,8 +27,13 @@ import androidx.navigation.compose.rememberNavController
 import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.ui.components.BigButton
 import com.sadteam.assistantformafia.ui.components.MainLayout
+import com.sadteam.assistantformafia.ui.components.SelectRoleCard
 import com.sadteam.assistantformafia.ui.game.GameEvent
 import com.sadteam.assistantformafia.ui.game.GameState
+import com.sadteam.assistantformafia.ui.game.NightSelectState
+import com.sadteam.assistantformafia.ui.navigation.Screen
+import com.sadteam.assistantformafia.ui.theme.BloodRed
+import com.sadteam.assistantformafia.ui.theme.BlueDisabledBackground
 import com.sadteam.assistantformafia.ui.theme.DarkBlue
 import com.sadteam.assistantformafia.ui.theme.NightStageBackground
 import com.sadteam.assistantformafia.ui.theme.secondFontFamily
@@ -33,7 +41,7 @@ import com.sadteam.assistantformafia.ui.theme.secondFontFamily
 @Composable
 fun NightScreen(
     navController: NavController,
-    state: GameState,
+    state: NightSelectState,
     onEvent: (GameEvent) -> Unit,
 ) {
     MainLayout(
@@ -67,7 +75,7 @@ fun NightScreen(
                 contentDescription = ""
             )
             Text(
-                text = "Mafia " + stringResource(id = R.string.target),
+                text = state.targetRole?.getTranslatedName() + " " + stringResource(id = R.string.target),
                 modifier = Modifier
                     .fillMaxWidth(),
                 fontFamily = secondFontFamily,
@@ -76,11 +84,46 @@ fun NightScreen(
                 textAlign = TextAlign.Center,
                 color = Color.White
             )
+            Divider(
+                modifier = Modifier.height(5.dp),
+                color = Color.Transparent
+            )
+            for ((player, role) in state.queuePlayers) {
+                SelectRoleCard(
+                    backgroundColor = BloodRed,
+                    text = player.name.value,
+                    mainIcon = painterResource(id = R.drawable.add_a_photo),
+                    checked = player == state.targetPlayer,
+                    onCheckboxClicked = {
+                        if (it) onEvent(GameEvent.SelectNightTarget(player))
+                        else onEvent(GameEvent.ClearNightTarget(player))
+                    },
+                )
+            }
         }
-        BigButton(
-            title = stringResource(id = R.string.next),
-            backgroundColor = DarkBlue,
-            onClick = {}
-        )
+        if(state.isEnd) {
+            BigButton(
+                title = stringResource(id = R.string.start_voting),
+                backgroundColor = DarkBlue,
+                isDisabled = !state.canNext,
+                disabledBackground = BlueDisabledBackground,
+                onClick = {
+                    // todo day voting
+                }
+            )
+        }
+        else {
+            BigButton(
+                title = stringResource(id = R.string.next),
+                backgroundColor = DarkBlue,
+                isDisabled = !state.canNext,
+                disabledBackground = BlueDisabledBackground,
+                onClick = {
+                    onEvent(
+                        GameEvent.NextNightSelect
+                    )
+                }
+            )
+        }
     }
 }

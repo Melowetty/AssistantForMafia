@@ -29,4 +29,5 @@
     <string name="night">Night</string>
     <string name="day">Day</string>
     <string name="target">choose a target:</string>
+    <string name="start_voting">Start a voting</string>
 </resources>

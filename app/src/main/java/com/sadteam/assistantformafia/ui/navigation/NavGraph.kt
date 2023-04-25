@@ -66,7 +66,7 @@ fun SetupNavGraph(
         ) {
             NightScreen(
                 navController = navController,
-                state = gameViewModel.state.value,
+                state = gameViewModel.state.value.nightSelectState,
                 onEvent = gameViewModel::onEvent
             )
         }

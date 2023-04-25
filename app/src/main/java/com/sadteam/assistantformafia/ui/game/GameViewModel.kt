@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.data.models.Player
+import com.sadteam.assistantformafia.data.models.Possibility
 import com.sadteam.assistantformafia.data.models.Role
 import com.sadteam.assistantformafia.ui.gamecreation.GameCreationState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -32,8 +33,16 @@ class GameViewModel @Inject constructor(
                     setRole(event.player, event.role)
                 is GameEvent.ClearRole ->
                     setRole(event.player, null)
-                is GameEvent.StartGame ->
+                is GameEvent.StartGame -> {
                     startGame()
+                    initVoting()
+                }
+                is GameEvent.SelectNightTarget ->
+                    selectNightTarget(event.player)
+                is GameEvent.ClearNightTarget ->
+                    clearNightTarget(event.player)
+                is GameEvent.NextNightSelect ->
+                    nextNightSelect()
             }
         }
     }
@@ -122,6 +131,67 @@ class GameViewModel @Inject constructor(
     private fun startGame() {
         state.value = state.value.copy(
             distributionOfRoles = DistributionOfRolesState()
+        )
+    }
+
+    private fun initVoting() {
+        val roles = state.value.rolesCount.filter { it.key.possibilities.first() != Possibility.NONE }
+        val targetRole = roles.keys.elementAt(0)
+        val nextRole = roles.keys.elementAt(1)
+        val players = state.value.players
+        val queuePlayers = players.filter { it.value != targetRole }
+        state.value = state.value.copy(
+            nightSelectState = NightSelectState(
+                targetRole = targetRole,
+                nextRole = nextRole,
+                queuePlayers = queuePlayers
+            )
+        )
+    }
+
+    private fun selectNightTarget(player: Player) {
+        state.value = state.value.copy(
+            nightSelectState = state.value.nightSelectState.copy(
+                targetPlayer = player,
+                canNext = true,
+            )
+        )
+    }
+
+    private fun clearNightTarget(player: Player) {
+        state.value = state.value.copy(
+            nightSelectState = state.value.nightSelectState.copy(
+                targetPlayer = null,
+                canNext = false,
+            )
+        )
+    }
+
+    private fun nextNightSelect() {
+        val (targetRole, nextRole, _, _, indexTargetRole, _, _) =
+            state.value.nightSelectState
+        val roles = state.value.rolesCount.filter { it.key.possibilities.first() != Possibility.NONE }
+        val newIndexTargetRole = indexTargetRole + 1
+        val newNextRole = if(roles.size == newIndexTargetRole + 1) null
+        else roles.keys.elementAt(newIndexTargetRole + 1)
+        if(newNextRole == null) {
+            state.value = state.value.copy(
+                nightSelectState = state.value.nightSelectState.copy(
+                    isEnd = true
+                )
+            )
+        }
+        val players = state.value.players
+        val queuePlayers = players.filter { it.value != nextRole }
+        state.value = state.value.copy(
+            nightSelectState = state.value.nightSelectState.copy(
+                targetRole = nextRole,
+                targetPlayer = null,
+                nextRole = newNextRole,
+                queuePlayers = queuePlayers,
+                indexTargetRole = newIndexTargetRole,
+                canNext = false,
+            )
         )
     }
 }
