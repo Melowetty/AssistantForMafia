@@ -16,12 +16,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.ui.components.BigButton
-import com.sadteam.assistantformafia.ui.components.Card
 import com.sadteam.assistantformafia.ui.components.MainLayout
 import com.sadteam.assistantformafia.ui.components.SelectRoleCard
 import com.sadteam.assistantformafia.ui.game.DistributionOfRolesState
 import com.sadteam.assistantformafia.ui.game.GameEvent
-import com.sadteam.assistantformafia.ui.game.GameState
 import com.sadteam.assistantformafia.ui.gamecreation.GameCreationState
 import com.sadteam.assistantformafia.ui.navigation.Screen
 import com.sadteam.assistantformafia.ui.theme.BloodRed

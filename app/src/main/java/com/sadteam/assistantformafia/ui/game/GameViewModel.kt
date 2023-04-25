@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.data.models.Player
-import com.sadteam.assistantformafia.data.models.PlayerState
 import com.sadteam.assistantformafia.data.models.Possibility
 import com.sadteam.assistantformafia.data.models.Role
 import com.sadteam.assistantformafia.ui.gamecreation.GameCreationState
