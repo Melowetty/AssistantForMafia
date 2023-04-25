@@ -137,14 +137,17 @@ class GameViewModel @Inject constructor(
     private fun initVoting() {
         val roles = state.value.rolesCount.filter { it.key.possibilities.first() != Possibility.NONE }
         val targetRole = roles.keys.elementAt(0)
-        val nextRole = roles.keys.elementAt(1)
+        var isEnd = false
+        val nextRole = if (roles.size == 1) null else roles.keys.elementAt(1)
+        if (nextRole == null) isEnd = true
         val players = state.value.players
         val queuePlayers = players.filter { it.value != targetRole }
         state.value = state.value.copy(
             nightSelectState = NightSelectState(
                 targetRole = targetRole,
                 nextRole = nextRole,
-                queuePlayers = queuePlayers
+                queuePlayers = queuePlayers,
+                isEnd = isEnd,
             )
         )
     }
