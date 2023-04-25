@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.data.models.Player
+import com.sadteam.assistantformafia.data.models.PlayerState
 import com.sadteam.assistantformafia.data.models.Possibility
 import com.sadteam.assistantformafia.data.models.Role
 import com.sadteam.assistantformafia.ui.gamecreation.GameCreationState
@@ -168,8 +169,9 @@ class GameViewModel @Inject constructor(
     }
 
     private fun nextNightSelect() {
-        val (targetRole, nextRole, _, _, indexTargetRole, _, _) =
+        val (targetRole, nextRole, _, targetPlayer, indexTargetRole, _, _, actions) =
             state.value.nightSelectState
+        val newActions = actions.toMutableMap()
         val roles = state.value.rolesCount.filter { it.key.possibilities.first() != Possibility.NONE }
         val newIndexTargetRole = indexTargetRole + 1
         val newNextRole = if(roles.size == newIndexTargetRole + 1) null
@@ -191,7 +193,17 @@ class GameViewModel @Inject constructor(
                 queuePlayers = queuePlayers,
                 indexTargetRole = newIndexTargetRole,
                 canNext = false,
+                actions = newActions,
             )
         )
     }
+
+//    private fun actionToPlayer(player: Player, currentPlayerState: PlayerState, targetRole: Role): PlayerState {
+//        when (targetRole.possibilities.first()) {
+//            Possibility.KILL -> {
+//                if (currentPlayerState == PlayerState.HEALED) return PlayerState.HEALED
+//                else return PlayerState.KILLED
+//            }
+//        }
+//    }
 }
