@@ -2,6 +2,7 @@ package com.sadteam.assistantformafia
 
 import com.sadteam.assistantformafia.data.models.Possibility
 import com.sadteam.assistantformafia.data.Converters
+import com.sadteam.assistantformafia.data.models.RoleType
 import org.junit.Assert.assertEquals
 import org.junit.Test
 import java.util.Locale
@@ -53,5 +54,12 @@ class ConvertersUnitTests {
         )
         assertEquals(Converters().fromTranslatorMap(data), "ru_RU:Mafia|en_US:Comissar")
         assertEquals(Converters().toTranslatorMap("ru_RU:Mafia|en_US:Comissar"), data)
+    }
+
+    @Test
+    fun checkConvertingRoleType() {
+        val roleType = "COMMON"
+        assertEquals(Converters().fromRoleType(roleType = RoleType.COMMON), roleType)
+        assertEquals(Converters().toRoleType(roleType), RoleType.COMMON)
     }
 }

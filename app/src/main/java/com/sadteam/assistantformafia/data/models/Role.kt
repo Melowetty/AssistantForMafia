@@ -1,5 +1,6 @@
 package com.sadteam.assistantformafia.data.models
 
+import androidx.compose.ui.graphics.Color
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.Locale
@@ -15,6 +16,7 @@ data class Role(
     val min: Int,
     val max: Int = Int.MAX_VALUE,
     val possibilities: List<Possibility>,
+    val roleType: RoleType,
 ) {
     fun getTranslatedName(): String {
         var translatedName = name[Locale.getDefault()]
@@ -30,5 +32,13 @@ data class Role(
             translatedDescription = defaultDescription
         }
         return translatedDescription
+    }
+
+    fun getBackgroundColor(): Color {
+        return roleType.backgroundColor
+    }
+
+    fun getTextColor(): Color {
+        return roleType.textColor
     }
 }

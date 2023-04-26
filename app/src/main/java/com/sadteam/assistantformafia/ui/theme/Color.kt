@@ -22,3 +22,14 @@ val BloodRed = Color(0xFFAB3428)
 val DarkBackground = Color(red = 0f, green = 0f, blue = 0f, alpha = 0.65f)
 val NightStageBackground = Color(0xFF181D49)
 val BlueDisabledBackground = Color(0xFF677379).copy(alpha = 0.8f)
+
+val CommonRoleBackgroundColor = Color(0xFF5D9A40)
+val PeacefulRoleBackgroundColor = Color(0xFF7D4CA4)
+val EnemyRoleBackgroundColor = Color(0xFFAB3428)
+
+val CommonRoleTextColor = CommonRoleBackgroundColor
+val PeacefulRoleTextColor = PeacefulRoleBackgroundColor
+val EnemyRoleTextColor = EnemyRoleBackgroundColor
+
+val BaseRoleBackgroundColor = Color(0xFF999999)
+val BaseRoleTextColor = BaseRoleBackgroundColor

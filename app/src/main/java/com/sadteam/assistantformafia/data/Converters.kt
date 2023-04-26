@@ -2,6 +2,7 @@ package com.sadteam.assistantformafia.data
 
 import androidx.room.TypeConverter
 import com.sadteam.assistantformafia.data.models.Possibility
+import com.sadteam.assistantformafia.data.models.RoleType
 import java.util.Locale
 
 class Converters {
@@ -43,5 +44,15 @@ class Converters {
             translator.put(Locale(language, country), value)
         }
         return translator
+    }
+
+    @TypeConverter
+    fun fromRoleType(roleType: RoleType): String {
+        return roleType.toString()
+    }
+
+    @TypeConverter
+    fun toRoleType(roleType: String): RoleType {
+        return RoleType.valueOf(roleType)
     }
 }
