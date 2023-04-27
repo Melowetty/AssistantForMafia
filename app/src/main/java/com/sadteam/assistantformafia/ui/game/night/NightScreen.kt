@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
@@ -40,6 +41,11 @@ fun NightScreen(
     state: NightSelectState,
     onEvent: (GameEvent) -> Unit,
 ) {
+    LaunchedEffect(key1 = Unit, block = {
+        onEvent(
+            GameEvent.StartGame
+        )
+    })
     MainLayout(
         navController = navController,
         title = stringResource(id = R.string.stage) + " " + stringResource(id = R.string.night),

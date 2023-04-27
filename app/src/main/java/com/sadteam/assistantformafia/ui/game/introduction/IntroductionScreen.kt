@@ -1,11 +1,15 @@
 package com.sadteam.assistantformafia.ui.game.introduction
 
+import androidx.compose.animation.Animatable
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -22,6 +26,7 @@ import com.sadteam.assistantformafia.ui.game.DistributionOfRolesState
 import com.sadteam.assistantformafia.ui.game.GameEvent
 import com.sadteam.assistantformafia.ui.gamecreation.GameCreationState
 import com.sadteam.assistantformafia.ui.navigation.Screen
+import com.sadteam.assistantformafia.ui.theme.BaseRoleBackgroundColor
 import com.sadteam.assistantformafia.ui.theme.BloodRed
 import com.sadteam.assistantformafia.ui.theme.BlueDisabledBackground
 import com.sadteam.assistantformafia.ui.theme.DarkBlue
@@ -57,12 +62,21 @@ fun IntroductionScreen(
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Center
             )
-            for ((player, checked) in state.queuePlayers) {
+            for ((player, isChecked) in state.queuePlayers) {
+                val backgroundColor = remember {
+                    Animatable(BaseRoleBackgroundColor)
+                }
+
+                LaunchedEffect(key1 = isChecked, block = {
+                    (if (isChecked) state.targetRole?.getBackgroundColor()
+                    else BaseRoleBackgroundColor)?.let { backgroundColor.animateTo(it,
+                        animationSpec = tween(400, easing = FastOutSlowInEasing)) }
+                })
                 SelectRoleCard(
-                    backgroundColor = BloodRed,
+                    backgroundColor = backgroundColor.value,
                     text = player.name.value,
                     mainIcon = painterResource(id = R.drawable.add_a_photo),
-                    checked = checked,
+                    checked = isChecked,
                     onCheckboxClicked = {
                         if (it) onEvent(GameEvent.SetRole(player, state.targetRole))
                         else onEvent(GameEvent.ClearRole(player))
@@ -78,9 +92,6 @@ fun IntroductionScreen(
                 disabledBackground = BlueDisabledBackground,
                 onClick = {
                     navController.navigate(Screen.NightStage.route)
-                    onEvent(
-                        GameEvent.StartGame
-                    )
                 }
             )
         }

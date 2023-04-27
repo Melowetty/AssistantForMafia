@@ -34,8 +34,7 @@ class GameViewModel @Inject constructor(
                 is GameEvent.ClearRole ->
                     setRole(event.player, null)
                 is GameEvent.StartGame -> {
-                    startGame()
-                    initVoting()
+                    initNightVoting()
                 }
                 is GameEvent.SelectNightTarget ->
                     selectNightTarget(event.player)
@@ -134,7 +133,7 @@ class GameViewModel @Inject constructor(
         )
     }
 
-    private fun initVoting() {
+    private fun initNightVoting() {
         val roles = state.value.rolesCount.filter { it.key.possibilities.first() != Possibility.NONE }
         val targetRole = roles.keys.elementAt(0)
         var isEnd = false
@@ -148,7 +147,7 @@ class GameViewModel @Inject constructor(
                 nextRole = nextRole,
                 queuePlayers = queuePlayers,
                 isEnd = isEnd,
-            )
+            ),
         )
     }
 
