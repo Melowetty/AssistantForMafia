@@ -29,6 +29,7 @@ import com.sadteam.assistantformafia.ui.components.MainLayout
 import com.sadteam.assistantformafia.ui.components.SelectRoleCard
 import com.sadteam.assistantformafia.ui.game.GameEvent
 import com.sadteam.assistantformafia.ui.game.NightSelectState
+import com.sadteam.assistantformafia.ui.theme.BaseRoleBackgroundColor
 import com.sadteam.assistantformafia.ui.theme.BloodRed
 import com.sadteam.assistantformafia.ui.theme.BlueDisabledBackground
 import com.sadteam.assistantformafia.ui.theme.DarkBlue
@@ -92,7 +93,7 @@ fun NightScreen(
             )
             for ((player, role) in state.queuePlayers) {
                 SelectRoleCard(
-                    backgroundColor = BloodRed,
+                    backgroundColor = role?.getBackgroundColor()?: BaseRoleBackgroundColor,
                     text = player.name.value,
                     mainIcon = painterResource(id = R.drawable.add_a_photo),
                     checked = player == state.targetPlayer,
