@@ -11,10 +11,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.ParagraphStyle
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -30,6 +36,7 @@ import com.sadteam.assistantformafia.ui.theme.BaseRoleBackgroundColor
 import com.sadteam.assistantformafia.ui.theme.BloodRed
 import com.sadteam.assistantformafia.ui.theme.BlueDisabledBackground
 import com.sadteam.assistantformafia.ui.theme.DarkBlue
+import com.sadteam.assistantformafia.ui.theme.primaryFontFamily
 import com.sadteam.assistantformafia.ui.theme.secondFontFamily
 
 @Composable
@@ -54,13 +61,31 @@ fun IntroductionScreen(
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             Text(
-                text = stringResource(id = R.string.introduction_text) + " " + state.targetRole?.getTranslatedName(),
-                modifier = Modifier
-                    .fillMaxWidth(),
-                fontFamily = secondFontFamily,
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                modifier = Modifier.fillMaxWidth(),
+                text = buildAnnotatedString {
+                    withStyle(style = ParagraphStyle(lineHeight = 32.sp)) {
+                        withStyle(
+                            style = SpanStyle(
+                                fontSize = 24.sp,
+                                fontFamily = primaryFontFamily,
+                                fontWeight = FontWeight.Bold,
+                                color = Color.White,
+                            )
+                        ) {
+                            append(stringResource(id = R.string.introduction_text))
+                            append("\n")
+                            withStyle(
+                                style = SpanStyle(
+                                    color = state.targetRole?.getTextColor() ?: Color.White,
+                                    fontSize = 26.sp
+                                ),
+                            ) {
+                                append(state.targetRole?.getTranslatedName() ?: "None")
+                            }
+                        }
+                    }
+                }
             )
             for ((player, isChecked) in state.queuePlayers) {
                 val backgroundColor = remember {

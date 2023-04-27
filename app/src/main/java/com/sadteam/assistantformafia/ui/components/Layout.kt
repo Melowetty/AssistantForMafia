@@ -13,13 +13,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.sadteam.assistantformafia.ui.theme.AssistantForMafiaTheme
-import com.sadteam.assistantformafia.ui.theme.DarkGreen
+import com.sadteam.assistantformafia.ui.theme.MainBackground
 
 @Composable
 fun MainLayout(
     navController: NavController,
     title: String,
-    backgroundColor: Color = DarkGreen,
+    backgroundColor: Color = MainBackground,
     backgroundContent: @Composable () -> Unit = {},
     content: @Composable () -> Unit,
 ) {

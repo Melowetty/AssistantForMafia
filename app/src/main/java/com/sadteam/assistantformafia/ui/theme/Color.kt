@@ -13,6 +13,7 @@ val SettingsDescription = Color(0xFFE6D5D5)
 val SettingsBackground = Color(0xFFAB3428)
 val SettingsTitle = Color(0xFFF5F5F5)
 
+val Ocean = Color(0xFF23395D)
 val DarkGreen = Color(0xFF18545C)
 val DarkBlue = Color(0xFF132C3A)
 val Gray = Color(0xFF727374)
@@ -20,6 +21,7 @@ val LightGray = Color(0xFFC5C5C5)
 val BloodRed = Color(0xFFAB3428)
 
 val DarkBackground = Color(red = 0f, green = 0f, blue = 0f, alpha = 0.65f)
+val MainBackground = DarkGreen
 val NightStageBackground = Color(0xFF181D49)
 val BlueDisabledBackground = Color(0xFF677379).copy(alpha = 0.8f)
 
@@ -27,9 +29,9 @@ val CommonRoleBackgroundColor = Color(0xFF5D9A40)
 val PeacefulRoleBackgroundColor = Color(0xFF7D4CA4)
 val EnemyRoleBackgroundColor = Color(0xFFAB3428)
 
-val CommonRoleTextColor = CommonRoleBackgroundColor
-val PeacefulRoleTextColor = PeacefulRoleBackgroundColor
-val EnemyRoleTextColor = EnemyRoleBackgroundColor
+val CommonRoleTextColor = Color(0xFF64D32F)
+val PeacefulRoleTextColor = Color(0xFFB961FF)
+val EnemyRoleTextColor = Color(0xFFCC2B48)
 
 val BaseRoleBackgroundColor = Color(0xFF999999)
 val BaseRoleTextColor = BaseRoleBackgroundColor
