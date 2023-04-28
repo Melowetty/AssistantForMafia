@@ -7,11 +7,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -27,7 +25,6 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -40,13 +37,10 @@ import com.sadteam.assistantformafia.ui.components.SelectRoleCard
 import com.sadteam.assistantformafia.ui.game.GameEvent
 import com.sadteam.assistantformafia.ui.game.NightSelectState
 import com.sadteam.assistantformafia.ui.theme.BaseRoleBackgroundColor
-import com.sadteam.assistantformafia.ui.theme.BloodRed
-import com.sadteam.assistantformafia.ui.theme.DarkBlue
 import com.sadteam.assistantformafia.ui.theme.DisabledSecondaryBackground
 import com.sadteam.assistantformafia.ui.theme.NightStageBackground
 import com.sadteam.assistantformafia.ui.theme.SecondaryBackground
 import com.sadteam.assistantformafia.ui.theme.primaryFontFamily
-import com.sadteam.assistantformafia.ui.theme.secondFontFamily
 
 @Composable
 fun NightScreen(
