@@ -8,8 +8,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -61,7 +63,7 @@ fun CustomPopup(
             properties = PopupProperties(focusable = true),
         ) {
             Box(
-                modifier = modifier
+                modifier = Modifier
                     .fillMaxSize()
                     .background(
                         color = DarkBackground,
@@ -75,7 +77,7 @@ fun CustomPopup(
                 contentAlignment = Alignment.Center,
             ) {
                 Column(
-                    modifier = Modifier
+                    modifier = modifier
                         .fillMaxWidth()
                         .wrapContentHeight()
                         .background(color = PopupBackground, shape = RoundedCornerShape(10))
@@ -119,9 +121,9 @@ fun CustomPopup(
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 30.dp)
-                            .verticalScroll(rememberScrollState()),
-                        verticalArrangement = Arrangement.spacedBy(18.dp),
+                            .wrapContentHeight()
+                            .padding(horizontal = 30.dp),
+                        verticalArrangement = Arrangement.spacedBy(12.dp),
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
                         content()

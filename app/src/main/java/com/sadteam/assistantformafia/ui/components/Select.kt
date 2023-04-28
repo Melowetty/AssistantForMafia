@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -107,6 +108,7 @@ fun SelectCountPopup(
 @Composable
 fun SelectCount(
     modifier: Modifier = Modifier,
+    popupModifier: Modifier = Modifier.wrapContentHeight(),
     title: String,
     value: Int,
     min: Int = Int.MIN_VALUE,
@@ -130,6 +132,7 @@ fun SelectCount(
         )
         SelectCountPopup(
             title = title,
+            modifier = popupModifier,
             value = value,
             min = min,
             max = max,
@@ -158,6 +161,7 @@ fun SelectCount(
 @Composable
 fun SelectCount(
     modifier: Modifier = Modifier,
+    popupModifier: Modifier = Modifier.wrapContentHeight(),
     title: String,
     value: Int,
     min: Int = Int.MIN_VALUE,
@@ -181,6 +185,7 @@ fun SelectCount(
         )
         SelectCountPopup(
             title = title,
+            modifier = popupModifier,
             value = value,
             min = min,
             max = max,
