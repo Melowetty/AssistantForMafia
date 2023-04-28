@@ -5,7 +5,12 @@ import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -25,6 +30,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.sadteam.assistantformafia.R
+import com.sadteam.assistantformafia.data.models.Player
+import com.sadteam.assistantformafia.ui.components.AnimatedPlayerCard
 import com.sadteam.assistantformafia.ui.components.BigButton
 import com.sadteam.assistantformafia.ui.components.MainLayout
 import com.sadteam.assistantformafia.ui.components.SelectRoleCard
@@ -34,8 +41,9 @@ import com.sadteam.assistantformafia.ui.gamecreation.GameCreationState
 import com.sadteam.assistantformafia.ui.navigation.Screen
 import com.sadteam.assistantformafia.ui.theme.BaseRoleBackgroundColor
 import com.sadteam.assistantformafia.ui.theme.BloodRed
-import com.sadteam.assistantformafia.ui.theme.BlueDisabledBackground
 import com.sadteam.assistantformafia.ui.theme.DarkBlue
+import com.sadteam.assistantformafia.ui.theme.DisabledSecondaryBackground
+import com.sadteam.assistantformafia.ui.theme.SecondaryBackground
 import com.sadteam.assistantformafia.ui.theme.primaryFontFamily
 import com.sadteam.assistantformafia.ui.theme.secondFontFamily
 
@@ -53,7 +61,7 @@ fun IntroductionScreen(
     })
     MainLayout(
         navController = navController,
-        title = stringResource(id = R.string.roles)
+        title = "${stringResource(id = R.string.stage)} ${stringResource(id = R.string.introduction)}"
     ) {
         Column(
             modifier = Modifier
@@ -87,51 +95,54 @@ fun IntroductionScreen(
                     }
                 }
             )
-            for ((player, isChecked) in state.queuePlayers) {
-                val backgroundColor = remember {
-                    Animatable(BaseRoleBackgroundColor)
+            Column(modifier = Modifier.fillMaxSize()) {
+                LazyColumn(
+                    modifier = Modifier.weight(1f),
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    itemsIndexed(state.queuePlayers) {_: Int, item: Player ->
+                        AnimatedPlayerCard(
+                            startBackgroundColor = BaseRoleBackgroundColor,
+                            backgroundColor = state.targetRole?.getBackgroundColor() ?: BaseRoleBackgroundColor,
+                            text = item.name.value,
+                            mainIcon = painterResource(id = R.drawable.add_a_photo),
+                            isChecked = item.isSelected,
+                            onCheckboxClicked = {
+                                if (it) onEvent(GameEvent.SetRole(item, state.targetRole))
+                                else onEvent(GameEvent.ClearRole(item))
+                            },
+                        )
+                    }
                 }
-
-                LaunchedEffect(key1 = isChecked, block = {
-                    (if (isChecked) state.targetRole?.getBackgroundColor()
-                    else BaseRoleBackgroundColor)?.let { backgroundColor.animateTo(it,
-                        animationSpec = tween(400, easing = FastOutSlowInEasing)) }
-                })
-                SelectRoleCard(
-                    backgroundColor = backgroundColor.value,
-                    text = player.name.value,
-                    mainIcon = painterResource(id = R.drawable.add_a_photo),
-                    checked = isChecked,
-                    onCheckboxClicked = {
-                        if (it) onEvent(GameEvent.SetRole(player, state.targetRole))
-                        else onEvent(GameEvent.ClearRole(player))
-                    },
+                Divider(
+                    modifier = Modifier.height(15.dp),
+                    color = Color.Transparent
                 )
-            }
-        }
-        if(state.isEnd) {
-            BigButton(
-                title = stringResource(id = R.string.start),
-                backgroundColor = DarkBlue,
-                isDisabled = !state.canNext,
-                disabledBackground = BlueDisabledBackground,
-                onClick = {
-                    navController.navigate(Screen.NightStage.route)
-                }
-            )
-        }
-        else {
-            BigButton(
-                title = stringResource(id = R.string.next),
-                backgroundColor = DarkBlue,
-                isDisabled = !state.canNext,
-                disabledBackground = BlueDisabledBackground,
-                onClick = {
-                    onEvent(
-                        GameEvent.NextSelectRole
+                if(state.isEnd) {
+                    BigButton(
+                        title = stringResource(id = R.string.start),
+                        backgroundColor = SecondaryBackground,
+                        isDisabled = !state.canNext,
+                        disabledBackground = DisabledSecondaryBackground,
+                        onClick = {
+                            navController.navigate(Screen.NightStage.route)
+                        }
                     )
                 }
-            )
+                else {
+                    BigButton(
+                        title = stringResource(id = R.string.next),
+                        backgroundColor = SecondaryBackground,
+                        isDisabled = !state.canNext,
+                        disabledBackground = DisabledSecondaryBackground,
+                        onClick = {
+                            onEvent(
+                                GameEvent.NextSelectRole
+                            )
+                        }
+                    )
+                }
+            }
         }
     }
 }

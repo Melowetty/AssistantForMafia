@@ -79,6 +79,7 @@ fun MenuButton(
             Icon(
                 bitmap = icon,
                 contentDescription = title,
+                tint = Color.White,
                 modifier = Modifier
                     .width(25.dp)
                     .height(25.dp)
@@ -86,6 +87,7 @@ fun MenuButton(
             Text(
                 text = title,
                 fontFamily = secondFontFamily,
+                color = Color.White,
                 fontWeight = FontWeight.Bold,
                 fontSize = 24.sp
             )
@@ -97,10 +99,12 @@ fun MenuButton(
                 text = currentValue,
                 fontFamily = secondFontFamily,
                 fontWeight = FontWeight.Bold,
+                color = Color.White,
                 fontSize = 24.sp
             )
             Icon(
                 painter = painterResource(id = R.drawable.ic_baseline_arrow_forward_ios_24),
+                tint = Color.White,
                 contentDescription = stringResource(id = R.string.more_detail),
                 modifier = Modifier
                     .width(25.dp)
@@ -151,6 +155,7 @@ fun MenuButton(
             Icon(
                 painter = icon,
                 contentDescription = title,
+                tint = Color.White,
                 modifier = Modifier
                     .width(25.dp)
                     .height(25.dp)
@@ -158,6 +163,7 @@ fun MenuButton(
             Text(
                 text = title,
                 fontFamily = secondFontFamily,
+                color = Color.White,
                 fontWeight = FontWeight.Bold,
                 fontSize = 24.sp
             )
@@ -169,10 +175,12 @@ fun MenuButton(
                 text = currentValue,
                 fontFamily = secondFontFamily,
                 fontWeight = FontWeight.Bold,
+                color = Color.White,
                 fontSize = 24.sp
             )
             Icon(
                 painter = painterResource(id = R.drawable.ic_baseline_arrow_forward_ios_24),
+                tint = Color.White,
                 contentDescription = stringResource(id = R.string.more_detail),
                 modifier = Modifier
                     .width(25.dp)

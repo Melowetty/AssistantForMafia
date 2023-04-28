@@ -30,7 +30,7 @@ class StartSetRoles {
             name = translatedWordsToMap(
                 "Комиссар",
             ),
-            defaultName = "Comissar",
+            defaultName = "Detective",
             description = mapOf(),
             defaultDescription = "",
             possibilities = listOf(Possibility.CHECK_ROLE),

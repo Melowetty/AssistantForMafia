@@ -22,8 +22,9 @@ import com.sadteam.assistantformafia.ui.components.MenuButton
 import com.sadteam.assistantformafia.ui.components.PlayerNameKeyboard
 import com.sadteam.assistantformafia.ui.components.SelectCount
 import com.sadteam.assistantformafia.ui.navigation.Screen
-import com.sadteam.assistantformafia.ui.theme.BlueDisabledBackground
 import com.sadteam.assistantformafia.ui.theme.DarkBlue
+import com.sadteam.assistantformafia.ui.theme.DisabledSecondaryBackground
+import com.sadteam.assistantformafia.ui.theme.SecondaryBackground
 
 /**
  * Экран создания игры
@@ -102,9 +103,9 @@ fun GameCreationScreen(
         }
         BigButton(
             title = stringResource(id = R.string.start),
-            backgroundColor = DarkBlue,
+            backgroundColor = SecondaryBackground,
             isDisabled = !state.canStart,
-            disabledBackground = BlueDisabledBackground,
+            disabledBackground = DisabledSecondaryBackground,
             onClick = {
                 navController.navigate(route = Screen.Introduction.route)
             }

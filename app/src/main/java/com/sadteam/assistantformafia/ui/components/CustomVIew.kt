@@ -34,6 +34,7 @@ import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.ui.theme.BloodRed
 import com.sadteam.assistantformafia.ui.theme.DarkBackground
 import com.sadteam.assistantformafia.ui.theme.DarkGreen
+import com.sadteam.assistantformafia.ui.theme.PopupBackground
 import com.sadteam.assistantformafia.ui.theme.secondFontFamily
 
 /**
@@ -77,7 +78,7 @@ fun CustomPopup(
                     modifier = Modifier
                         .fillMaxWidth()
                         .wrapContentHeight()
-                        .background(color = DarkGreen, shape = RoundedCornerShape(10))
+                        .background(color = PopupBackground, shape = RoundedCornerShape(10))
                         .padding(vertical = 10.dp)
                         .clickable(
                             interactionSource = interactionSource,
@@ -105,6 +106,7 @@ fun CustomPopup(
                         Icon(
                             painter = painterResource(id = R.drawable.close),
                             contentDescription = "close popup",
+                            tint = Color.White,
                             modifier = Modifier
                                 .clickable(
                                     interactionSource = interactionSource,

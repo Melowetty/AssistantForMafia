@@ -1,5 +1,9 @@
 package com.sadteam.assistantformafia.ui.components
 
+import android.annotation.SuppressLint
+import androidx.compose.animation.Animatable
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -19,15 +23,20 @@ import androidx.compose.material.CheckboxDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.sadteam.assistantformafia.R
+import com.sadteam.assistantformafia.ui.game.GameEvent
+import com.sadteam.assistantformafia.ui.theme.BaseRoleBackgroundColor
 import com.sadteam.assistantformafia.ui.theme.BloodRed
 import com.sadteam.assistantformafia.ui.theme.DarkBlue
 
@@ -133,6 +142,7 @@ fun Card(
             ) {
                 Icon(
                     painter = mainIcon,
+                    tint = Color.White,
                     contentDescription = "main icon"
                 )
             }
@@ -158,7 +168,7 @@ fun Card(
                 painter = secondIcon,
                 contentDescription = "second icon",
                 modifier = Modifier.size(20.dp),
-                tint = Color.Black
+                tint = Color.White.copy(alpha = 0.8f)
             )
         }
     }
@@ -235,4 +245,33 @@ fun SelectRoleCard(
             )
         )
     }
+}
+
+@Composable
+fun AnimatedPlayerCard(
+    startBackgroundColor: Color,
+    backgroundColor: Color,
+    isChecked: Boolean,
+    text: String,
+    mainIcon: Painter,
+    onCheckboxClicked: (Boolean) -> Unit,
+) {
+    val animatedBackgroundColor = remember {
+        Animatable(startBackgroundColor)
+    }
+
+    LaunchedEffect(key1 = isChecked, block = {
+        animatedBackgroundColor.animateTo(
+            if (isChecked) backgroundColor else startBackgroundColor,
+            animationSpec = tween(400, easing = FastOutSlowInEasing
+            )
+        )
+    })
+    SelectRoleCard(
+        backgroundColor = animatedBackgroundColor.value,
+        text = text,
+        mainIcon = mainIcon,
+        checked = isChecked,
+        onCheckboxClicked = onCheckboxClicked,
+    )
 }

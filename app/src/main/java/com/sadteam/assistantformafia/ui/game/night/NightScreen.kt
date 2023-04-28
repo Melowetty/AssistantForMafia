@@ -7,6 +7,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Divider
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -29,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.sadteam.assistantformafia.R
+import com.sadteam.assistantformafia.data.models.Player
 import com.sadteam.assistantformafia.ui.components.BigButton
 import com.sadteam.assistantformafia.ui.components.MainLayout
 import com.sadteam.assistantformafia.ui.components.SelectRoleCard
@@ -36,9 +39,10 @@ import com.sadteam.assistantformafia.ui.game.GameEvent
 import com.sadteam.assistantformafia.ui.game.NightSelectState
 import com.sadteam.assistantformafia.ui.theme.BaseRoleBackgroundColor
 import com.sadteam.assistantformafia.ui.theme.BloodRed
-import com.sadteam.assistantformafia.ui.theme.BlueDisabledBackground
 import com.sadteam.assistantformafia.ui.theme.DarkBlue
+import com.sadteam.assistantformafia.ui.theme.DisabledSecondaryBackground
 import com.sadteam.assistantformafia.ui.theme.NightStageBackground
+import com.sadteam.assistantformafia.ui.theme.SecondaryBackground
 import com.sadteam.assistantformafia.ui.theme.primaryFontFamily
 import com.sadteam.assistantformafia.ui.theme.secondFontFamily
 
@@ -113,42 +117,56 @@ fun NightScreen(
                 modifier = Modifier.height(5.dp),
                 color = Color.Transparent
             )
-            for ((player, role) in state.queuePlayers) {
-                SelectRoleCard(
-                    backgroundColor = role?.getBackgroundColor()?: BaseRoleBackgroundColor,
-                    text = player.name.value,
-                    mainIcon = painterResource(id = R.drawable.add_a_photo),
-                    checked = player == state.targetPlayer,
-                    onCheckboxClicked = {
-                        if (it) onEvent(GameEvent.SelectNightTarget(player))
-                        else onEvent(GameEvent.ClearNightTarget(player))
-                    },
-                )
-            }
-        }
-        if(state.isEnd) {
-            BigButton(
-                title = stringResource(id = R.string.start_voting),
-                backgroundColor = DarkBlue,
-                isDisabled = !state.canNext,
-                disabledBackground = BlueDisabledBackground,
-                onClick = {
-                    // todo day voting
+            Column(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                LazyColumn(
+                    modifier = Modifier.weight(1f),
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    itemsIndexed(state.queuePlayers){index: Int, item: Player ->
+                        SelectRoleCard(
+                            backgroundColor = item.role?.getBackgroundColor()?: BaseRoleBackgroundColor,
+                            text = item.name.value,
+                            mainIcon = painterResource(id = R.drawable.add_a_photo),
+                            checked = index == state.targetPlayerIndex,
+                            onCheckboxClicked = {
+                                if (it) onEvent(GameEvent.SelectNightTarget(index))
+                                else onEvent(GameEvent.ClearNightTarget(index))
+                            },
+                        )
+                    }
                 }
-            )
-        }
-        else {
-            BigButton(
-                title = stringResource(id = R.string.next),
-                backgroundColor = DarkBlue,
-                isDisabled = !state.canNext,
-                disabledBackground = BlueDisabledBackground,
-                onClick = {
-                    onEvent(
-                        GameEvent.NextNightSelect
+                Divider(
+                    modifier = Modifier.height(15.dp),
+                    color = Color.Transparent
+                )
+                if(state.isEnd) {
+                    BigButton(
+                        title = stringResource(id = R.string.start_voting),
+                        backgroundColor = SecondaryBackground,
+                        isDisabled = !state.canNext,
+                        disabledBackground = DisabledSecondaryBackground,
+                        onClick = {
+                            // todo day voting
+                        }
                     )
                 }
-            )
+                else {
+                    BigButton(
+                        title = stringResource(id = R.string.next),
+                        backgroundColor = SecondaryBackground,
+                        isDisabled = !state.canNext,
+                        disabledBackground = DisabledSecondaryBackground,
+                        onClick = {
+                            onEvent(
+                                GameEvent.NextNightSelect
+                            )
+                        }
+                    )
+                }
+            }
         }
+
     }
 }

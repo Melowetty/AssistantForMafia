@@ -5,7 +5,7 @@ import com.sadteam.assistantformafia.data.models.PlayerState
 import com.sadteam.assistantformafia.data.models.Role
 
 data class GameState(
-    val players: Map<Player, Role?> = mapOf(),
+    val players: List<Player> = listOf(),
     val rolesCount: Map<Role, Int> = mapOf(),
     val distributionOfRoles: DistributionOfRolesState = DistributionOfRolesState(),
     val nightSelectState: NightSelectState = NightSelectState(),
@@ -16,7 +16,7 @@ data class DistributionOfRolesState(
     val nextRole: Role? = null,
     val currentCount: Int = 0,
     val maxCount: Int = 0,
-    val queuePlayers: Map<Player, Boolean> = mapOf(),
+    val queuePlayers: List<Player> = listOf(),
     val indexTargetRole: Int = 0,
     val canNext: Boolean = false,
     val isEnd: Boolean = false,
@@ -25,8 +25,8 @@ data class DistributionOfRolesState(
 data class NightSelectState(
     val targetRole: Role? = null,
     val nextRole: Role? = null,
-    val queuePlayers: Map<Player, Role?> = mapOf(),
-    val targetPlayer: Player? = null,
+    val queuePlayers: List<Player> = listOf(),
+    val targetPlayerIndex: Int = -1,
     val indexTargetRole: Int = 0,
     val canNext: Boolean = false,
     val isEnd: Boolean = false,

@@ -37,9 +37,9 @@ class GameViewModel @Inject constructor(
                     initNightVoting()
                 }
                 is GameEvent.SelectNightTarget ->
-                    selectNightTarget(event.player)
+                    selectNightTarget(event.index)
                 is GameEvent.ClearNightTarget ->
-                    clearNightTarget(event.player)
+                    clearNightTarget(event.index)
                 is GameEvent.NextNightSelect ->
                     nextNightSelect()
             }
@@ -47,14 +47,16 @@ class GameViewModel @Inject constructor(
     }
 
     private fun initGame(initialState: GameCreationState) {
-        val players = mutableMapOf<Player, Role?>()
+        val players = mutableListOf<Player>()
         for ((index, player) in initialState.players.withIndex()) {
             val copiedPlayer = player.copy()
             if (copiedPlayer.name.value == "") {
                 copiedPlayer.name.value = "${context.resources.getString(R.string.player)} " +
                         "${index + 1}"
             }
-            players[copiedPlayer] = null
+            copiedPlayer.role = null
+            copiedPlayer.isSelected = false
+            players.add(copiedPlayer)
         }
         val roles = initialState.roles.filter { it.value != 0 }
         state.value = state.value.copy(
@@ -63,7 +65,7 @@ class GameViewModel @Inject constructor(
             distributionOfRoles = DistributionOfRolesState(
                 targetRole = roles.keys.elementAt(0),
                 nextRole = roles.keys.elementAt(1),
-                queuePlayers = players.mapValues { (_, _) -> false },
+                queuePlayers = players,
                 maxCount = roles.values.first(),
                 indexTargetRole = 0,
             )
@@ -85,8 +87,10 @@ class GameViewModel @Inject constructor(
         }
         val newMax = state.value.rolesCount[nextRole] ?: 0
         val queuePlayers = state.value.players.filter {
-            it.value == null
-        }.mapValues { (player, _) -> false }
+            it.role == null
+        }.map { player ->
+            player.copy(isSelected = false)
+        }
 
         state.value = state.value.copy(
             distributionOfRoles = state.value.distributionOfRoles.copy(
@@ -105,15 +109,23 @@ class GameViewModel @Inject constructor(
         val currentValue = state.value.distributionOfRoles.currentCount
         if (currentValue == state.value.distributionOfRoles.maxCount && role != null) return
         var addition = 0
-        val players = state.value.players.toMutableMap()
-        players[player] = role
-        val playersChecked = state.value.distributionOfRoles.queuePlayers.toMutableMap()
+        val players = state.value.players.toMutableList()
+        val indexInPlayers = players.indexOf(player)
+        val indexInQueue = state.value.distributionOfRoles.queuePlayers.indexOf(player)
+        players[indexInPlayers].apply {
+            this.role = role
+        }
+        val playersChecked = state.value.distributionOfRoles.queuePlayers.toMutableList()
         if(role == null) {
             addition = -1
-            playersChecked[player] = false
+            playersChecked[indexInQueue].apply {
+                isSelected = false
+            }
         } else {
             addition = 1
-            playersChecked[player] = true
+            playersChecked[indexInQueue].apply {
+                isSelected = true
+            }
         }
         var canNext = false
         if (currentValue + addition == state.value.distributionOfRoles.maxCount) canNext = true
@@ -140,7 +152,7 @@ class GameViewModel @Inject constructor(
         val nextRole = if (roles.size == 1) null else roles.keys.elementAt(1)
         if (nextRole == null) isEnd = true
         val players = state.value.players
-        val queuePlayers = players.filter { it.value != targetRole }
+        val queuePlayers = players.filter { it.role != targetRole }
         state.value = state.value.copy(
             nightSelectState = NightSelectState(
                 targetRole = targetRole,
@@ -151,19 +163,19 @@ class GameViewModel @Inject constructor(
         )
     }
 
-    private fun selectNightTarget(player: Player) {
+    private fun selectNightTarget(index: Int) {
         state.value = state.value.copy(
             nightSelectState = state.value.nightSelectState.copy(
-                targetPlayer = player,
+                targetPlayerIndex = index,
                 canNext = true,
             )
         )
     }
 
-    private fun clearNightTarget(player: Player) {
+    private fun clearNightTarget(index: Int) {
         state.value = state.value.copy(
             nightSelectState = state.value.nightSelectState.copy(
-                targetPlayer = null,
+                targetPlayerIndex = -1,
                 canNext = false,
             )
         )
@@ -185,11 +197,11 @@ class GameViewModel @Inject constructor(
             )
         }
         val players = state.value.players
-        val queuePlayers = players.filter { it.value != nextRole }
+        val queuePlayers = players.filter { it.role != nextRole }
         state.value = state.value.copy(
             nightSelectState = state.value.nightSelectState.copy(
                 targetRole = nextRole,
-                targetPlayer = null,
+                targetPlayerIndex = -1,
                 nextRole = newNextRole,
                 queuePlayers = queuePlayers,
                 indexTargetRole = newIndexTargetRole,
