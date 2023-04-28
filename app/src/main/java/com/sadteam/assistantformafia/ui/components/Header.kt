@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -21,6 +20,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.ui.navigation.Screen
+import com.sadteam.assistantformafia.ui.theme.OtherBackground
 import com.sadteam.assistantformafia.ui.theme.primaryFontFamily
 
 /**
@@ -55,7 +55,7 @@ fun Header(
         if(isVisibleSettingsButton) {
             IconButton(
                 painter = painterResource(id = R.drawable.ic_baseline_settings_24),
-                backgroundColor = MaterialTheme.colors.secondary,
+                backgroundColor = OtherBackground,
                 iconColor = Color.White,
                 size = 40.dp,
                 description = stringResource(id = R.string.app_settings),

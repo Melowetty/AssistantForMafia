@@ -13,9 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -33,7 +31,7 @@ import androidx.compose.ui.window.PopupProperties
 import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.ui.theme.BloodRed
 import com.sadteam.assistantformafia.ui.theme.DarkBackground
-import com.sadteam.assistantformafia.ui.theme.DarkGreen
+import com.sadteam.assistantformafia.ui.theme.PopupBackground
 import com.sadteam.assistantformafia.ui.theme.secondFontFamily
 
 /**
@@ -60,7 +58,7 @@ fun CustomPopup(
             properties = PopupProperties(focusable = true),
         ) {
             Box(
-                modifier = modifier
+                modifier = Modifier
                     .fillMaxSize()
                     .background(
                         color = DarkBackground,
@@ -74,10 +72,10 @@ fun CustomPopup(
                 contentAlignment = Alignment.Center,
             ) {
                 Column(
-                    modifier = Modifier
+                    modifier = modifier
                         .fillMaxWidth()
                         .wrapContentHeight()
-                        .background(color = DarkGreen, shape = RoundedCornerShape(10))
+                        .background(color = PopupBackground, shape = RoundedCornerShape(10))
                         .padding(vertical = 10.dp)
                         .clickable(
                             interactionSource = interactionSource,
@@ -105,6 +103,7 @@ fun CustomPopup(
                         Icon(
                             painter = painterResource(id = R.drawable.close),
                             contentDescription = "close popup",
+                            tint = Color.White,
                             modifier = Modifier
                                 .clickable(
                                     interactionSource = interactionSource,
@@ -117,9 +116,9 @@ fun CustomPopup(
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 30.dp)
-                            .verticalScroll(rememberScrollState()),
-                        verticalArrangement = Arrangement.spacedBy(18.dp),
+                            .wrapContentHeight()
+                            .padding(horizontal = 30.dp),
+                        verticalArrangement = Arrangement.spacedBy(12.dp),
                         horizontalAlignment = Alignment.CenterHorizontally,
                     ) {
                         content()

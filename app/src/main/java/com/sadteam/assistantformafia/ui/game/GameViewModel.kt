@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.data.models.Player
+import com.sadteam.assistantformafia.data.models.Possibility
 import com.sadteam.assistantformafia.data.models.Role
 import com.sadteam.assistantformafia.ui.gamecreation.GameCreationState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -32,19 +33,30 @@ class GameViewModel @Inject constructor(
                     setRole(event.player, event.role)
                 is GameEvent.ClearRole ->
                     setRole(event.player, null)
+                is GameEvent.StartGame -> {
+                    initNightVoting()
+                }
+                is GameEvent.SelectNightTarget ->
+                    selectNightTarget(event.index)
+                is GameEvent.ClearNightTarget ->
+                    clearNightTarget(event.index)
+                is GameEvent.NextNightSelect ->
+                    nextNightSelect()
             }
         }
     }
 
     private fun initGame(initialState: GameCreationState) {
-        val players = mutableMapOf<Player, Role?>()
+        val players = mutableListOf<Player>()
         for ((index, player) in initialState.players.withIndex()) {
             val copiedPlayer = player.copy()
             if (copiedPlayer.name.value == "") {
                 copiedPlayer.name.value = "${context.resources.getString(R.string.player)} " +
                         "${index + 1}"
             }
-            players[copiedPlayer] = null
+            copiedPlayer.role = null
+            copiedPlayer.isSelected = false
+            players.add(copiedPlayer)
         }
         val roles = initialState.roles.filter { it.value != 0 }
         state.value = state.value.copy(
@@ -53,7 +65,7 @@ class GameViewModel @Inject constructor(
             distributionOfRoles = DistributionOfRolesState(
                 targetRole = roles.keys.elementAt(0),
                 nextRole = roles.keys.elementAt(1),
-                queuePlayers = players.mapValues { (_, _) -> false },
+                queuePlayers = players,
                 maxCount = roles.values.first(),
                 indexTargetRole = 0,
             )
@@ -75,8 +87,10 @@ class GameViewModel @Inject constructor(
         }
         val newMax = state.value.rolesCount[nextRole] ?: 0
         val queuePlayers = state.value.players.filter {
-            it.value == null
-        }.mapValues { (player, _) -> false }
+            it.role == null
+        }.map { player ->
+            player.copy(isSelected = false)
+        }
 
         state.value = state.value.copy(
             distributionOfRoles = state.value.distributionOfRoles.copy(
@@ -86,6 +100,7 @@ class GameViewModel @Inject constructor(
                 queuePlayers = queuePlayers,
                 indexTargetRole = newIndexTargetRole,
                 currentCount = 0,
+                canNext = false,
             )
         )
     }
@@ -94,15 +109,23 @@ class GameViewModel @Inject constructor(
         val currentValue = state.value.distributionOfRoles.currentCount
         if (currentValue == state.value.distributionOfRoles.maxCount && role != null) return
         var addition = 0
-        val players = state.value.players.toMutableMap()
-        players[player] = role
-        val playersChecked = state.value.distributionOfRoles.queuePlayers.toMutableMap()
+        val players = state.value.players.toMutableList()
+        val indexInPlayers = players.indexOf(player)
+        val indexInQueue = state.value.distributionOfRoles.queuePlayers.indexOf(player)
+        players[indexInPlayers].apply {
+            this.role = role
+        }
+        val playersChecked = state.value.distributionOfRoles.queuePlayers.toMutableList()
         if(role == null) {
             addition = -1
-            playersChecked[player] = false
+            playersChecked[indexInQueue].apply {
+                isSelected = false
+            }
         } else {
             addition = 1
-            playersChecked[player] = true
+            playersChecked[indexInQueue].apply {
+                isSelected = true
+            }
         }
         var canNext = false
         if (currentValue + addition == state.value.distributionOfRoles.maxCount) canNext = true
@@ -115,4 +138,85 @@ class GameViewModel @Inject constructor(
             )
         )
     }
+
+    private fun startGame() {
+        state.value = state.value.copy(
+            distributionOfRoles = DistributionOfRolesState()
+        )
+    }
+
+    private fun initNightVoting() {
+        val roles = state.value.rolesCount.filter { it.key.possibilities.first() != Possibility.NONE }
+        val targetRole = roles.keys.elementAt(0)
+        var isEnd = false
+        val nextRole = if (roles.size == 1) null else roles.keys.elementAt(1)
+        if (nextRole == null) isEnd = true
+        val players = state.value.players
+        val queuePlayers = players.filter { it.role != targetRole }
+        state.value = state.value.copy(
+            nightSelectState = NightSelectState(
+                targetRole = targetRole,
+                nextRole = nextRole,
+                queuePlayers = queuePlayers,
+                isEnd = isEnd,
+            ),
+        )
+    }
+
+    private fun selectNightTarget(index: Int) {
+        state.value = state.value.copy(
+            nightSelectState = state.value.nightSelectState.copy(
+                targetPlayerIndex = index,
+                canNext = true,
+            )
+        )
+    }
+
+    private fun clearNightTarget(index: Int) {
+        state.value = state.value.copy(
+            nightSelectState = state.value.nightSelectState.copy(
+                targetPlayerIndex = -1,
+                canNext = false,
+            )
+        )
+    }
+
+    private fun nextNightSelect() {
+        val (targetRole, nextRole, _, targetPlayer, indexTargetRole, _, _, actions) =
+            state.value.nightSelectState
+        val newActions = actions.toMutableMap()
+        val roles = state.value.rolesCount.filter { it.key.possibilities.first() != Possibility.NONE }
+        val newIndexTargetRole = indexTargetRole + 1
+        val newNextRole = if(roles.size == newIndexTargetRole + 1) null
+        else roles.keys.elementAt(newIndexTargetRole + 1)
+        if(newNextRole == null) {
+            state.value = state.value.copy(
+                nightSelectState = state.value.nightSelectState.copy(
+                    isEnd = true
+                )
+            )
+        }
+        val players = state.value.players
+        val queuePlayers = players.filter { it.role != nextRole }
+        state.value = state.value.copy(
+            nightSelectState = state.value.nightSelectState.copy(
+                targetRole = nextRole,
+                targetPlayerIndex = -1,
+                nextRole = newNextRole,
+                queuePlayers = queuePlayers,
+                indexTargetRole = newIndexTargetRole,
+                canNext = false,
+                actions = newActions,
+            )
+        )
+    }
+
+//    private fun actionToPlayer(player: Player, currentPlayerState: PlayerState, targetRole: Role): PlayerState {
+//        when (targetRole.possibilities.first()) {
+//            Possibility.KILL -> {
+//                if (currentPlayerState == PlayerState.HEALED) return PlayerState.HEALED
+//                else return PlayerState.KILLED
+//            }
+//        }
+//    }
 }

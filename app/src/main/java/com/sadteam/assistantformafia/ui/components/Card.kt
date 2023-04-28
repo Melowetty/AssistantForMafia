@@ -1,5 +1,8 @@
 package com.sadteam.assistantformafia.ui.components
 
+import androidx.compose.animation.Animatable
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -11,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Checkbox
@@ -18,14 +22,13 @@ import androidx.compose.material.CheckboxDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -134,6 +137,7 @@ fun Card(
             ) {
                 Icon(
                     painter = mainIcon,
+                    tint = Color.White,
                     contentDescription = "main icon"
                 )
             }
@@ -159,7 +163,7 @@ fun Card(
                 painter = secondIcon,
                 contentDescription = "second icon",
                 modifier = Modifier.size(20.dp),
-                tint = Color.Black
+                tint = Color.White.copy(alpha = 0.8f)
             )
         }
     }
@@ -171,7 +175,6 @@ fun Card(
  * @param modifier модификатор
  * @param text текст на карточке
  * @param mainIcon главная иконка (слева)
- * @param onClick callback-функция срабатывающая при клике на карточку
  * @param checked значение чекбокса
  * @param onCheckboxClicked callback-функция при клике на чекбокс
  */
@@ -181,11 +184,9 @@ fun SelectRoleCard(
     backgroundColor: Color,
     text: String,
     mainIcon: Painter,
-    onClick: () -> Unit = {},
     checked: Boolean = false,
     onCheckboxClicked: (Boolean) -> Unit = {}
 ) {
-    val interactionSource = remember { MutableInteractionSource() }
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -193,14 +194,12 @@ fun SelectRoleCard(
                 color = backgroundColor,
                 shape = RoundedCornerShape(10.dp)
             )
-            .padding(horizontal = 10.dp, vertical = 8.dp)
-            .clickable(
-                interactionSource = interactionSource,
-                indication = null,
-                onClick = {
-                    onClick()
-                }
-            ),
+            .toggleable(
+                value = checked,
+                role = Role.Checkbox,
+                onValueChange = onCheckboxClicked
+            )
+            .padding(horizontal = 10.dp, vertical = 8.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -221,13 +220,15 @@ fun SelectRoleCard(
             ) {
                 Icon(
                     painter = mainIcon,
-                    contentDescription = "player icon"
+                    contentDescription = "player icon",
+                    tint = Color.White,
                 )
             }
             Text(
                 text = text,
                 fontWeight = FontWeight.Bold,
                 fontSize = 20.sp,
+                color = Color.White
             )
         }
         Checkbox(
@@ -239,4 +240,33 @@ fun SelectRoleCard(
             )
         )
     }
+}
+
+@Composable
+fun AnimatedPlayerCard(
+    startBackgroundColor: Color,
+    backgroundColor: Color,
+    isChecked: Boolean,
+    text: String,
+    mainIcon: Painter,
+    onCheckboxClicked: (Boolean) -> Unit,
+) {
+    val animatedBackgroundColor = remember {
+        Animatable(startBackgroundColor)
+    }
+
+    LaunchedEffect(key1 = isChecked, block = {
+        animatedBackgroundColor.animateTo(
+            if (isChecked) backgroundColor else startBackgroundColor,
+            animationSpec = tween(400, easing = FastOutSlowInEasing
+            )
+        )
+    })
+    SelectRoleCard(
+        backgroundColor = animatedBackgroundColor.value,
+        text = text,
+        mainIcon = mainIcon,
+        checked = isChecked,
+        onCheckboxClicked = onCheckboxClicked,
+    )
 }

@@ -2,12 +2,12 @@ package com.sadteam.assistantformafia.ui.gamecreation
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -15,6 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.sadteam.assistantformafia.R
+import com.sadteam.assistantformafia.data.models.Player
 import com.sadteam.assistantformafia.ui.components.BigButton
 import com.sadteam.assistantformafia.ui.components.Card
 import com.sadteam.assistantformafia.ui.components.MainLayout
@@ -22,8 +23,8 @@ import com.sadteam.assistantformafia.ui.components.MenuButton
 import com.sadteam.assistantformafia.ui.components.PlayerNameKeyboard
 import com.sadteam.assistantformafia.ui.components.SelectCount
 import com.sadteam.assistantformafia.ui.navigation.Screen
-import com.sadteam.assistantformafia.ui.theme.BlueDisabledBackground
-import com.sadteam.assistantformafia.ui.theme.DarkBlue
+import com.sadteam.assistantformafia.ui.theme.DisabledSecondaryBackground
+import com.sadteam.assistantformafia.ui.theme.SecondaryBackground
 
 /**
  * Экран создания игры
@@ -45,28 +46,26 @@ fun GameCreationScreen(
         ) {
             SelectCount(
                 title = stringResource(id = R.string.players_count),
+                popupModifier = Modifier.fillMaxHeight(0.75f),
                 icon = painterResource(id = R.drawable.baseline_people_alt_24),
                 onIncreasing = { onEvent(GameCreationEvent.IncrementPlayers) },
                 onDecreasing = { onEvent(GameCreationEvent.DecrementPlayers) },
                 value = state.players.size,
                 min = 6,
                 content = {
-                    Column(
-                        modifier = Modifier
-                            .height(350.dp)
-                            .verticalScroll(rememberScrollState())
-                            .padding(20.dp),
-                        verticalArrangement = Arrangement.spacedBy(5.dp)
-                    ) {
-                        for ((i, player) in state.players.withIndex()) {
+                    LazyColumn(
+                        modifier = Modifier.weight(0.5f).padding(20.dp),
+                        verticalArrangement = Arrangement.spacedBy(5.dp),
+                        content = {
+                        itemsIndexed(state.players) {index: Int, item: Player ->
                             Card(
                                 content = {
                                     PlayerNameKeyboard(
                                         modifier = Modifier.width(160.dp),
-                                        value = player.name.value,
+                                        value = item.name.value,
                                         onValueChange = { newText ->
                                             onEvent(
-                                                GameCreationEvent.SetPlayerName(i, newText)
+                                                GameCreationEvent.SetPlayerName(index, newText)
                                             )
                                         },
                                         placeholder = stringResource(id = R.string.enter_name),
@@ -76,12 +75,12 @@ fun GameCreationScreen(
                                 secondIcon = painterResource(id = R.drawable.delete),
                                 onSecondIconClick = {
                                     onEvent(
-                                        GameCreationEvent.DeletePlayer(i)
+                                        GameCreationEvent.DeletePlayer(index)
                                     )
                                 }
                             )
                         }
-                    }
+                    })
                 }
             )
             MenuButton(
@@ -102,9 +101,9 @@ fun GameCreationScreen(
         }
         BigButton(
             title = stringResource(id = R.string.start),
-            backgroundColor = DarkBlue,
+            backgroundColor = SecondaryBackground,
             isDisabled = !state.canStart,
-            disabledBackground = BlueDisabledBackground,
+            disabledBackground = DisabledSecondaryBackground,
             onClick = {
                 navController.navigate(route = Screen.Introduction.route)
             }

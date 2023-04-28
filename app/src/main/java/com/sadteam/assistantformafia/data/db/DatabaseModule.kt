@@ -29,7 +29,6 @@ class DatabaseModule {
             AppDatabase::class.java,
             DATABASE_NAME,
         )
-            .fallbackToDestructiveMigration()
             .addCallback(RolesCallback(provider))
             .build()
     }
