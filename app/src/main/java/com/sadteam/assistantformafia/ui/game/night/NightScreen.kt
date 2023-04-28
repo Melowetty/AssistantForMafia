@@ -4,9 +4,11 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Divider
@@ -113,10 +115,7 @@ fun NightScreen(
                     }
                 }
             )
-            Divider(
-                modifier = Modifier.height(5.dp),
-                color = Color.Transparent
-            )
+            Spacer(modifier = Modifier.size(5.dp))
             Column(
                 modifier = Modifier.fillMaxSize()
             ) {
@@ -137,10 +136,7 @@ fun NightScreen(
                         )
                     }
                 }
-                Divider(
-                    modifier = Modifier.height(15.dp),
-                    color = Color.Transparent
-                )
+                Spacer(modifier = Modifier.size(15.dp))
                 if(state.isEnd) {
                     BigButton(
                         title = stringResource(id = R.string.start_voting),
