@@ -3,12 +3,14 @@ package com.sadteam.assistantformafia.ui.components
 import androidx.compose.animation.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -26,8 +28,11 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -50,7 +55,8 @@ import com.sadteam.assistantformafia.ui.theme.DarkBlue
 fun Card(
     modifier: Modifier = Modifier,
     text: String,
-    mainIcon: Painter,
+    mainIcon: ImageBitmap,
+    mainIconModifier: Modifier = Modifier,
     secondIcon: Painter,
     onClick: () -> Unit = {},
     onMainIconClick: () -> Unit = {},
@@ -66,6 +72,7 @@ fun Card(
             )
         },
         mainIcon = mainIcon,
+        mainIconModifier = mainIconModifier,
         secondIcon = secondIcon,
         onClick = onClick,
         onMainIconClick = onMainIconClick,
@@ -88,7 +95,8 @@ fun Card(
 fun Card(
     modifier: Modifier = Modifier,
     content: @Composable (() -> Unit),
-    mainIcon: Painter,
+    mainIcon: ImageBitmap,
+    mainIconModifier: Modifier = Modifier,
     secondIcon: Painter,
     onClick: () -> Unit = {},
     onMainIconClick: () -> Unit = {},
@@ -102,7 +110,7 @@ fun Card(
                 color = BloodRed,
                 shape = RoundedCornerShape(10.dp)
             )
-            .padding(horizontal = 10.dp, vertical = 8.dp)
+            .padding(horizontal = 10.dp, vertical = 4.dp)
             .clickable(
                 interactionSource = interactionSource,
                 indication = null,
@@ -121,12 +129,11 @@ fun Card(
         ) {
             Box(
                 modifier = Modifier
-                    .wrapContentSize()
+                    .size(45.dp)
                     .background(
                         color = DarkBlue,
                         CircleShape,
                     )
-                    .padding(12.dp)
                     .clickable(
                         interactionSource = interactionSource,
                         indication = null,
@@ -135,9 +142,12 @@ fun Card(
                         }
                     ),
             ) {
-                Icon(
-                    painter = mainIcon,
-                    tint = Color.White,
+                Image(
+                    bitmap = mainIcon,
+                    modifier = mainIconModifier
+                        .fillMaxSize()
+                        .clip(CircleShape),
+                    contentScale = ContentScale.FillBounds,
                     contentDescription = "main icon"
                 )
             }

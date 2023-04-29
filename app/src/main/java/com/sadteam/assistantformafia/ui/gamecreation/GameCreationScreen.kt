@@ -9,7 +9,13 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -18,6 +24,7 @@ import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.data.models.Player
 import com.sadteam.assistantformafia.ui.components.BigButton
 import com.sadteam.assistantformafia.ui.components.Card
+import com.sadteam.assistantformafia.ui.components.ImagePicker
 import com.sadteam.assistantformafia.ui.components.MainLayout
 import com.sadteam.assistantformafia.ui.components.MenuButton
 import com.sadteam.assistantformafia.ui.components.PlayerNameKeyboard
@@ -25,6 +32,7 @@ import com.sadteam.assistantformafia.ui.components.SelectCount
 import com.sadteam.assistantformafia.ui.navigation.Screen
 import com.sadteam.assistantformafia.ui.theme.DisabledSecondaryBackground
 import com.sadteam.assistantformafia.ui.theme.SecondaryBackground
+import com.sadteam.assistantformafia.utils.Utils
 
 /**
  * Экран создания игры
@@ -54,10 +62,15 @@ fun GameCreationScreen(
                 min = 6,
                 content = {
                     LazyColumn(
-                        modifier = Modifier.weight(0.5f).padding(20.dp),
+                        modifier = Modifier
+                            .weight(0.5f)
+                            .padding(20.dp),
                         verticalArrangement = Arrangement.spacedBy(5.dp),
                         content = {
                         itemsIndexed(state.players) {index: Int, item: Player ->
+                            var isImagePick by remember {
+                                mutableStateOf(false)
+                            }
                             Card(
                                 content = {
                                     PlayerNameKeyboard(
@@ -71,14 +84,25 @@ fun GameCreationScreen(
                                         placeholder = stringResource(id = R.string.enter_name),
                                     )
                                 },
-                                mainIcon = painterResource(id = R.drawable.add_a_photo),
+                                mainIcon = item.icon.value?: Utils.getBitmapFromImage(LocalContext.current, R.drawable.add_a_photo).asImageBitmap(),
+                                mainIconModifier = if(item.icon.value != null) Modifier else Modifier.padding(8.dp),
                                 secondIcon = painterResource(id = R.drawable.delete),
+                                onMainIconClick = {
+                                    isImagePick = true
+                                },
                                 onSecondIconClick = {
                                     onEvent(
                                         GameCreationEvent.DeletePlayer(index)
                                     )
                                 }
                             )
+                            if (isImagePick) {
+                                ImagePicker(onImagePicked = {
+                                    onEvent(
+                                        GameCreationEvent.SetPlayerImage(index, it)
+                                    )
+                                })
+                            }
                         }
                     })
                 }

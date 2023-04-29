@@ -2,6 +2,7 @@ package com.sadteam.assistantformafia.ui.gamecreation
 
 import android.content.Context
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -71,6 +72,9 @@ class GameCreationViewModel @Inject constructor(
                     val currentValue = state.value.roles[event.role]
                     increaseRoleCount(event.role, currentValue!!)
                 }
+
+                is GameCreationEvent.SetPlayerImage ->
+                    setPlayerImage(event.pos, event.image)
             }
         }
     }
@@ -119,6 +123,14 @@ class GameCreationViewModel @Inject constructor(
     private fun setPlayerName(pos: Int, newName: String) {
         val players = state.value.players.toMutableList()
         players[pos].name.value = newName
+        state.value = state.value.copy(
+            players = players
+        )
+    }
+
+    private fun setPlayerImage(pos: Int, image: ImageBitmap?) {
+        val players = state.value.players.toMutableList()
+        players[pos].icon.value = image
         state.value = state.value.copy(
             players = players
         )
