@@ -1,6 +1,7 @@
 package com.sadteam.assistantformafia.ui.game
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,6 +10,7 @@ import com.sadteam.assistantformafia.data.models.Player
 import com.sadteam.assistantformafia.data.models.Possibility
 import com.sadteam.assistantformafia.data.models.Role
 import com.sadteam.assistantformafia.ui.gamecreation.GameCreationState
+import com.sadteam.assistantformafia.utils.IconUtils.Companion.toImageBitmap
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
@@ -34,6 +36,7 @@ class GameViewModel @Inject constructor(
                 is GameEvent.ClearRole ->
                     setRole(event.player, null)
                 is GameEvent.StartGame -> {
+                    startGame()
                     initNightVoting()
                 }
                 is GameEvent.SelectNightTarget ->
@@ -140,7 +143,12 @@ class GameViewModel @Inject constructor(
     }
 
     private fun startGame() {
+        val players = state.value.players.map { player: Player ->
+            if (player.icon.value != null) player
+            else player.copy(icon = mutableStateOf(player.role?.playerIcon?.toImageBitmap()))
+        }
         state.value = state.value.copy(
+            players = players,
             distributionOfRoles = DistributionOfRolesState()
         )
     }

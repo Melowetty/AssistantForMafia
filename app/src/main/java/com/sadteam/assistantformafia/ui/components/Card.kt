@@ -193,10 +193,13 @@ fun SelectRoleCard(
     modifier: Modifier = Modifier,
     backgroundColor: Color,
     text: String,
-    mainIcon: Painter,
+    mainIcon: ImageBitmap,
+    mainIconModifier: Modifier = Modifier,
     checked: Boolean = false,
+    onMainIconClick: () -> Unit = {},
     onCheckboxClicked: (Boolean) -> Unit = {}
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -221,17 +224,26 @@ fun SelectRoleCard(
         ) {
             Box(
                 modifier = Modifier
-                    .wrapContentSize()
+                    .size(45.dp)
                     .background(
                         color = DarkBlue,
                         CircleShape,
                     )
-                    .padding(12.dp),
+                    .clickable(
+                        interactionSource = interactionSource,
+                        indication = null,
+                        onClick = {
+                            onMainIconClick()
+                        }
+                    ),
             ) {
-                Icon(
-                    painter = mainIcon,
-                    contentDescription = "player icon",
-                    tint = Color.White,
+                Image(
+                    bitmap = mainIcon,
+                    modifier = mainIconModifier
+                        .fillMaxSize()
+                        .clip(CircleShape),
+                    contentScale = ContentScale.FillBounds,
+                    contentDescription = "main icon"
                 )
             }
             Text(
@@ -258,7 +270,8 @@ fun AnimatedPlayerCard(
     backgroundColor: Color,
     isChecked: Boolean,
     text: String,
-    mainIcon: Painter,
+    mainIcon: ImageBitmap,
+    mainIconModifier: Modifier = Modifier,
     onCheckboxClicked: (Boolean) -> Unit,
 ) {
     val animatedBackgroundColor = remember {
@@ -276,6 +289,7 @@ fun AnimatedPlayerCard(
         backgroundColor = animatedBackgroundColor.value,
         text = text,
         mainIcon = mainIcon,
+        mainIconModifier = mainIconModifier,
         checked = isChecked,
         onCheckboxClicked = onCheckboxClicked,
     )

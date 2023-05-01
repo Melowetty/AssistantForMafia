@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -13,6 +14,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.ParagraphStyle
@@ -37,6 +40,7 @@ import com.sadteam.assistantformafia.ui.theme.BaseRoleBackgroundColor
 import com.sadteam.assistantformafia.ui.theme.DisabledSecondaryBackground
 import com.sadteam.assistantformafia.ui.theme.SecondaryBackground
 import com.sadteam.assistantformafia.ui.theme.primaryFontFamily
+import com.sadteam.assistantformafia.utils.Utils
 
 @Composable
 fun IntroductionScreen(
@@ -96,7 +100,8 @@ fun IntroductionScreen(
                             startBackgroundColor = BaseRoleBackgroundColor,
                             backgroundColor = state.targetRole?.getBackgroundColor() ?: BaseRoleBackgroundColor,
                             text = item.name.value,
-                            mainIcon = painterResource(id = R.drawable.add_a_photo),
+                            mainIcon = item.icon.value?: Utils.getBitmapFromImage(LocalContext.current, R.drawable.add_a_photo).asImageBitmap(),
+                            mainIconModifier = if(item.icon.value != null) Modifier else Modifier.padding(8.dp),
                             isChecked = item.isSelected,
                             onCheckboxClicked = {
                                 if (it) onEvent(GameEvent.SetRole(item, state.targetRole))

@@ -32,6 +32,7 @@ import com.sadteam.assistantformafia.ui.components.SelectCount
 import com.sadteam.assistantformafia.ui.navigation.Screen
 import com.sadteam.assistantformafia.ui.theme.DisabledSecondaryBackground
 import com.sadteam.assistantformafia.ui.theme.SecondaryBackground
+import com.sadteam.assistantformafia.utils.MIN_PLAYERS_COUNT
 import com.sadteam.assistantformafia.utils.Utils
 
 /**
@@ -59,7 +60,7 @@ fun GameCreationScreen(
                 onIncreasing = { onEvent(GameCreationEvent.IncrementPlayers) },
                 onDecreasing = { onEvent(GameCreationEvent.DecrementPlayers) },
                 value = state.players.size,
-                min = 6,
+                min = MIN_PLAYERS_COUNT,
                 content = {
                     LazyColumn(
                         modifier = Modifier
@@ -68,7 +69,7 @@ fun GameCreationScreen(
                         verticalArrangement = Arrangement.spacedBy(5.dp),
                         content = {
                         itemsIndexed(state.players) {index: Int, item: Player ->
-                            var isImagePick by remember {
+                            var isPhotoSelect by remember {
                                 mutableStateOf(false)
                             }
                             Card(
@@ -88,7 +89,7 @@ fun GameCreationScreen(
                                 mainIconModifier = if(item.icon.value != null) Modifier else Modifier.padding(8.dp),
                                 secondIcon = painterResource(id = R.drawable.delete),
                                 onMainIconClick = {
-                                    isImagePick = true
+                                    isPhotoSelect = true
                                 },
                                 onSecondIconClick = {
                                     onEvent(
@@ -96,7 +97,7 @@ fun GameCreationScreen(
                                     )
                                 }
                             )
-                            if (isImagePick) {
+                            if (isPhotoSelect) {
                                 ImagePicker(onImagePicked = {
                                     onEvent(
                                         GameCreationEvent.SetPlayerImage(index, it)
