@@ -1,4 +1,4 @@
-package com.sadteam.assistantformafia.ui.roles
+package com.sadteam.assistantformafia.ui.gamecreation.roles
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

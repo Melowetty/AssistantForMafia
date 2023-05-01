@@ -1,30 +1,15 @@
 package com.sadteam.assistantformafia.ui.components
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import com.sadteam.assistantformafia.R
-import com.sadteam.assistantformafia.ui.theme.DarkBlue
-import com.sadteam.assistantformafia.ui.theme.Gray
-import com.sadteam.assistantformafia.ui.theme.LightGray
-import com.sadteam.assistantformafia.ui.theme.secondFontFamily
 
 /**
 * Всплывающее окно с выбором количества игроков
@@ -58,38 +43,13 @@ fun SelectCountPopup(
         isShowed = isShowed,
         onClose = onClose
     ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-        ) {
-            IconButton(
-                painter = painterResource(id = R.drawable.baseline_remove_24),
-                size = 33.dp,
-                backgroundColor = if (value > min) DarkBlue else Gray,
-                iconColor = if (value > min) Color.White else LightGray,
-                disabled = value == min,
-                description = "remove",
-                onClick = onDecreasing,
-            )
-            Text(
-                text = "$value",
-                color = Color.White,
-                fontFamily = secondFontFamily,
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold,
-            )
-            IconButton(
-                painter = painterResource(id = R.drawable.baseline_add_24),
-                size = 33.dp,
-                backgroundColor = if (value < max) DarkBlue else Gray,
-                iconColor = if (value < max) Color.White else LightGray,
-                disabled = value == max,
-                description = "add",
-                onClick = onIncreasing,
-            )
-        }
+        ValuePicker(
+            value = value,
+            min = min,
+            max = max,
+            onIncreasing = onIncreasing,
+            onDecreasing = onDecreasing,
+        )
         content()
     }
 }
