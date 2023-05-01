@@ -11,6 +11,7 @@ import com.sadteam.assistantformafia.data.models.Possibility
 import com.sadteam.assistantformafia.data.models.Role
 import com.sadteam.assistantformafia.ui.gamecreation.GameCreationState
 import com.sadteam.assistantformafia.utils.IconUtils.Companion.toImageBitmap
+import com.sadteam.assistantformafia.utils.Utils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
@@ -113,8 +114,8 @@ class GameViewModel @Inject constructor(
         if (currentValue == state.value.distributionOfRoles.maxCount && role != null) return
         var addition = 0
         val players = state.value.players.toMutableList()
-        val indexInPlayers = players.indexOf(player)
-        val indexInQueue = state.value.distributionOfRoles.queuePlayers.indexOf(player)
+        val indexInPlayers = Utils.findIndexPlayerByName(players, player.name.value)
+        val indexInQueue = Utils.findIndexPlayerByName(state.value.distributionOfRoles.queuePlayers, player.name.value)
         players[indexInPlayers].apply {
             this.role = role
         }
