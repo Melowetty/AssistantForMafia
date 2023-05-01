@@ -11,7 +11,8 @@ import com.sadteam.assistantformafia.ui.game.introduction.IntroductionScreen
 import com.sadteam.assistantformafia.ui.game.night.NightScreen
 import com.sadteam.assistantformafia.ui.gamecreation.GameCreationScreen
 import com.sadteam.assistantformafia.ui.gamecreation.GameCreationViewModel
-import com.sadteam.assistantformafia.ui.roles.RolesScreen
+import com.sadteam.assistantformafia.ui.gamecreation.players.PlayersScreen
+import com.sadteam.assistantformafia.ui.gamecreation.roles.RolesScreen
 
 @Composable
 fun SetupNavGraph(
@@ -28,6 +29,15 @@ fun SetupNavGraph(
             route = Screen.GameCreation.route
         ) {
             GameCreationScreen(
+                navController = navController,
+                state = gameCreationViewModel.state.value,
+                onEvent = gameCreationViewModel::onEvent
+            )
+        }
+        composable(
+            route = Screen.Players.route
+        ) {
+            PlayersScreen(
                 navController = navController,
                 state = gameCreationViewModel.state.value,
                 onEvent = gameCreationViewModel::onEvent

@@ -1,6 +1,7 @@
 package com.sadteam.assistantformafia.ui.game
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,6 +10,8 @@ import com.sadteam.assistantformafia.data.models.Player
 import com.sadteam.assistantformafia.data.models.Possibility
 import com.sadteam.assistantformafia.data.models.Role
 import com.sadteam.assistantformafia.ui.gamecreation.GameCreationState
+import com.sadteam.assistantformafia.utils.IconUtils.Companion.toImageBitmap
+import com.sadteam.assistantformafia.utils.Utils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
@@ -34,6 +37,7 @@ class GameViewModel @Inject constructor(
                 is GameEvent.ClearRole ->
                     setRole(event.player, null)
                 is GameEvent.StartGame -> {
+                    startGame()
                     initNightVoting()
                 }
                 is GameEvent.SelectNightTarget ->
@@ -110,8 +114,8 @@ class GameViewModel @Inject constructor(
         if (currentValue == state.value.distributionOfRoles.maxCount && role != null) return
         var addition = 0
         val players = state.value.players.toMutableList()
-        val indexInPlayers = players.indexOf(player)
-        val indexInQueue = state.value.distributionOfRoles.queuePlayers.indexOf(player)
+        val indexInPlayers = Utils.findIndexPlayerByName(players, player.name.value)
+        val indexInQueue = Utils.findIndexPlayerByName(state.value.distributionOfRoles.queuePlayers, player.name.value)
         players[indexInPlayers].apply {
             this.role = role
         }
@@ -140,7 +144,12 @@ class GameViewModel @Inject constructor(
     }
 
     private fun startGame() {
+        val players = state.value.players.map { player: Player ->
+            if (player.icon.value != null) player
+            else player.copy(icon = mutableStateOf(player.role?.playerIcon?.toImageBitmap()))
+        }
         state.value = state.value.copy(
+            players = players,
             distributionOfRoles = DistributionOfRolesState()
         )
     }

@@ -1,11 +1,11 @@
 package com.sadteam.assistantformafia.data.models
 
-import android.graphics.Bitmap
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.ui.graphics.ImageBitmap
 
 data class Player(
-    var icon: Bitmap? = null,
+    var icon: MutableState<ImageBitmap?> = mutableStateOf(null),
     var name: MutableState<String> = mutableStateOf(""),
     var role: Role? = null,
     var isSelected: Boolean = false,

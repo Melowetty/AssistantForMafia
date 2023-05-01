@@ -9,6 +9,7 @@ import java.util.Locale
 data class Role(
     @PrimaryKey(autoGenerate = true) val id: Int,
     val icon: String,
+    val playerIcon: String,
     val name: Map<Locale, String>,
     val defaultName: String,
     val description: Map<Locale, String>,

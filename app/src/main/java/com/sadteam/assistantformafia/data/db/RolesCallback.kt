@@ -14,6 +14,13 @@ class RolesCallback(
 ): RoomDatabase.Callback() {
     private val applicationScope = CoroutineScope(SupervisorJob())
 
+    override fun onDestructiveMigration(db: SupportSQLiteDatabase) {
+        applicationScope.launch(Dispatchers.IO) {
+            provider.get().clearRoles()
+            prepopulateRoles()
+        }
+    }
+
     override fun onCreate(db: SupportSQLiteDatabase) {
         super.onCreate(db)
         applicationScope.launch(Dispatchers.IO) {

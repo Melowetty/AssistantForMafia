@@ -32,4 +32,7 @@
     <string name="target">выбирает цель:</string>
     <string name="start_voting">Начать голосование</string>
     <string name="introduction">Знакомство</string>
+    <string name="photo">Фотография</string>
+    <string name="take_photo">Сделать снимок</string>
+    <string name="upload_from_device">Загрузить с устройства</string>
 </resources>
