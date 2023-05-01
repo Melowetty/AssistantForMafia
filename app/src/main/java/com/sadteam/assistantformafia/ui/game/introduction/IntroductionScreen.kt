@@ -100,7 +100,7 @@ fun IntroductionScreen(
                             startBackgroundColor = BaseRoleBackgroundColor,
                             backgroundColor = state.targetRole?.getBackgroundColor() ?: BaseRoleBackgroundColor,
                             text = item.name.value,
-                            mainIcon = item.icon.value?: Utils.getBitmapFromImage(LocalContext.current, R.drawable.add_a_photo).asImageBitmap(),
+                            mainIcon = item.icon.value?: Utils.getBitmapFromImage(LocalContext.current, R.drawable.baseline_photo_camera_24).asImageBitmap(),
                             mainIconModifier = if(item.icon.value != null) Modifier else Modifier.padding(8.dp),
                             isChecked = item.isSelected,
                             onCheckboxClicked = {
