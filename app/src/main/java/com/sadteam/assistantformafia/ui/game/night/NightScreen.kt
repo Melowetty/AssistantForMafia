@@ -144,7 +144,9 @@ fun NightScreen(
                         isDisabled = !state.canNext,
                         disabledBackground = DisabledSecondaryBackground,
                         onClick = {
-                            // todo day voting
+                            onEvent(
+                                GameEvent.StartDayVoting
+                            )
                         }
                     )
                 }

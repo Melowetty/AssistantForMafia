@@ -9,4 +9,5 @@ data class Player(
     var name: MutableState<String> = mutableStateOf(""),
     var role: Role? = null,
     var isSelected: Boolean = false,
+    var effects: MutableList<Effect> = mutableListOf()
 )

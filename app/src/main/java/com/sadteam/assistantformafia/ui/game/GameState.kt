@@ -31,5 +31,4 @@ data class NightSelectState(
     val indexTargetRole: Int = 0,
     val canNext: Boolean = false,
     val isEnd: Boolean = false,
-    val effects: Map<Player, MutableList<Effect>> = mapOf()
 )

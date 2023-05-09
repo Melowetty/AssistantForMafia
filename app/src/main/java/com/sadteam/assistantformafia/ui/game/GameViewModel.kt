@@ -46,6 +46,8 @@ class GameViewModel @Inject constructor(
                     clearNightTarget(event.index)
                 is GameEvent.NextNightSelect ->
                     nextNightSelect()
+                is GameEvent.StartDayVoting ->
+                    startDayVoting()
             }
         }
     }
@@ -191,14 +193,12 @@ class GameViewModel @Inject constructor(
     }
 
     private fun nextNightSelect() {
-        val (targetRole, nextRole, oldQueue, targetPlayerIndex, indexTargetRole, _, _, effects) =
+        val (targetRole, nextRole, oldQueue, targetPlayerIndex, indexTargetRole, _, _) =
             state.value.nightSelectState
-        val newEffects = effects.toMutableMap()
+
         if (targetRole?.effect != null) {
-            newEffects.getOrPut(oldQueue[targetPlayerIndex]) {
-                mutableListOf(targetRole.effect)
-            }.apply {
-                add(targetRole.effect)
+            state.value.players[state.value.players.indexOf(oldQueue[targetPlayerIndex])].apply {
+                this.effects.add(targetRole.effect)
             }
         }
         val roles = state.value.rolesCount.filter { it.key.possibilities.first() != Possibility.NONE }
@@ -222,17 +222,21 @@ class GameViewModel @Inject constructor(
                 queuePlayers = queuePlayers,
                 indexTargetRole = newIndexTargetRole,
                 canNext = false,
-                effects = newEffects,
             )
         )
     }
 
-//    private fun actionToPlayer(player: Player, currentPlayerState: PlayerState, targetRole: Role): PlayerState {
-//        when (targetRole.possibilities.first()) {
-//            Possibility.KILL -> {
-//                if (currentPlayerState == PlayerState.HEALED) return PlayerState.HEALED
-//                else return PlayerState.KILLED
-//            }
-//        }
-//    }
+    private fun startDayVoting() {
+        val (targetRole, _, oldQueue, targetPlayerIndex, _, _, _) =
+            state.value.nightSelectState
+
+        if (targetRole?.effect != null) {
+            state.value.players[state.value.players.indexOf(oldQueue[targetPlayerIndex])].apply {
+                this.effects.add(targetRole.effect)
+            }
+        }
+        for (player in state.value.players) {
+            Log.d("Player Effects", "${player.name.value} ${player.effects.joinToString { effect -> effect.toString() }}")
+        }
+    }
 }

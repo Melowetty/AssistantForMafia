@@ -13,4 +13,5 @@ sealed class GameEvent {
     object NextNightSelect: GameEvent()
     data class SelectNightTarget(val index: Int): GameEvent()
     data class ClearNightTarget(val index: Int): GameEvent()
+    object StartDayVoting: GameEvent()
 }
