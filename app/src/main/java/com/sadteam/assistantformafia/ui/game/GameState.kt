@@ -1,5 +1,6 @@
 package com.sadteam.assistantformafia.ui.game
 
+import com.sadteam.assistantformafia.data.models.Effect
 import com.sadteam.assistantformafia.data.models.Player
 import com.sadteam.assistantformafia.data.models.PlayerState
 import com.sadteam.assistantformafia.data.models.Role
@@ -30,5 +31,5 @@ data class NightSelectState(
     val indexTargetRole: Int = 0,
     val canNext: Boolean = false,
     val isEnd: Boolean = false,
-    val actions: Map<Player, PlayerState> = mapOf()
+    val effects: Map<Player, MutableList<Effect>> = mapOf()
 )

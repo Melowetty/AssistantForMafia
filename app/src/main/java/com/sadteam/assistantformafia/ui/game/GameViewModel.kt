@@ -191,9 +191,16 @@ class GameViewModel @Inject constructor(
     }
 
     private fun nextNightSelect() {
-        val (targetRole, nextRole, _, targetPlayer, indexTargetRole, _, _, actions) =
+        val (targetRole, nextRole, oldQueue, targetPlayerIndex, indexTargetRole, _, _, effects) =
             state.value.nightSelectState
-        val newActions = actions.toMutableMap()
+        val newEffects = effects.toMutableMap()
+        if (targetRole?.effect != null) {
+            newEffects.getOrPut(oldQueue[targetPlayerIndex]) {
+                mutableListOf(targetRole.effect)
+            }.apply {
+                add(targetRole.effect)
+            }
+        }
         val roles = state.value.rolesCount.filter { it.key.possibilities.first() != Possibility.NONE }
         val newIndexTargetRole = indexTargetRole + 1
         val newNextRole = if(roles.size == newIndexTargetRole + 1) null
@@ -215,7 +222,7 @@ class GameViewModel @Inject constructor(
                 queuePlayers = queuePlayers,
                 indexTargetRole = newIndexTargetRole,
                 canNext = false,
-                actions = newActions,
+                effects = newEffects,
             )
         )
     }

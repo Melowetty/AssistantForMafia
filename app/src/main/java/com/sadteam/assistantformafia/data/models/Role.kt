@@ -18,6 +18,7 @@ data class Role(
     val max: Int = Int.MAX_VALUE,
     val possibilities: List<Possibility>,
     val roleType: RoleType,
+    val effect: Effect? = null,
 ) {
     fun getTranslatedName(): String {
         var translatedName = name[Locale.getDefault()]
