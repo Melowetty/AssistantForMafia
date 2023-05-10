@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sadteam.assistantformafia.R
+import com.sadteam.assistantformafia.data.models.Effect
 import com.sadteam.assistantformafia.data.models.Player
 import com.sadteam.assistantformafia.data.models.Possibility
 import com.sadteam.assistantformafia.data.models.Role
@@ -46,6 +47,8 @@ class GameViewModel @Inject constructor(
                     clearNightTarget(event.index)
                 is GameEvent.NextNightSelect ->
                     nextNightSelect()
+                is GameEvent.StartDayVoting ->
+                    startDayVoting()
             }
         }
     }
@@ -191,9 +194,14 @@ class GameViewModel @Inject constructor(
     }
 
     private fun nextNightSelect() {
-        val (targetRole, nextRole, _, targetPlayer, indexTargetRole, _, _, actions) =
+        val (targetRole, nextRole, oldQueue, targetPlayerIndex, indexTargetRole, _, _) =
             state.value.nightSelectState
-        val newActions = actions.toMutableMap()
+
+        if (targetRole?.effect != null) {
+            state.value.players[state.value.players.indexOf(oldQueue[targetPlayerIndex])].apply {
+                addEffect(targetRole.effect)
+            }
+        }
         val roles = state.value.rolesCount.filter { it.key.possibilities.first() != Possibility.NONE }
         val newIndexTargetRole = indexTargetRole + 1
         val newNextRole = if(roles.size == newIndexTargetRole + 1) null
@@ -215,17 +223,40 @@ class GameViewModel @Inject constructor(
                 queuePlayers = queuePlayers,
                 indexTargetRole = newIndexTargetRole,
                 canNext = false,
-                actions = newActions,
             )
         )
     }
 
-//    private fun actionToPlayer(player: Player, currentPlayerState: PlayerState, targetRole: Role): PlayerState {
-//        when (targetRole.possibilities.first()) {
-//            Possibility.KILL -> {
-//                if (currentPlayerState == PlayerState.HEALED) return PlayerState.HEALED
-//                else return PlayerState.KILLED
-//            }
-//        }
-//    }
+    /// TODO: сделать при новом ночном голосовании стирание неубийственных эффектов
+
+    private fun startDayVoting() {
+        val (targetRole, _, oldQueue, targetPlayerIndex, _, _, _) =
+            state.value.nightSelectState
+
+        if (targetRole?.effect != null) {
+            state.value.players[state.value.players.indexOf(oldQueue[targetPlayerIndex])].apply {
+                addEffect(targetRole.effect)
+            }
+        }
+        for (player in state.value.players) {
+            if (player.effects.contains(Effect.KILL)
+                && player.effects.contains(Effect.HEAL).not()) {
+                if(player.effects.contains(Effect.LOVE)) {
+                    if(player.effects.contains(Effect.KILL)) {
+                        for (harlot in state.value.players) {
+                            if (harlot.role?.effect == Effect.LOVE
+                                && harlot.effects.contains(Effect.HEAL).not()) {
+                                harlot.isLive = false
+                                break
+                            }
+                        }
+                    }
+                }
+                player.isLive = false
+            } else if (player.effects.contains(Effect.LOVE)) {
+                player.canVote = false
+            }
+            player.effects.sortBy { effect: Effect -> effect.priority }
+        }
+    }
 }
