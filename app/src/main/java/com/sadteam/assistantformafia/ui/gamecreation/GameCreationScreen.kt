@@ -38,7 +38,7 @@ fun GameCreationScreen(
             MenuButton(
                 title = stringResource(id = R.string.players_count),
                 onClick = {
-                    navController.navigate(route = Screen.Players.route)
+                    navController.navigate(route = Screen.DayStage.route)
                 },
                 currentValue = state.players.size.toString(),
                 icon = painterResource(id = R.drawable.baseline_people_alt_24),

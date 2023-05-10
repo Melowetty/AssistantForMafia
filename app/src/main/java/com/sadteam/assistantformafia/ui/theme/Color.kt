@@ -29,6 +29,7 @@ val SecondaryBackground = DarkBlue
 val OtherBackground = DarkBlue
 val DisabledSecondaryBackground = Color(0xFF677379).copy(alpha = 0.8f)
 val NightStageBackground = Color(0xFF181D49)
+val DayStageBackground = Color(0xFF2A7098)
 
 val CommonRoleBackgroundColor = Color(0xFF5D9A40)
 val PeacefulRoleBackgroundColor = Color(0xFF7D4CA4)
