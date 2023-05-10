@@ -6,6 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sadteam.assistantformafia.R
+import com.sadteam.assistantformafia.data.models.Effect
 import com.sadteam.assistantformafia.data.models.Player
 import com.sadteam.assistantformafia.data.models.Possibility
 import com.sadteam.assistantformafia.data.models.Role
@@ -198,7 +199,7 @@ class GameViewModel @Inject constructor(
 
         if (targetRole?.effect != null) {
             state.value.players[state.value.players.indexOf(oldQueue[targetPlayerIndex])].apply {
-                this.effects.add(targetRole.effect)
+                addEffect(targetRole.effect)
             }
         }
         val roles = state.value.rolesCount.filter { it.key.possibilities.first() != Possibility.NONE }
@@ -226,17 +227,36 @@ class GameViewModel @Inject constructor(
         )
     }
 
+    /// TODO: сделать при новом ночном голосовании стирание неубийственных эффектов
+
     private fun startDayVoting() {
         val (targetRole, _, oldQueue, targetPlayerIndex, _, _, _) =
             state.value.nightSelectState
 
         if (targetRole?.effect != null) {
             state.value.players[state.value.players.indexOf(oldQueue[targetPlayerIndex])].apply {
-                this.effects.add(targetRole.effect)
+                addEffect(targetRole.effect)
             }
         }
         for (player in state.value.players) {
-            Log.d("Player Effects", "${player.name.value} ${player.effects.joinToString { effect -> effect.toString() }}")
+            if (player.effects.contains(Effect.KILL)
+                && player.effects.contains(Effect.HEAL).not()) {
+                if(player.effects.contains(Effect.LOVE)) {
+                    if(player.effects.contains(Effect.KILL)) {
+                        for (harlot in state.value.players) {
+                            if (harlot.role?.effect == Effect.LOVE
+                                && harlot.effects.contains(Effect.HEAL).not()) {
+                                harlot.isLive = false
+                                break
+                            }
+                        }
+                    }
+                }
+                player.isLive = false
+            } else if (player.effects.contains(Effect.LOVE)) {
+                player.canVote = false
+            }
+            player.effects.sortBy { effect: Effect -> effect.priority }
         }
     }
 }
