@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,6 +36,7 @@ import com.sadteam.assistantformafia.data.models.Player
 import com.sadteam.assistantformafia.ui.components.BigButton
 import com.sadteam.assistantformafia.ui.components.MainLayout
 import com.sadteam.assistantformafia.ui.components.SelectRoleCard
+import com.sadteam.assistantformafia.ui.game.DayVotingState
 import com.sadteam.assistantformafia.ui.game.GameEvent
 import com.sadteam.assistantformafia.ui.theme.BaseRoleBackgroundColor
 import com.sadteam.assistantformafia.ui.theme.DayStageBackground
@@ -46,8 +48,15 @@ import com.sadteam.assistantformafia.utils.Utils
 
 @Composable
 fun DayScreen(
-    navController: NavController
+    navController: NavController,
+    state: DayVotingState,
+    onEvent: (GameEvent) -> Unit,
 ) {
+    LaunchedEffect(key1 = Unit) {
+        onEvent(
+            GameEvent.StartDayVoting
+        )
+    }
     MainLayout(
         navController = navController,
         title = stringResource(id = R.string.stage) + " " + stringResource(id = R.string.day),

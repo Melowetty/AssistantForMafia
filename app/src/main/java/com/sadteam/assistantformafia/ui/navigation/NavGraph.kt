@@ -86,6 +86,8 @@ fun SetupNavGraph(
         ) {
             DayScreen(
                 navController = navController,
+                state = gameViewModel.state.value.dayVotingState,
+                onEvent = gameViewModel::onEvent
             )
         }
     }

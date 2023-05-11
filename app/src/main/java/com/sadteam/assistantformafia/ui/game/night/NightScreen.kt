@@ -40,6 +40,7 @@ import com.sadteam.assistantformafia.ui.components.MainLayout
 import com.sadteam.assistantformafia.ui.components.SelectRoleCard
 import com.sadteam.assistantformafia.ui.game.GameEvent
 import com.sadteam.assistantformafia.ui.game.NightSelectState
+import com.sadteam.assistantformafia.ui.navigation.Screen
 import com.sadteam.assistantformafia.ui.theme.BaseRoleBackgroundColor
 import com.sadteam.assistantformafia.ui.theme.DisabledSecondaryBackground
 import com.sadteam.assistantformafia.ui.theme.NightStageBackground
@@ -144,9 +145,7 @@ fun NightScreen(
                         isDisabled = !state.canNext,
                         disabledBackground = DisabledSecondaryBackground,
                         onClick = {
-                            onEvent(
-                                GameEvent.StartDayVoting
-                            )
+                            navController.navigate(Screen.DayStage.route)
                         }
                     )
                 }

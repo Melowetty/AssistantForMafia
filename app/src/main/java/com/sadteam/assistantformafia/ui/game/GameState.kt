@@ -10,6 +10,7 @@ data class GameState(
     val rolesCount: Map<Role, Int> = mapOf(),
     val distributionOfRoles: DistributionOfRolesState = DistributionOfRolesState(),
     val nightSelectState: NightSelectState = NightSelectState(),
+    val dayVotingState: DayVotingState = DayVotingState()
 )
 
 data class DistributionOfRolesState(
@@ -31,4 +32,8 @@ data class NightSelectState(
     val indexTargetRole: Int = 0,
     val canNext: Boolean = false,
     val isEnd: Boolean = false,
+)
+
+data class DayVotingState(
+    val players: List<Player> = listOf()
 )
