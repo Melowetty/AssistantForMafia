@@ -90,7 +90,28 @@ fun ImagePickerFromCamera(
 }
 
 @Composable
+fun PlayersCountValuePicker(
+    value: Int,
+    min: Int = 0,
+    max: Int = Int.MAX_VALUE,
+    onIncreasing: () -> Unit,
+    onDecreasing: () -> Unit,
+) {
+    ValuePicker(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 20.dp),
+        value = value,
+        min = min,
+        max = max,
+        onIncreasing = onIncreasing,
+        onDecreasing = onDecreasing,
+    )
+}
+
+@Composable
 fun ValuePicker(
+    modifier: Modifier = Modifier,
     value: Int,
     min: Int = 0,
     max: Int = Int.MAX_VALUE,
@@ -98,9 +119,7 @@ fun ValuePicker(
     onDecreasing: () -> Unit,
 ) {
     Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 20.dp),
+        modifier = modifier,
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         IconButton(

@@ -7,15 +7,9 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -31,14 +25,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.sadteam.assistantformafia.R
+import com.sadteam.assistantformafia.data.models.Effect
+import com.sadteam.assistantformafia.ui.theme.BaseRoleBackgroundColor
 import com.sadteam.assistantformafia.ui.theme.BloodRed
 import com.sadteam.assistantformafia.ui.theme.DarkBlue
+import com.sadteam.assistantformafia.ui.theme.EnemyRoleBackgroundColor
+import com.sadteam.assistantformafia.utils.Utils
 
 /**
  * Карточка с именем и иконками
@@ -293,4 +295,111 @@ fun AnimatedPlayerCard(
         checked = isChecked,
         onCheckboxClicked = onCheckboxClicked,
     )
+}
+
+@Preview
+@Composable
+fun PreviewVotingPlayerCard() {
+    VotingPlayerCard(
+        name = "Player 1",
+        photo = Utils.getBitmapFromImage(LocalContext.current, R.drawable.add_a_photo).asImageBitmap(),
+        role = "Mafia",
+        backgroundColor = EnemyRoleBackgroundColor,
+        effects = listOf(Effect.KILL, Effect.LOVE)
+    )
+}
+
+@Composable
+fun VotingPlayerCard(
+    modifier: Modifier = Modifier,
+    name: String,
+    photo: ImageBitmap,
+    role: String,
+    backgroundColor: Color,
+    effects: List<Effect>,
+    isEnabled: Boolean = true,
+    canBeVoted: Boolean = true,
+    value: Int = 0,
+    max: Int = Int.MAX_VALUE,
+    onIncrease: () -> Unit = {},
+    onDecrease: () -> Unit = {},
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(
+                color = if (isEnabled) backgroundColor else BaseRoleBackgroundColor,
+                shape = RoundedCornerShape(10.dp)
+            )
+            .padding(horizontal = 10.dp, vertical = 8.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Row(
+            modifier = modifier
+                .wrapContentWidth(),
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(45.dp)
+                    .background(
+                        color = DarkBlue,
+                        CircleShape,
+                    )
+            ) {
+                Image(
+                    bitmap = photo,
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clip(CircleShape),
+                    contentScale = ContentScale.FillBounds,
+                    contentDescription = "player image"
+                )
+            }
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth(0.2f),
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = name,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 20.sp,
+                    color = Color.White,
+                    softWrap = false,
+                )
+                Text(
+                    text = role,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 12.sp,
+                    color = Color.White,
+                    softWrap = false,
+                )
+            }
+        }
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            LazyRow(
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                items(effects) { effect: Effect ->
+                    EffectIcon(effect)
+                }
+            }
+            if (canBeVoted) {
+                ValuePicker(
+                    modifier = Modifier
+                        .fillMaxWidth(0.6f),
+                    value = value,
+                    max = max,
+                    onIncreasing = onIncrease,
+                    onDecreasing = onDecrease,
+                )
+            }
+        }
+    }
 }
