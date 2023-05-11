@@ -10,6 +10,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -17,9 +18,7 @@ import androidx.compose.material.Checkbox
 import androidx.compose.material.CheckboxDefaults
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -31,6 +30,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -41,6 +41,7 @@ import com.sadteam.assistantformafia.ui.theme.BloodRed
 import com.sadteam.assistantformafia.ui.theme.DarkBlue
 import com.sadteam.assistantformafia.ui.theme.EnemyRoleBackgroundColor
 import com.sadteam.assistantformafia.utils.Utils
+import kotlinx.coroutines.launch
 
 /**
  * Карточка с именем и иконками
@@ -360,7 +361,7 @@ fun VotingPlayerCard(
             }
             Column(
                 modifier = Modifier
-                    .fillMaxWidth(0.2f),
+                    .fillMaxWidth(0.3f),
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
@@ -369,6 +370,7 @@ fun VotingPlayerCard(
                     fontSize = 20.sp,
                     color = Color.White,
                     softWrap = false,
+                    overflow = TextOverflow.Ellipsis,
                 )
                 Text(
                     text = role,
@@ -376,6 +378,7 @@ fun VotingPlayerCard(
                     fontSize = 12.sp,
                     color = Color.White,
                     softWrap = false,
+                    overflow = TextOverflow.Ellipsis,
                 )
             }
         }
@@ -383,17 +386,35 @@ fun VotingPlayerCard(
             horizontalArrangement = Arrangement.spacedBy(10.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
+            // TODO: нужно переделать на расширяемый бокс
+            val listState = rememberLazyListState()
+            val coroutineScope = rememberCoroutineScope()
+            if (effects.isNotEmpty()) {
+                DisposableEffect(Unit) {
+                    coroutineScope.launch {
+                        listState.animateScrollToItem(index = effects.size - 1)
+                    }
+                    onDispose { }
+                }
+            }
             LazyRow(
-                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                state = listState,
+                horizontalArrangement = Arrangement.spacedBy(6.dp),
+                modifier = Modifier.widthIn(min = 0.dp, max = 76.dp)
             ) {
                 items(effects) { effect: Effect ->
                     EffectIcon(effect)
+                }
+                item {
+                    Spacer(
+                        modifier = Modifier.size(5.dp)
+                    )
                 }
             }
             if (canBeVoted) {
                 ValuePicker(
                     modifier = Modifier
-                        .fillMaxWidth(0.6f),
+                        .requiredWidth(120.dp),
                     value = value,
                     max = max,
                     onIncreasing = onIncrease,

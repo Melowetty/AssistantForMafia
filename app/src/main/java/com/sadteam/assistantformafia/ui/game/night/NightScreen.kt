@@ -1,15 +1,7 @@
 package com.sadteam.assistantformafia.ui.game.night
 
-import android.util.Log
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Text
@@ -41,11 +33,7 @@ import com.sadteam.assistantformafia.ui.components.SelectRoleCard
 import com.sadteam.assistantformafia.ui.game.GameEvent
 import com.sadteam.assistantformafia.ui.game.NightSelectState
 import com.sadteam.assistantformafia.ui.navigation.Screen
-import com.sadteam.assistantformafia.ui.theme.BaseRoleBackgroundColor
-import com.sadteam.assistantformafia.ui.theme.DisabledSecondaryBackground
-import com.sadteam.assistantformafia.ui.theme.NightStageBackground
-import com.sadteam.assistantformafia.ui.theme.SecondaryBackground
-import com.sadteam.assistantformafia.ui.theme.primaryFontFamily
+import com.sadteam.assistantformafia.ui.theme.*
 import com.sadteam.assistantformafia.utils.Utils
 
 @Composable
@@ -56,7 +44,7 @@ fun NightScreen(
 ) {
     LaunchedEffect(key1 = Unit, block = {
         onEvent(
-            GameEvent.StartGame
+            GameEvent.StartNightVoting
         )
     })
     MainLayout(

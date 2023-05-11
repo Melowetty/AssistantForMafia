@@ -1,7 +1,6 @@
 package com.sadteam.assistantformafia.ui.game
 
 import android.content.Context
-import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -18,6 +17,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.math.max
 
 @HiltViewModel
 class GameViewModel @Inject constructor(
@@ -37,10 +37,10 @@ class GameViewModel @Inject constructor(
                     setRole(event.player, event.role)
                 is GameEvent.ClearRole ->
                     setRole(event.player, null)
-                is GameEvent.StartGame -> {
+                is GameEvent.StartGame ->
                     startGame()
+                is GameEvent.StartNightVoting ->
                     initNightVoting()
-                }
                 is GameEvent.SelectNightTarget ->
                     selectNightTarget(event.index)
                 is GameEvent.ClearNightTarget ->
@@ -49,6 +49,14 @@ class GameViewModel @Inject constructor(
                     nextNightSelect()
                 is GameEvent.StartDayVoting ->
                     startDayVoting()
+                is GameEvent.IncreaseVoices ->
+                    increaseVoices(event.playerIndex)
+                is GameEvent.DecreaseVoices ->
+                    decreaseVoices(event.playerIndex)
+                is GameEvent.KickPlayer ->
+                    kickPlayer()
+                is GameEvent.NextRound ->
+                    nextRound()
             }
         }
     }
@@ -146,6 +154,8 @@ class GameViewModel @Inject constructor(
         )
     }
 
+    // todo не появляются иконки ролей у игроков у которых нет фотки
+
     private fun startGame() {
         val players = state.value.players.map { player: Player ->
             if (player.icon.value != null) player
@@ -164,7 +174,7 @@ class GameViewModel @Inject constructor(
         val nextRole = if (roles.size == 1) null else roles.keys.elementAt(1)
         if (nextRole == null) isEnd = true
         val players = state.value.players
-        val queuePlayers = players.filter { it.role != targetRole }
+        val queuePlayers = players.filter { it.role != targetRole && it.isLive }
         state.value = state.value.copy(
             nightSelectState = NightSelectState(
                 targetRole = targetRole,
@@ -214,7 +224,7 @@ class GameViewModel @Inject constructor(
             )
         }
         val players = state.value.players
-        val queuePlayers = players.filter { it.role != nextRole }
+        val queuePlayers = players.filter { it.role != nextRole && it.isLive }
         state.value = state.value.copy(
             nightSelectState = state.value.nightSelectState.copy(
                 targetRole = nextRole,
@@ -227,7 +237,7 @@ class GameViewModel @Inject constructor(
         )
     }
 
-    /// TODO: сделать при новом ночном голосовании стирание неубийственных эффектов
+    // todo иногда бывают приколы с двойными походами бабочки и тройными убийствами, нужно пересмотреть логику
 
     private fun startDayVoting() {
         val (targetRole, _, oldQueue, targetPlayerIndex, _, _, _) =
@@ -247,6 +257,7 @@ class GameViewModel @Inject constructor(
                             if (harlot.role?.effect == Effect.LOVE
                                 && harlot.effects.contains(Effect.HEAL).not()) {
                                 harlot.isLive = false
+                                harlot.addEffect(Effect.KILL)
                                 break
                             }
                         }
@@ -258,5 +269,105 @@ class GameViewModel @Inject constructor(
             }
             player.effects.sortBy { effect: Effect -> effect.priority }
         }
+        val players = state.value.players.toMutableList()
+        players.sortBy { player: Player -> player.isLive.not() }
+        state.value = state.value.copy(
+            dayVotingState = state.value.dayVotingState.copy(
+                players = players,
+                countLivePlayers = players.filter { player: Player -> player.isLive }.size,
+                countPlayersWhoCanVote = players.filter { player: Player -> player.isLive && player.effects.contains(Effect.LOVE).not() }.size,
+            )
+        )
+    }
+    private fun increaseVoices(playerIndex: Int) {
+        state.value.dayVotingState.players[playerIndex].apply {
+            if (voices.value < state.value.dayVotingState.countPlayersWhoCanVote) {
+                voices.value += 1
+                state.value = state.value.copy(
+                    dayVotingState = state.value.dayVotingState.copy(
+                        totalVoices = state.value.dayVotingState.totalVoices + 1,
+                        canKick = checkCanKick()
+                    )
+                )
+            }
+        }
+    }
+
+    private fun decreaseVoices(playerIndex: Int) {
+        state.value.dayVotingState.players[playerIndex].apply {
+            if (voices.value > 0) {
+                voices.value -= 1
+                state.value = state.value.copy(
+                    dayVotingState = state.value.dayVotingState.copy(
+                        totalVoices = state.value.dayVotingState.totalVoices - 1,
+                        canKick = checkCanKick()
+                    )
+                )
+            }
+        }
+    }
+
+    private fun kickPlayer() {
+        if (!checkCanKick()) return
+        val players = state.value.players
+        var maxVoices = Int.MIN_VALUE
+        var indexPlayerWithMaxVoices: Int = 0
+        for ((index, player) in players.withIndex()) {
+            if (maxVoices < player.voices.value) {
+                maxVoices = player.voices.value
+                indexPlayerWithMaxVoices = index
+            }
+
+        }
+        state.value.players[indexPlayerWithMaxVoices].apply {
+            clearEffects()
+            addEffect(Effect.KICK)
+            isLive = false
+        }
+        val newPlayers = state.value.players.toMutableList()
+        newPlayers.sortBy { player: Player -> player.isLive.not() }
+        state.value = state.value.copy(
+            dayVotingState = state.value.dayVotingState.copy(
+                players = newPlayers,
+                isEnd = true,
+            )
+        )
+    }
+
+    private fun checkCanKick(): Boolean {
+        val players = state.value.players
+        var maxVoices = Int.MIN_VALUE
+        for (player in players) {
+            maxVoices = max(player.voices.value, maxVoices)
+        }
+        return players.filter { player: Player -> player.voices.value == maxVoices }.size == 1
+    }
+
+    private fun nextRound() {
+        val newRolesCount: MutableMap<Role, Int> = mutableMapOf()
+        for (player in state.value.players.filter { player: Player ->  player.isLive}) {
+            if (newRolesCount.contains(player.role)) {
+                newRolesCount[player.role!!] = newRolesCount[player.role]!! + 1
+            } else {
+                newRolesCount[player.role!!] = 1
+            }
+        }
+        val players = state.value.players.toMutableList()
+        for (player in players) {
+            player.voices.value = 0
+            if (player.isLive.not()) {
+                player.effects = player.effects.filter { effect: Effect ->
+                    effect == Effect.KICK || effect == Effect.KILL }
+                    .toMutableList()
+            } else {
+                player.clearEffects()
+            }
+        }
+        state.value = state.value.copy(
+            players = players,
+            rolesCount = newRolesCount,
+            dayVotingState = DayVotingState(),
+            nightSelectState = NightSelectState()
+        )
     }
 }

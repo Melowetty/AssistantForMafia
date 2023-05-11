@@ -1,8 +1,6 @@
 package com.sadteam.assistantformafia.ui.game
 
-import com.sadteam.assistantformafia.data.models.Effect
 import com.sadteam.assistantformafia.data.models.Player
-import com.sadteam.assistantformafia.data.models.PlayerState
 import com.sadteam.assistantformafia.data.models.Role
 
 data class GameState(
@@ -35,5 +33,10 @@ data class NightSelectState(
 )
 
 data class DayVotingState(
-    val players: List<Player> = listOf()
+    val players: List<Player> = listOf(),
+    val countLivePlayers: Int = 0,
+    val countPlayersWhoCanVote: Int = 0,
+    val totalVoices: Int = 0,
+    val canKick: Boolean = false,
+    val isEnd: Boolean = false,
 )

@@ -34,4 +34,8 @@
     <string name="photo">Photo</string>
     <string name="take_photo">Take a photo</string>
     <string name="upload_from_device">Upload from my device</string>
+    <string name="voting_time">Voting time</string>
+    <string name="voting_ended">Voting ended</string>
+    <string name="kick">Kick</string>
+    <string name="next_round">Next Round</string>
 </resources>
