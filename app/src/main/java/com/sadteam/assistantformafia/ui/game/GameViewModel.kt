@@ -39,8 +39,10 @@ class GameViewModel @Inject constructor(
                     setRole(event.player, null)
                 is GameEvent.StartGame ->
                     startGame()
-                is GameEvent.StartNightVoting ->
+                is GameEvent.StartNightVoting -> {
+                    if (state.value.isActive.not()) startGame()
                     initNightVoting()
+                }
                 is GameEvent.SelectNightTarget ->
                     selectNightTarget(event.index)
                 is GameEvent.ClearNightTarget ->
@@ -162,6 +164,7 @@ class GameViewModel @Inject constructor(
             else player.copy(icon = mutableStateOf(player.role?.playerIcon?.toImageBitmap()))
         }
         state.value = state.value.copy(
+            isActive = true,
             players = players,
             distributionOfRoles = DistributionOfRolesState()
         )
