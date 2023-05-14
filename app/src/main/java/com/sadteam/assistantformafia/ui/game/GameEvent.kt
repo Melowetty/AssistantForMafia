@@ -13,7 +13,7 @@ sealed class GameEvent {
     object StartNightVoting: GameEvent()
     object NextNightSelect: GameEvent()
     data class SelectNightTarget(val index: Int): GameEvent()
-    data class ClearNightTarget(val index: Int): GameEvent()
+    object ClearNightTarget: GameEvent()
     object StartDayVoting: GameEvent()
     data class IncreaseVoices(val playerIndex: Int): GameEvent()
     data class DecreaseVoices(val playerIndex: Int): GameEvent()

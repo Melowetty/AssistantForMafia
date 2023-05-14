@@ -46,7 +46,7 @@ class GameViewModel @Inject constructor(
                 is GameEvent.SelectNightTarget ->
                     selectNightTarget(event.index)
                 is GameEvent.ClearNightTarget ->
-                    clearNightTarget(event.index)
+                    clearNightTarget()
                 is GameEvent.NextNightSelect ->
                     nextNightSelect()
                 is GameEvent.StartDayVoting ->
@@ -90,7 +90,7 @@ class GameViewModel @Inject constructor(
     }
 
     private fun nextSelectRole() {
-        val (targetRole, nextRole, _, _, _, indexTargetRole, _) =
+        val (_, nextRole, _, _, _, indexTargetRole, _) =
             state.value.distributionOfRoles
         val newIndexTargetRole = indexTargetRole + 1
         val newNextRole = if(state.value.rolesCount.size == newIndexTargetRole + 1) null
@@ -125,7 +125,7 @@ class GameViewModel @Inject constructor(
     private fun setRole(player: Player, role: Role?) {
         val currentValue = state.value.distributionOfRoles.currentCount
         if (currentValue == state.value.distributionOfRoles.maxCount && role != null) return
-        var addition = 0
+        val addition: Int
         val players = state.value.players.toMutableList()
         val indexInPlayers = Utils.findIndexPlayerByName(players, player.name.value)
         val indexInQueue = Utils.findIndexPlayerByName(state.value.distributionOfRoles.queuePlayers, player.name.value)
@@ -155,8 +155,6 @@ class GameViewModel @Inject constructor(
             )
         )
     }
-
-    // todo не появляются иконки ролей у игроков у которых нет фотки
 
     private fun startGame() {
         val players = state.value.players.map { player: Player ->
@@ -197,7 +195,7 @@ class GameViewModel @Inject constructor(
         )
     }
 
-    private fun clearNightTarget(index: Int) {
+    private fun clearNightTarget() {
         state.value = state.value.copy(
             nightSelectState = state.value.nightSelectState.copy(
                 targetPlayerIndex = -1,
@@ -314,7 +312,7 @@ class GameViewModel @Inject constructor(
         if (!checkCanKick()) return
         val players = state.value.players
         var maxVoices = Int.MIN_VALUE
-        var indexPlayerWithMaxVoices: Int = 0
+        var indexPlayerWithMaxVoices = 0
         for ((index, player) in players.withIndex()) {
             if (maxVoices < player.voices.value) {
                 maxVoices = player.voices.value

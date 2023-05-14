@@ -120,7 +120,7 @@ fun NightScreen(
                             checked = index == state.targetPlayerIndex,
                             onCheckboxClicked = {
                                 if (it) onEvent(GameEvent.SelectNightTarget(index))
-                                else onEvent(GameEvent.ClearNightTarget(index))
+                                else onEvent(GameEvent.ClearNightTarget)
                             },
                         )
                     }
