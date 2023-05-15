@@ -196,6 +196,7 @@ fun SelectRoleCard(
     modifier: Modifier = Modifier,
     backgroundColor: Color,
     text: String,
+    description: String = "",
     mainIcon: ImageBitmap,
     mainIconModifier: Modifier = Modifier,
     checked: Boolean = false,
@@ -249,12 +250,28 @@ fun SelectRoleCard(
                     contentDescription = "main icon"
                 )
             }
-            Text(
-                text = text,
-                fontWeight = FontWeight.Bold,
-                fontSize = 20.sp,
-                color = Color.White
-            )
+            Column(
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = text,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 20.sp,
+                    color = Color.White,
+                    softWrap = false,
+                    overflow = TextOverflow.Ellipsis,
+                )
+                if(description.isNotEmpty()) {
+                    Text(
+                        text = description,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 12.sp,
+                        color = Color.White,
+                        softWrap = false,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                }
+            }
         }
         Checkbox(
             checked = checked,

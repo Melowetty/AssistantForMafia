@@ -115,6 +115,7 @@ fun NightScreen(
                         SelectRoleCard(
                             backgroundColor = item.role?.getBackgroundColor()?: BaseRoleBackgroundColor,
                             text = item.name.value,
+                            description = item.role?.getTranslatedName() ?: "",
                             mainIcon = item.icon.value?: Utils.getBitmapFromImage(LocalContext.current, R.drawable.add_a_photo).asImageBitmap(),
                             mainIconModifier = if(item.icon.value != null) Modifier else Modifier.padding(8.dp),
                             checked = index == state.targetPlayerIndex,
