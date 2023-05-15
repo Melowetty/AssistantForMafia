@@ -9,4 +9,18 @@ data class Player(
     var name: MutableState<String> = mutableStateOf(""),
     var role: Role? = null,
     var isSelected: Boolean = false,
-)
+    var isLive: Boolean = true,
+    var canVote: Boolean = true,
+    var effects: MutableList<Effect> = mutableListOf(),
+    var voices: MutableState<Int> = mutableStateOf(0),
+) {
+    fun addEffect(effect: Effect) {
+        if(effects.contains(effect).not()) {
+            effects.add(effect)
+        }
+    }
+
+    fun clearEffects() {
+        effects.clear()
+    }
+}

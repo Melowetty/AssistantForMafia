@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import com.sadteam.assistantformafia.ui.appsettings.AppSettingsScreen
 import com.sadteam.assistantformafia.ui.appsettings.AppSettingsViewModel
 import com.sadteam.assistantformafia.ui.game.GameViewModel
+import com.sadteam.assistantformafia.ui.game.day.DayScreen
 import com.sadteam.assistantformafia.ui.game.introduction.IntroductionScreen
 import com.sadteam.assistantformafia.ui.game.night.NightScreen
 import com.sadteam.assistantformafia.ui.gamecreation.GameCreationScreen
@@ -77,6 +78,15 @@ fun SetupNavGraph(
             NightScreen(
                 navController = navController,
                 state = gameViewModel.state.value.nightSelectState,
+                onEvent = gameViewModel::onEvent
+            )
+        }
+        composable(
+            route = Screen.DayStage.route
+        ) {
+            DayScreen(
+                navController = navController,
+                state = gameViewModel.state.value.dayVotingState,
                 onEvent = gameViewModel::onEvent
             )
         }

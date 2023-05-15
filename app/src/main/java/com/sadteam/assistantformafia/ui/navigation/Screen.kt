@@ -7,4 +7,5 @@ sealed class Screen (val route: String){
     object AppSettings: Screen(route = "app_settings")
     object Introduction: Screen(route = "introduction")
     object NightStage: Screen(route = "game/stage_night")
+    object DayStage: Screen(route = "game/stage_day")
 }

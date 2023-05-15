@@ -1,14 +1,15 @@
 package com.sadteam.assistantformafia.ui.game
 
 import com.sadteam.assistantformafia.data.models.Player
-import com.sadteam.assistantformafia.data.models.PlayerState
 import com.sadteam.assistantformafia.data.models.Role
 
 data class GameState(
     val players: List<Player> = listOf(),
     val rolesCount: Map<Role, Int> = mapOf(),
+    val isActive: Boolean = false,
     val distributionOfRoles: DistributionOfRolesState = DistributionOfRolesState(),
     val nightSelectState: NightSelectState = NightSelectState(),
+    val dayVotingState: DayVotingState = DayVotingState()
 )
 
 data class DistributionOfRolesState(
@@ -30,5 +31,13 @@ data class NightSelectState(
     val indexTargetRole: Int = 0,
     val canNext: Boolean = false,
     val isEnd: Boolean = false,
-    val actions: Map<Player, PlayerState> = mapOf()
+)
+
+data class DayVotingState(
+    val players: List<Player> = listOf(),
+    val countLivePlayers: Int = 0,
+    val countPlayersWhoCanVote: Int = 0,
+    val totalVoices: Int = 0,
+    val canKick: Boolean = false,
+    val isEnd: Boolean = false,
 )
