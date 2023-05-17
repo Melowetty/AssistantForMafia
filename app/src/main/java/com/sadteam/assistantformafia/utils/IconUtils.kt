@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.utils.IconUtils.Companion.toRoleIcon
@@ -14,13 +15,13 @@ class IconUtils {
     companion object {
 
         @Composable
-        fun String.toRoleIcon(): Any {
+        fun String.toRoleIcon(): ImageBitmap {
             return try {
                 val imageBytes = Base64.decode(this, 0)
                 BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size).asImageBitmap()
             } catch (exception: java.lang.Exception) {
                 exception.printStackTrace()
-                painterResource(id = R.drawable.baseline_help_24)
+                Utils.getBitmapFromImage(LocalContext.current, R.drawable.baseline_help_24).asImageBitmap()
             }
         }
 
