@@ -39,4 +39,5 @@
     <string name="voting_ended">Голосование окончено</string>
     <string name="kick">Исключить</string>
     <string name="next_round">Следующий раунд</string>
+    <string name="effects">Эффекты</string>
 </resources>

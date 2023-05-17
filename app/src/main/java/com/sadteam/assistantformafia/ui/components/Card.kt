@@ -28,6 +28,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -427,7 +428,7 @@ fun VotingPlayerCard(
                     EffectIcon(effects.last())
                 }
                 AnimatedVisibility(
-                    visible = effects.size > 1 && effects.isNotEmpty() && isExpanded.not(),
+                    visible = effects.size > 1 && isExpanded.not(),
                     enter = fadeIn(animationSpec =
                     tween(durationMillis = 200)
                     ),
@@ -469,7 +470,7 @@ fun VotingPlayerCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Effects: ",
+                    text = "${stringResource(id = R.string.effects)}: ",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White,

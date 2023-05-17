@@ -38,4 +38,5 @@
     <string name="voting_ended">Voting ended</string>
     <string name="kick">Kick</string>
     <string name="next_round">Next Round</string>
+    <string name="effects">Effects</string>
 </resources>
