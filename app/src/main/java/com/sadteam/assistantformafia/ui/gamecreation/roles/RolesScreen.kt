@@ -27,13 +27,17 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.data.models.Role
+import com.sadteam.assistantformafia.ui.components.BigButton
 import com.sadteam.assistantformafia.ui.components.MainLayout
 import com.sadteam.assistantformafia.ui.components.SelectCount
 import com.sadteam.assistantformafia.ui.components.ValuePicker
 import com.sadteam.assistantformafia.ui.gamecreation.GameCreationEvent
 import com.sadteam.assistantformafia.ui.gamecreation.GameCreationState
+import com.sadteam.assistantformafia.ui.navigation.Screen
 import com.sadteam.assistantformafia.ui.theme.BloodRed
 import com.sadteam.assistantformafia.ui.theme.DarkBlue
+import com.sadteam.assistantformafia.ui.theme.DisabledSecondaryBackground
+import com.sadteam.assistantformafia.ui.theme.SecondaryBackground
 import com.sadteam.assistantformafia.utils.IconUtils.Companion.toRoleIcon
 import com.sadteam.assistantformafia.utils.Utils
 
@@ -80,6 +84,17 @@ fun RolesScreen(
                 )
             }
         }
+        BigButton(
+            title = stringResource(id = R.string.start),
+            backgroundColor = SecondaryBackground,
+            isDisabled = !state.canStart,
+            disabledBackground = DisabledSecondaryBackground,
+            onClick = {
+                navController.navigate(route = Screen.Introduction.route) {
+                    popUpTo(route = Screen.GameCreation.route)
+                }
+            }
+        )
     }
 }
 

@@ -28,7 +28,10 @@ import com.sadteam.assistantformafia.data.models.Player
 import com.sadteam.assistantformafia.ui.components.*
 import com.sadteam.assistantformafia.ui.gamecreation.GameCreationEvent
 import com.sadteam.assistantformafia.ui.gamecreation.GameCreationState
+import com.sadteam.assistantformafia.ui.navigation.Screen
 import com.sadteam.assistantformafia.ui.theme.DarkBackground
+import com.sadteam.assistantformafia.ui.theme.DisabledSecondaryBackground
+import com.sadteam.assistantformafia.ui.theme.SecondaryBackground
 import com.sadteam.assistantformafia.ui.theme.primaryFontFamily
 import com.sadteam.assistantformafia.utils.MIN_PLAYERS_COUNT
 import com.sadteam.assistantformafia.utils.Utils
@@ -49,51 +52,68 @@ fun PlayersScreen(
             value = state.players.size,
             min = MIN_PLAYERS_COUNT,
         )
-        LazyColumn(
+        Spacer(modifier = Modifier.size(15.dp))
+        Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(20.dp),
-            verticalArrangement = Arrangement.spacedBy(5.dp),
-            content = {
-                itemsIndexed(state.players) {index: Int, item: Player ->
-                    var isPhotoSelecting by remember {
-                        mutableStateOf(false)
-                    }
-                    Card(
-                        content = {
-                            PlayerNameKeyboard(
-                                modifier = Modifier.width(160.dp),
-                                value = item.name.value,
-                                onValueChange = { newText ->
-                                    onEvent(
-                                        GameCreationEvent.SetPlayerName(index, newText)
-                                    )
-                                },
-                                placeholder = stringResource(id = R.string.enter_name),
-                            )
-                        },
-                        mainIcon = item.icon.value?: Utils.getBitmapFromImage(LocalContext.current, R.drawable.add_a_photo).asImageBitmap(),
-                        mainIconModifier = if(item.icon.value != null) Modifier else Modifier.padding(8.dp),
-                        secondIcon = painterResource(id = R.drawable.delete),
-                        onMainIconClick = {
-                            isPhotoSelecting = true
-                        },
-                        onSecondIconClick = {
-                            onEvent(
-                                GameCreationEvent.DeletePlayer(index)
-                            )
+        ) {
+            LazyColumn(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(5.dp),
+                verticalArrangement = Arrangement.spacedBy(5.dp),
+                content = {
+                    itemsIndexed(state.players) {index: Int, item: Player ->
+                        var isPhotoSelecting by remember {
+                            mutableStateOf(false)
                         }
-                    )
-                    if (isPhotoSelecting) {
-                        ImageUploadPopup(onImageUpload = {
-                            onEvent(
-                                GameCreationEvent.SetPlayerImage(index, it)
-                            )
-                            isPhotoSelecting = false
-                        })
+                        Card(
+                            content = {
+                                PlayerNameKeyboard(
+                                    modifier = Modifier.width(160.dp),
+                                    value = item.name.value,
+                                    onValueChange = { newText ->
+                                        onEvent(
+                                            GameCreationEvent.SetPlayerName(index, newText)
+                                        )
+                                    },
+                                    placeholder = stringResource(id = R.string.enter_name),
+                                )
+                            },
+                            mainIcon = item.icon.value?: Utils.getBitmapFromImage(LocalContext.current, R.drawable.add_a_photo).asImageBitmap(),
+                            mainIconModifier = if(item.icon.value != null) Modifier else Modifier.padding(8.dp),
+                            secondIcon = painterResource(id = R.drawable.delete),
+                            onMainIconClick = {
+                                isPhotoSelecting = true
+                            },
+                            onSecondIconClick = {
+                                onEvent(
+                                    GameCreationEvent.DeletePlayer(index)
+                                )
+                            }
+                        )
+                        if (isPhotoSelecting) {
+                            ImageUploadPopup(onImageUpload = {
+                                onEvent(
+                                    GameCreationEvent.SetPlayerImage(index, it)
+                                )
+                                isPhotoSelecting = false
+                            })
+                        }
+                    }
+                })
+            Spacer(modifier = Modifier.size(15.dp))
+            BigButton(
+                title = stringResource(id = R.string.next),
+                backgroundColor = SecondaryBackground,
+                disabledBackground = DisabledSecondaryBackground,
+                onClick = {
+                    navController.navigate(route = Screen.Roles.route) {
+                        popUpTo(route = Screen.GameCreation.route)
                     }
                 }
-            })
+            )
+        }
     }
 }
 
