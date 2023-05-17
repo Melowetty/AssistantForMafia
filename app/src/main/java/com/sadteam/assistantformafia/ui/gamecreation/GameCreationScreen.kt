@@ -51,10 +51,6 @@ fun GameCreationScreen(
                 }
             )
             MenuButton(
-                icon = painterResource(id = R.drawable.baseline_tune_24),
-                title = stringResource(id = R.string.game_settings),
-            )
-            MenuButton(
                 icon = painterResource(id = R.drawable.baseline_help_24),
                 title = stringResource(id = R.string.game_rules),
             )
