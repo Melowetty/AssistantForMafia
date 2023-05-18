@@ -9,4 +9,5 @@ data class GameCreationState(
     val roles: Map<Role, Int> = mapOf(),
     val distributedPlayers: Int = 0,
     val canStart: Boolean = false,
+    val rolesIsDistributed: Boolean = false,
 )

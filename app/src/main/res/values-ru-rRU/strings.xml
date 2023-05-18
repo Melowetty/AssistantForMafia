@@ -40,4 +40,6 @@
     <string name="kick">Исключить</string>
     <string name="next_round">Следующий раунд</string>
     <string name="effects">Эффекты</string>
+    <string name="roles_distributed">Распределены</string>
+    <string name="roles_not_distributed">Не распределены</string>
 </resources>

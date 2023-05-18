@@ -263,7 +263,7 @@ fun ExtendedMenuButton(
     icon: Painter,
     title: String,
     onClick: () -> Unit = {},
-    currentValue: String,
+    currentValue: String? = null,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     Row(
@@ -292,6 +292,7 @@ fun ExtendedMenuButton(
             Column(
                 modifier = Modifier
                     .fillMaxWidth(),
+                verticalArrangement = Arrangement.SpaceBetween,
             ) {
                 Text(
                     text = title,
@@ -300,13 +301,15 @@ fun ExtendedMenuButton(
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp,
                 )
-                Text(
-                    text = currentValue,
-                    color = SettingsDescription,
-                    fontFamily = primaryFontFamily,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp
-                )
+                if(currentValue != null) {
+                    Text(
+                        text = currentValue,
+                        color = SettingsDescription,
+                        fontFamily = primaryFontFamily,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 16.sp
+                    )
+                }
             }
         }
     }

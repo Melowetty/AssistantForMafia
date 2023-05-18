@@ -119,7 +119,7 @@ fun SelectLanguage(
             modifier = Modifier
                 .background(
                     color = SettingsBackground,
-                    shape = RoundedCornerShape(20.dp)
+                    shape = RoundedCornerShape(10.dp)
                 ),
             icon = painterResource(id = R.drawable.baseline_language_24),
             title = stringResource(id = R.string.language),

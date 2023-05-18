@@ -48,7 +48,7 @@ fun AppSettingsScreen(
                     .fillMaxWidth()
                     .background(
                         color = SettingsBackground,
-                        shape = RoundedCornerShape(20.dp)
+                        shape = RoundedCornerShape(10.dp)
                     ),
                 verticalArrangement = Arrangement.spacedBy(0.dp)
             ) {

@@ -39,4 +39,6 @@
     <string name="kick">Kick</string>
     <string name="next_round">Next Round</string>
     <string name="effects">Effects</string>
+    <string name="roles_distributed">Distributed</string>
+    <string name="roles_not_distributed">Not distributed</string>
 </resources>

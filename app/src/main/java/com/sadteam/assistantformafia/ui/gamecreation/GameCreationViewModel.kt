@@ -99,6 +99,7 @@ class GameCreationViewModel @Inject constructor(
                 roles = roles,
                 distributedPlayers = state.value.distributedPlayers + 1,
                 canStart = canStart,
+                rolesIsDistributed = canStart,
             )
         }
     }
