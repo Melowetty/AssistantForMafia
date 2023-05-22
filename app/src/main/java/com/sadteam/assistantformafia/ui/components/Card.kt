@@ -204,9 +204,9 @@ fun SelectRoleCard(
     Row(
         modifier = modifier
             .fillMaxWidth()
+            .clip(shape = RoundedCornerShape(10.dp))
             .background(
                 color = backgroundColor,
-                shape = RoundedCornerShape(10.dp)
             )
             .toggleable(
                 value = checked,
@@ -345,9 +345,9 @@ fun VotingPlayerCard(
     Column(
         modifier = Modifier
             .fillMaxWidth()
+            .clip(shape = RoundedCornerShape(10.dp))
             .background(
                 color = if (isEnabled) backgroundColor else BaseRoleBackgroundColor,
-                shape = RoundedCornerShape(10.dp)
             )
             .clickable {
                 if (effects.size > 1) isExpanded = isExpanded.not()
