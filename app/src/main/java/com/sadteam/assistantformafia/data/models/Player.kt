@@ -32,7 +32,7 @@ data class Player(
             isSelected = isSelected,
             isLive = isLive,
             canVote = canVote,
-            effects = effects.subList(0, effects.size),
+            effects = effects.toMutableList(),
             voices = mutableStateOf(voices.value)
         )
     }
