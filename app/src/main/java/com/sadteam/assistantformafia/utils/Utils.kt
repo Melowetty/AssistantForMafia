@@ -40,5 +40,19 @@ class Utils {
             return -1
         }
 
+        data class ColoredMessage(val colored: String, val message: String)
+
+        fun getColoredMessage(str: String): ColoredMessage {
+            val regex = Regex("\\[(.*?)\\]")
+            val matches = regex.find(str)
+            return if (matches != null) {
+                ColoredMessage(colored = matches.groupValues.get(1),
+                    message = regex.replaceFirst(str, "")
+                )
+            } else {
+                ColoredMessage(colored = "", message = str)
+            }
+        }
+
     }
 }

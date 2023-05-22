@@ -8,7 +8,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -21,7 +20,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
 import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.data.models.Role
@@ -31,7 +29,11 @@ import com.sadteam.assistantformafia.ui.components.MainLayout
 import com.sadteam.assistantformafia.ui.game.EndGameState
 import com.sadteam.assistantformafia.ui.game.GameEvent
 import com.sadteam.assistantformafia.ui.navigation.Screen
-import com.sadteam.assistantformafia.ui.theme.*
+import com.sadteam.assistantformafia.ui.theme.DayStageBackground
+import com.sadteam.assistantformafia.ui.theme.NightStageBackground
+import com.sadteam.assistantformafia.ui.theme.SecondaryBackground
+import com.sadteam.assistantformafia.ui.theme.primaryFontFamily
+import com.sadteam.assistantformafia.utils.Utils
 
 @Composable
 fun EndScreen(
@@ -78,7 +80,7 @@ fun EnemyWon(
         image = painterResource(id = R.drawable.enemy_won),
         backgroundColor = NightStageBackground,
         roleColor = role.getTextColor(),
-        role = role.getTranslatedName(),
+        winMessage = role.getTranslatedWinMessage(),
         onBackToMenu = onBackToMenu,
         backgroundImage = painterResource(id = R.drawable.moon)
     )
@@ -95,7 +97,7 @@ fun InnocentsWon(
         image = painterResource(id = R.drawable.enemy_defeat),
         backgroundColor = DayStageBackground,
         roleColor = role.getTextColor(),
-        role = role.getTranslatedName(),
+        winMessage = role.getTranslatedWinMessage(),
         onBackToMenu = onBackToMenu,
         backgroundImage = painterResource(id = R.drawable.sun)
     )
@@ -107,10 +109,11 @@ fun BaseWinLayout(
     image: Painter,
     backgroundColor: Color,
     backgroundImage: Painter,
-    role: String,
     roleColor: Color,
+    winMessage: String,
     onBackToMenu: () -> Unit
 ) {
+    val (role, message) = Utils.getColoredMessage(winMessage)
     MainLayout(
         navController = navController,
         title = stringResource(id = R.string.the_end),
@@ -167,8 +170,7 @@ fun BaseWinLayout(
                                 ) {
                                     append(role)
                                 }
-                                // todo translate
-                                append(" won")
+                                append(message)
                             }
                         }
                     }

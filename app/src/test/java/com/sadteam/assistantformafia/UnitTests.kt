@@ -1,13 +1,14 @@
 package com.sadteam.assistantformafia
 
-import com.sadteam.assistantformafia.data.models.Possibility
 import com.sadteam.assistantformafia.data.Converters
+import com.sadteam.assistantformafia.data.models.Possibility
 import com.sadteam.assistantformafia.data.models.RoleType
+import com.sadteam.assistantformafia.utils.Utils
 import org.junit.Assert.assertEquals
 import org.junit.Test
-import java.util.Locale
+import java.util.*
 
-class ConvertersUnitTests {
+class UnitTests {
     @Test
     fun checkConvertationSingleListPossibilities() {
         val data = listOf(Possibility.NONE)
@@ -61,5 +62,23 @@ class ConvertersUnitTests {
         val roleType = "COMMON"
         assertEquals(Converters().fromRoleType(roleType = RoleType.COMMON), roleType)
         assertEquals(Converters().toRoleType(roleType), RoleType.COMMON)
+    }
+
+    @Test
+    fun checkNormalStringForGetColoredMessage() {
+        val str = "[Mafia] won"
+        val result = Utils.getColoredMessage(str)
+        val expected = Utils.Companion.ColoredMessage(colored = "Mafia",
+            message = " won")
+        assertEquals(expected, result)
+    }
+
+    @Test
+    fun checkEmptyStringForGetColoredMessage() {
+        val str = ""
+        val result = Utils.getColoredMessage(str)
+        val expected = Utils.Companion.ColoredMessage(colored = "",
+            message = "")
+        assertEquals(expected, result)
     }
 }

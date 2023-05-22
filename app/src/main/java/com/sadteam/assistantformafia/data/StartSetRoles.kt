@@ -4,7 +4,7 @@ import com.sadteam.assistantformafia.data.models.Effect
 import com.sadteam.assistantformafia.data.models.Possibility
 import com.sadteam.assistantformafia.data.models.Role
 import com.sadteam.assistantformafia.data.models.RoleType
-import java.util.Locale
+import java.util.*
 
 class StartSetRoles {
     private fun translatedWordsToMap(russian: String): Map<Locale, String> {
@@ -21,6 +21,10 @@ class StartSetRoles {
             defaultName = "Mafia",
             description = mapOf(),
             defaultDescription = "",
+            defaultWinMessage = "[Mafias] won",
+            winMessage = translatedWordsToMap(
+                "[Мафия] победила"
+            ),
             possibilities = listOf(Possibility.KILL),
             min = 1,
             roleType = RoleType.ENEMY,
@@ -47,7 +51,7 @@ class StartSetRoles {
         Role(
             id = 3,
             name = translatedWordsToMap(
-                "Бабочка",
+                "Любовница",
             ),
             defaultName = "Harlot",
             description = mapOf(),
@@ -84,6 +88,10 @@ class StartSetRoles {
             defaultName = "Maniac",
             description = mapOf(),
             defaultDescription = "",
+            defaultWinMessage = "[Maniac] won",
+            winMessage = translatedWordsToMap(
+                "[Маньяк] победил"
+            ),
             possibilities = listOf(Possibility.KILL),
             min = 0,
             roleType = RoleType.ENEMY,
@@ -100,6 +108,10 @@ class StartSetRoles {
             defaultName = "Innocent",
             description = mapOf(),
             defaultDescription = "",
+            defaultWinMessage = "[Innocents] won",
+            winMessage = translatedWordsToMap(
+                "[Мирные жители] победили"
+            ),
             possibilities = listOf(Possibility.NONE),
             min = 1,
             roleType = RoleType.COMMON,

@@ -396,7 +396,7 @@ class GameViewModel @Inject constructor(
                 countCommons += 1
             }
         }
-        if (countEnemies > countCommons) {
+        if (countEnemies >= countCommons) {
             state.value = state.value.copy(
                 dayVotingState = state.value.dayVotingState.copy(
                     gameIsEnd = true,

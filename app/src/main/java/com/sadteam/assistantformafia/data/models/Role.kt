@@ -3,7 +3,7 @@ package com.sadteam.assistantformafia.data.models
 import androidx.compose.ui.graphics.Color
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.util.Locale
+import java.util.*
 
 @Entity(tableName = "roles")
 data class Role(
@@ -14,6 +14,8 @@ data class Role(
     val defaultName: String,
     val description: Map<Locale, String>,
     val defaultDescription: String,
+    val defaultWinMessage: String = "",
+    val winMessage: Map<Locale, String> = mapOf(),
     val min: Int,
     val max: Int = Int.MAX_VALUE,
     val possibilities: List<Possibility>,
@@ -26,6 +28,14 @@ data class Role(
             translatedName = defaultName
         }
         return translatedName
+    }
+
+    fun getTranslatedWinMessage(): String {
+        var translatedWinMessage = winMessage[Locale.getDefault()]
+        if(translatedWinMessage.isNullOrEmpty()) {
+            translatedWinMessage = defaultWinMessage
+        }
+        return translatedWinMessage
     }
 
     fun getTranslatedDescription(): String {
