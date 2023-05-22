@@ -13,7 +13,7 @@ data class Player(
     var canVote: Boolean = true,
     var effects: MutableList<Effect> = mutableListOf(),
     var voices: MutableState<Int> = mutableStateOf(0),
-) {
+) : Cloneable {
     fun addEffect(effect: Effect) {
         if(effects.contains(effect).not()) {
             effects.add(effect)
@@ -22,5 +22,18 @@ data class Player(
 
     fun clearEffects() {
         effects.clear()
+    }
+
+    public override fun clone(): Any {
+        return Player(
+            icon = mutableStateOf(icon.value),
+            name = mutableStateOf(name.value),
+            role = role,
+            isSelected = isSelected,
+            isLive = isLive,
+            canVote = canVote,
+            effects = effects.subList(0, effects.size),
+            voices = mutableStateOf(voices.value)
+        )
     }
 }

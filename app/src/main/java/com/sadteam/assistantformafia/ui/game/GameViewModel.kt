@@ -66,7 +66,7 @@ class GameViewModel @Inject constructor(
     private fun initGame(initialState: GameCreationState) {
         val players = mutableListOf<Player>()
         for ((index, player) in initialState.players.withIndex()) {
-            val copiedPlayer = player.copy()
+            val copiedPlayer = player.clone() as Player
             if (copiedPlayer.name.value == "") {
                 copiedPlayer.name.value = "${context.resources.getString(R.string.player)} " +
                         "${index + 1}"
