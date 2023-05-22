@@ -2,14 +2,11 @@ package com.sadteam.assistantformafia.utils
 
 import android.graphics.BitmapFactory
 import android.util.Base64
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import com.sadteam.assistantformafia.R
-import com.sadteam.assistantformafia.utils.IconUtils.Companion.toRoleIcon
 
 class IconUtils {
     companion object {

@@ -1,6 +1,6 @@
 package com.sadteam.assistantformafia.ui.appsettings
 
-import java.util.Locale
+import java.util.*
 
 data class AppSettingsState(
     val language: Locale = Locale.getDefault(),

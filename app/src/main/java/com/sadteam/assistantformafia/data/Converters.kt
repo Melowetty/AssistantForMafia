@@ -3,7 +3,7 @@ package com.sadteam.assistantformafia.data
 import androidx.room.TypeConverter
 import com.sadteam.assistantformafia.data.models.Possibility
 import com.sadteam.assistantformafia.data.models.RoleType
-import java.util.Locale
+import java.util.*
 
 class Converters {
     @TypeConverter
