@@ -2,6 +2,7 @@ package com.sadteam.assistantformafia.ui.gamecreation.players
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -127,6 +128,7 @@ fun ImageUploadPopup(
     var isUploadingFromDevice by remember {
         mutableStateOf(false)
     }
+    val interactionSource = remember { MutableInteractionSource() }
     Popup(
         alignment = Alignment.Center,
         properties = PopupProperties(focusable = true),
@@ -136,6 +138,13 @@ fun ImageUploadPopup(
                 .fillMaxSize()
                 .background(
                     color = DarkBackground,
+                )
+                .clickable(
+                    interactionSource = interactionSource,
+                    indication = null,
+                    onClick = {
+                        onImageUpload(null)
+                    }
                 )
                 .padding(horizontal = 10.dp),
             contentAlignment = Alignment.Center,
@@ -147,6 +156,11 @@ fun ImageUploadPopup(
                     .background(
                         color = Color.White,
                         shape = RoundedCornerShape(10.dp)
+                    )
+                    .clickable(
+                        interactionSource = interactionSource,
+                        indication = null,
+                        onClick = {}
                     )
                     .padding(vertical = 12.dp, horizontal = 10.dp),
                 verticalArrangement = Arrangement.spacedBy(5.dp),

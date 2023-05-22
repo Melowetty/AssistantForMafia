@@ -10,6 +10,7 @@ sealed class GameEvent {
     data class SetRole(val player: Player, val role: Role?): GameEvent()
     data class ClearRole(val player: Player): GameEvent()
     object StartGame: GameEvent()
+    object EndGame: GameEvent()
     object StartNightVoting: GameEvent()
     object NextNightSelect: GameEvent()
     data class SelectNightTarget(val index: Int): GameEvent()

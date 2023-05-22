@@ -108,7 +108,8 @@ class GameCreationViewModel @Inject constructor(
         val players = state.value.players.toMutableList()
         players.add(Player())
         state.value = state.value.copy(
-            players = players
+            players = players,
+            canStart = false,
         )
     }
 
@@ -116,6 +117,7 @@ class GameCreationViewModel @Inject constructor(
         if (state.value.players.size <= MIN_PLAYERS_COUNT) return
         val players = state.value.players.toMutableList()
         players.removeAt(pos)
+        clearRolesCount()
         state.value = state.value.copy(
             players = players
         )
@@ -141,8 +143,20 @@ class GameCreationViewModel @Inject constructor(
         if (state.value.players.size <= MIN_PLAYERS_COUNT) return
         val players = state.value.players.toMutableList()
         players.removeLast()
+        clearRolesCount()
         state.value = state.value.copy(
             players = players
+        )
+    }
+
+    private fun clearRolesCount() {
+        val roles = mutableMapOf<Role, Int>()
+        for ((role, count) in state.value.roles) {
+            roles[role] = role.min
+        }
+        state.value = state.value.copy(
+            roles = roles,
+            canStart = false,
         )
     }
 }

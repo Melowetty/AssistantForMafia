@@ -39,8 +39,10 @@ fun DayScreen(
     onEvent: (GameEvent) -> Unit,
 ) {
     LaunchedEffect(key1 = state.gameIsEnd) {
-        navController.navigate(Screen.EndStage.route) {
-            popUpTo(route = Screen.GameCreation.route)
+        if (state.gameIsEnd) {
+            navController.navigate(Screen.EndStage.route) {
+                popUpTo(route = Screen.GameCreation.route)
+            }
         }
     }
     LaunchedEffect(key1 = Unit) {

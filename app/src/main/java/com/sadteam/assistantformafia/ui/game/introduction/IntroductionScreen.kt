@@ -78,6 +78,7 @@ fun IntroductionScreen(
                                 ),
                             ) {
                                 append(state.targetRole?.getTranslatedName() ?: "None")
+                                append(" (${state.maxCount})")
                             }
                         }
                     }

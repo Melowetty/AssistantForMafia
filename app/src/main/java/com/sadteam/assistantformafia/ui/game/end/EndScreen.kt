@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,39 +24,61 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
 import com.sadteam.assistantformafia.R
+import com.sadteam.assistantformafia.data.models.Role
+import com.sadteam.assistantformafia.data.models.RoleType
 import com.sadteam.assistantformafia.ui.components.BigButton
 import com.sadteam.assistantformafia.ui.components.MainLayout
 import com.sadteam.assistantformafia.ui.game.EndGameState
+import com.sadteam.assistantformafia.ui.game.GameEvent
 import com.sadteam.assistantformafia.ui.navigation.Screen
 import com.sadteam.assistantformafia.ui.theme.*
 
 @Composable
 fun EndScreen(
     navController: NavController,
-    state: EndGameState
+    state: EndGameState,
+    onEvent: (GameEvent) -> Unit,
 ) {
-    InnocentsWon(
-        navController = navController,
-        onBackToMenu = {
-            // todo clear game state
-            navController.navigate(route = Screen.GameCreation.route) {
-                popUpTo(route = Screen.GameCreation.route)
+    LaunchedEffect(key1 = Unit) {
+        onEvent(
+            GameEvent.EndGame
+        )
+    }
+    if (state.roleWin?.roleType == RoleType.ENEMY) {
+        EnemyWon(
+            navController = navController,
+            onBackToMenu = {
+                navController.navigate(route = Screen.GameCreation.route) {
+                    popUpTo(route = Screen.GameCreation.route)
+                }
+            },
+            role = state.roleWin,
+        )
+    } else {
+        InnocentsWon(
+            navController = navController,
+            role = state.roleWin!!,
+            onBackToMenu = {
+                navController.navigate(route = Screen.GameCreation.route) {
+                    popUpTo(route = Screen.GameCreation.route)
+                }
             }
-        }
-    )
+        )
+    }
 }
 
 @Composable
 fun EnemyWon(
     navController: NavController,
+    role: Role,
     onBackToMenu: () -> Unit,
 ) {
     BaseWinLayout(
         navController = navController,
         image = painterResource(id = R.drawable.enemy_won),
         backgroundColor = NightStageBackground,
-        roleColor = EnemyRoleTextColor,
-        role = "Mafia",
+        roleColor = role.getTextColor(),
+        role = role.getTranslatedName(),
         onBackToMenu = onBackToMenu,
         backgroundImage = painterResource(id = R.drawable.moon)
     )
@@ -64,14 +87,15 @@ fun EnemyWon(
 @Composable
 fun InnocentsWon(
     navController: NavController,
+    role: Role,
     onBackToMenu: () -> Unit,
 ) {
     BaseWinLayout(
         navController = navController,
         image = painterResource(id = R.drawable.enemy_defeat),
         backgroundColor = DayStageBackground,
-        roleColor = CommonRoleTextColor,
-        role = "Innocents",
+        roleColor = role.getTextColor(),
+        role = role.getTranslatedName(),
         onBackToMenu = onBackToMenu,
         backgroundImage = painterResource(id = R.drawable.sun)
     )
@@ -141,7 +165,6 @@ fun BaseWinLayout(
                                         color = roleColor,
                                     ),
                                 ) {
-                                    // todo out winner role
                                     append(role)
                                 }
                                 // todo translate

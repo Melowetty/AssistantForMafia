@@ -5,10 +5,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sadteam.assistantformafia.R
-import com.sadteam.assistantformafia.data.models.Effect
-import com.sadteam.assistantformafia.data.models.Player
-import com.sadteam.assistantformafia.data.models.Possibility
-import com.sadteam.assistantformafia.data.models.Role
+import com.sadteam.assistantformafia.data.StartSetRoles
+import com.sadteam.assistantformafia.data.models.*
 import com.sadteam.assistantformafia.ui.gamecreation.GameCreationState
 import com.sadteam.assistantformafia.utils.IconUtils.Companion.toImageBitmap
 import com.sadteam.assistantformafia.utils.Utils
@@ -59,6 +57,8 @@ class GameViewModel @Inject constructor(
                     kickPlayer()
                 is GameEvent.NextRound ->
                     nextRound()
+                is GameEvent.EndGame ->
+                    endGame()
             }
         }
     }
@@ -82,10 +82,11 @@ class GameViewModel @Inject constructor(
             isActive = false,
             distributionOfRoles = DistributionOfRolesState(
                 targetRole = roles.keys.elementAt(0),
-                nextRole = roles.keys.elementAt(1),
+                nextRole = if(roles.size > 2) roles.keys.elementAt(1) else null,
                 queuePlayers = players,
                 maxCount = roles.values.first(),
                 indexTargetRole = 0,
+                isEnd = roles.size <= 2
             ),
             nightSelectState = NightSelectState(),
             endGameState = EndGameState(),
@@ -97,7 +98,7 @@ class GameViewModel @Inject constructor(
         val (_, nextRole, _, _, _, indexTargetRole, _) =
             state.value.distributionOfRoles
         val newIndexTargetRole = indexTargetRole + 1
-        val newNextRole = if(state.value.rolesCount.size == newIndexTargetRole + 1) null
+        val newNextRole = if(state.value.rolesCount.size == newIndexTargetRole + 2) null
             else state.value.rolesCount.keys.elementAt(newIndexTargetRole + 1)
         if(newNextRole == null) {
             state.value = state.value.copy(
@@ -161,7 +162,13 @@ class GameViewModel @Inject constructor(
     }
 
     private fun startGame() {
-        val players = state.value.players.map { player: Player ->
+        val role = state.value.rolesCount.keys.last()
+        var players = state.value.players.map { player: Player ->
+            if(player.role == null) player.copy(role = role)
+            else player
+        }
+
+        players = players.map { player: Player ->
             if (player.icon.value != null) player
             else player.copy(icon = mutableStateOf(player.role?.playerIcon?.toImageBitmap()))
         }
@@ -283,6 +290,7 @@ class GameViewModel @Inject constructor(
                 countPlayersWhoCanVote = players.filter { player: Player -> player.isLive && player.effects.contains(Effect.LOVE).not() }.size,
             )
         )
+        checkGameIsEnd()
     }
     private fun increaseVoices(playerIndex: Int) {
         state.value.dayVotingState.players[playerIndex].apply {
@@ -337,6 +345,7 @@ class GameViewModel @Inject constructor(
                 isEnd = true,
             )
         )
+        checkGameIsEnd()
     }
 
     private fun checkCanKick(): Boolean {
@@ -373,6 +382,47 @@ class GameViewModel @Inject constructor(
             rolesCount = newRolesCount,
             dayVotingState = DayVotingState(),
             nightSelectState = NightSelectState()
+        )
+    }
+
+    private fun checkGameIsEnd() {
+        val players = state.value.dayVotingState.players.filter { player: Player -> player.isLive }
+        var countEnemies = 0
+        var countCommons = 0
+        for (player in players) {
+            if (player.role?.roleType == RoleType.ENEMY) {
+                countEnemies += 1
+            } else {
+                countCommons += 1
+            }
+        }
+        if (countEnemies > countCommons) {
+            state.value = state.value.copy(
+                dayVotingState = state.value.dayVotingState.copy(
+                    gameIsEnd = true,
+                ),
+                endGameState = state.value.endGameState.copy(
+                    roleWin = StartSetRoles().getRoles()[0],
+                )
+            )
+            return
+        }
+        if (countEnemies == 0) {
+            state.value = state.value.copy(
+                dayVotingState = state.value.dayVotingState.copy(
+                    gameIsEnd = true,
+                ),
+                endGameState = state.value.endGameState.copy(
+                    roleWin = StartSetRoles().getRoles()[5],
+                )
+            )
+            return
+        }
+    }
+
+    private fun endGame() {
+        state.value = GameState(
+            endGameState = state.value.endGameState.copy()
         )
     }
 }

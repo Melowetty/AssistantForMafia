@@ -96,7 +96,8 @@ fun SetupNavGraph(
         ) {
             EndScreen(
                 navController = navController,
-                state = gameViewModel.state.value.endGameState
+                state = gameViewModel.state.value.endGameState,
+                onEvent = gameViewModel::onEvent
             )
         }
     }
