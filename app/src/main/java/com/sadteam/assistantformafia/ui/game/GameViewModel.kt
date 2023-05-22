@@ -6,7 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.data.StartSetRoles
-import com.sadteam.assistantformafia.data.models.*
+import com.sadteam.assistantformafia.data.models.Effect
+import com.sadteam.assistantformafia.data.models.Player
+import com.sadteam.assistantformafia.data.models.Role
+import com.sadteam.assistantformafia.data.models.RoleType
 import com.sadteam.assistantformafia.ui.gamecreation.GameCreationState
 import com.sadteam.assistantformafia.utils.IconUtils.Companion.toImageBitmap
 import com.sadteam.assistantformafia.utils.Utils
@@ -172,6 +175,11 @@ class GameViewModel @Inject constructor(
             if (player.icon.value != null) player
             else player.copy(icon = mutableStateOf(player.role?.playerIcon?.toImageBitmap()))
         }
+
+        players = players.map { player: Player ->
+            if(player.role?.canSelectOneself == true) player.copy(canSelectOneself = true)
+            else player
+        }
         state.value = state.value.copy(
             isActive = true,
             players = players,
@@ -180,13 +188,14 @@ class GameViewModel @Inject constructor(
     }
 
     private fun initNightVoting() {
-        val roles = state.value.rolesCount.filter { it.key.possibilities.first() != Possibility.NONE }
+        val roles = state.value.rolesCount.filter { it.key.effect != null}
         val targetRole = roles.keys.elementAt(0)
         var isEnd = false
         val nextRole = if (roles.size == 1) null else roles.keys.elementAt(1)
         if (nextRole == null) isEnd = true
         val players = state.value.players
-        val queuePlayers = players.filter { it.role != targetRole && it.isLive }
+        val previousTarget = players.filter { player: Player -> player.role == targetRole }.first()
+        var queuePlayers = players.filter { (it.canSelectOneself && it.isLive) || (it.role != targetRole && it.isLive) }
         state.value = state.value.copy(
             nightSelectState = NightSelectState(
                 targetRole = targetRole,
@@ -218,13 +227,20 @@ class GameViewModel @Inject constructor(
     private fun nextNightSelect() {
         val (targetRole, nextRole, oldQueue, targetPlayerIndex, indexTargetRole, _, _) =
             state.value.nightSelectState
-
         if (targetRole?.effect != null) {
+            val playersWithTargetRole = state.value.players.filter { it.role == targetRole && it.isLive}
             state.value.players[state.value.players.indexOf(oldQueue[targetPlayerIndex])].apply {
+                if(playersWithTargetRole.size == 1 && playersWithTargetRole.first() == this) canSelectOneself = false
                 addEffect(targetRole.effect)
             }
+            val player = state.value.players[state.value.players.indexOf(oldQueue[targetPlayerIndex])]
+            playersWithTargetRole.map { rolePlayer: Player ->
+                rolePlayer.apply {
+                    previousTarget = player
+                }
+            }
         }
-        val roles = state.value.rolesCount.filter { it.key.possibilities.first() != Possibility.NONE }
+        val roles = state.value.rolesCount.filter { it.key.effect != null}
         val newIndexTargetRole = indexTargetRole + 1
         val newNextRole = if(roles.size == newIndexTargetRole + 1) null
         else roles.keys.elementAt(newIndexTargetRole + 1)
@@ -236,7 +252,9 @@ class GameViewModel @Inject constructor(
             )
         }
         val players = state.value.players
-        val queuePlayers = players.filter { it.role != nextRole && it.isLive }
+        val previousTarget = players.first { player: Player -> player.role == nextRole }.previousTarget
+        var queuePlayers = players.filter { (it.canSelectOneself && it.isLive) || (it.role != nextRole && it.isLive) }
+        queuePlayers = queuePlayers.filter { !(nextRole?.canSelectSameTarget == false && it == previousTarget) }
         state.value = state.value.copy(
             nightSelectState = state.value.nightSelectState.copy(
                 targetRole = nextRole,
@@ -254,10 +272,17 @@ class GameViewModel @Inject constructor(
     private fun startDayVoting() {
         val (targetRole, _, oldQueue, targetPlayerIndex, _, _, _) =
             state.value.nightSelectState
-
+        val playersWithTargetRole = state.value.players.filter { it.role == targetRole && it.isLive}.toMutableList()
         if (targetRole?.effect != null) {
             state.value.players[state.value.players.indexOf(oldQueue[targetPlayerIndex])].apply {
+                if(playersWithTargetRole.size == 1 && playersWithTargetRole.first() == this) canSelectOneself = false
                 addEffect(targetRole.effect)
+            }
+            val player = state.value.players[state.value.players.indexOf(oldQueue[targetPlayerIndex])]
+            playersWithTargetRole.map { rolePlayer: Player ->
+                rolePlayer.apply {
+                    previousTarget = player
+                }
             }
         }
         for (player in state.value.players) {
@@ -375,6 +400,7 @@ class GameViewModel @Inject constructor(
                     .toMutableList()
             } else {
                 player.clearEffects()
+                player.canVote = true
             }
         }
         state.value = state.value.copy(

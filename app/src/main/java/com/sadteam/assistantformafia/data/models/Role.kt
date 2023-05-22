@@ -21,6 +21,8 @@ data class Role(
     val possibilities: List<Possibility>,
     val roleType: RoleType,
     val effect: Effect? = null,
+    val canSelectOneself: Boolean = false,
+    val canSelectSameTarget: Boolean = true,
 ) {
     fun getTranslatedName(): String {
         var translatedName = name[Locale.getDefault()]
@@ -52,5 +54,18 @@ data class Role(
 
     fun getTextColor(): Color {
         return roleType.textColor
+    }
+
+    override fun toString(): String {
+        return "Role(name=${defaultName}," +
+                " roleType=${roleType}," +
+                " possibilities=${possibilities}," +
+                " min=${min}," +
+                " max=${max}," +
+                " effect=${effect}," +
+                " canSelectOneself=${canSelectOneself}," +
+                " canSelectSameTarget=${canSelectSameTarget}, " +
+                " winMessage=${winMessage})"
+
     }
 }
