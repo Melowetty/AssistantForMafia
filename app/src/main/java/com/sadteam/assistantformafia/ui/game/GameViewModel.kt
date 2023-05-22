@@ -79,13 +79,17 @@ class GameViewModel @Inject constructor(
         state.value = state.value.copy(
             players = players,
             rolesCount = roles,
+            isActive = false,
             distributionOfRoles = DistributionOfRolesState(
                 targetRole = roles.keys.elementAt(0),
                 nextRole = roles.keys.elementAt(1),
                 queuePlayers = players,
                 maxCount = roles.values.first(),
                 indexTargetRole = 0,
-            )
+            ),
+            nightSelectState = NightSelectState(),
+            endGameState = EndGameState(),
+            dayVotingState = DayVotingState()
         )
     }
 

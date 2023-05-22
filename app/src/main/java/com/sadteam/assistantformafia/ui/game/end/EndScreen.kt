@@ -38,7 +38,9 @@ fun EndScreen(
         navController = navController,
         onBackToMenu = {
             // todo clear game state
-            navController.navigate(route = Screen.GameCreation.route)
+            navController.navigate(route = Screen.GameCreation.route) {
+                popUpTo(route = Screen.GameCreation.route)
+            }
         }
     )
 }

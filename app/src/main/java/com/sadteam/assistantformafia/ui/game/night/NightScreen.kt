@@ -134,7 +134,9 @@ fun NightScreen(
                         isDisabled = !state.canNext,
                         disabledBackground = DisabledSecondaryBackground,
                         onClick = {
-                            navController.navigate(Screen.DayStage.route)
+                            navController.navigate(Screen.DayStage.route) {
+                                popUpTo(route = Screen.GameCreation.route)
+                            }
                         }
                     )
                 }

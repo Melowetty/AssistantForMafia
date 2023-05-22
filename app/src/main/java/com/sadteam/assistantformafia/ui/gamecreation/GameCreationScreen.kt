@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.ui.components.*
+import com.sadteam.assistantformafia.ui.game.GameEvent
 import com.sadteam.assistantformafia.ui.navigation.Screen
 import com.sadteam.assistantformafia.ui.theme.DisabledSecondaryBackground
 import com.sadteam.assistantformafia.ui.theme.SecondaryBackground

@@ -38,6 +38,11 @@ fun DayScreen(
     state: DayVotingState,
     onEvent: (GameEvent) -> Unit,
 ) {
+    LaunchedEffect(key1 = state.gameIsEnd) {
+        navController.navigate(Screen.EndStage.route) {
+            popUpTo(route = Screen.GameCreation.route)
+        }
+    }
     LaunchedEffect(key1 = Unit) {
         onEvent(
             GameEvent.StartDayVoting
@@ -128,7 +133,9 @@ fun DayScreen(
                             onEvent(
                                 GameEvent.NextRound
                             )
-                            navController.navigate(Screen.NightStage.route)
+                            navController.navigate(Screen.NightStage.route) {
+                                popUpTo(route = Screen.GameCreation.route)
+                            }
                         }
                     )
                 }

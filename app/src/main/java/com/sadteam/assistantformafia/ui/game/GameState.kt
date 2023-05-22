@@ -41,6 +41,7 @@ data class DayVotingState(
     val totalVoices: Int = 0,
     val canKick: Boolean = false,
     val isEnd: Boolean = false,
+    val gameIsEnd: Boolean = false,
 )
 
 data class EndGameState(
