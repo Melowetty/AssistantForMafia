@@ -179,8 +179,8 @@ fun ImageUploadPopup(
                 )
                 Text(
                     modifier = Modifier
-                        .padding(vertical = 10.dp)
-                        .clickable { isTakingPicture = true },
+                        .clickable { isTakingPicture = true }
+                        .padding(vertical = 10.dp),
                     text = stringResource(id = R.string.take_photo),
                     fontSize = 16.sp,
                     fontFamily = primaryFontFamily,
@@ -188,8 +188,8 @@ fun ImageUploadPopup(
                 )
                 Text(
                     modifier = Modifier
-                        .padding(vertical = 10.dp)
-                        .clickable { isUploadingFromDevice = true },
+                        .clickable { isUploadingFromDevice = true }
+                        .padding(vertical = 10.dp),
                     text = stringResource(id = R.string.upload_from_device),
                     fontSize = 16.sp,
                     fontFamily = primaryFontFamily,

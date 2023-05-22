@@ -67,12 +67,12 @@ fun CustomPopup(
                         .fillMaxWidth()
                         .wrapContentHeight()
                         .background(color = PopupBackground, shape = RoundedCornerShape(10))
-                        .padding(vertical = 10.dp)
                         .clickable(
                             interactionSource = interactionSource,
                             indication = null,
                             onClick = {}
-                        ),
+                        )
+                        .padding(vertical = 10.dp),
                 ) {
                     Row(
                         modifier = Modifier

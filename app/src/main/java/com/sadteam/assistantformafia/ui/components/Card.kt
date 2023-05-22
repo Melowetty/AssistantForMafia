@@ -110,14 +110,14 @@ fun Card(
                 color = BloodRed,
                 shape = RoundedCornerShape(10.dp)
             )
-            .padding(horizontal = 10.dp, vertical = 4.dp)
             .clickable(
                 interactionSource = interactionSource,
                 indication = null,
                 onClick = {
                     onClick()
                 }
-            ),
+            )
+            .padding(horizontal = 10.dp, vertical = 4.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -160,14 +160,14 @@ fun Card(
                     color = Color.Transparent,
                     CircleShape,
                 )
-                .padding(start = 12.dp, top = 12.dp, bottom = 12.dp)
                 .clickable(
                     interactionSource = interactionSource,
                     indication = null,
                     onClick = {
                         onSecondIconClick()
                     }
-                ),
+                )
+                .padding(start = 12.dp, top = 12.dp, bottom = 12.dp),
         ) {
             Icon(
                 painter = secondIcon,

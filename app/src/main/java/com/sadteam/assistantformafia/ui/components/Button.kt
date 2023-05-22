@@ -57,12 +57,12 @@ fun MenuButton(
                 color = BloodRed,
                 shape = CircleShape
             )
-            .padding(top = 8.dp, end = 10.dp, bottom = 8.dp, start = 20.dp)
             .clickable(
                 interactionSource = interactionSource,
                 indication = null,
                 onClick = onClick
-            ),
+            )
+            .padding(top = 8.dp, end = 10.dp, bottom = 8.dp, start = 20.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -134,12 +134,12 @@ fun MenuButton(
                 color = BloodRed,
                 shape = CircleShape
             )
-            .padding(top = 8.dp, end = 10.dp, bottom = 8.dp, start = 20.dp)
             .clickable(
                 interactionSource = interactionSource,
                 indication = null,
                 onClick = onClick
-            ),
+            )
+            .padding(top = 8.dp, end = 10.dp, bottom = 8.dp, start = 20.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -206,12 +206,12 @@ fun ExtendedMenuButton(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(top = 8.dp, end = 20.dp, bottom = 8.dp, start = 20.dp)
             .clickable(
                 interactionSource = interactionSource,
                 indication = null,
                 onClick = onClick
-            ),
+            )
+            .padding(top = 8.dp, end = 20.dp, bottom = 8.dp, start = 20.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -264,12 +264,12 @@ fun ExtendedMenuButton(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(top = 8.dp, end = 10.dp, bottom = 8.dp, start = 20.dp)
             .clickable(
                 interactionSource = interactionSource,
                 indication = null,
                 onClick = onClick
-            ),
+            )
+            .padding(top = 8.dp, end = 10.dp, bottom = 8.dp, start = 20.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -366,8 +366,6 @@ fun BigButton(
                 color = if(!isDisabled) backgroundColor else disabledBackground,
                 shape = CircleShape
             )
-            .padding(top = 16.dp, bottom = 16.dp)
-
             .clickable(
                 interactionSource = interactionSource,
                 indication = null,
@@ -375,6 +373,7 @@ fun BigButton(
                     if (!isDisabled) onClick()
                 }
             )
+            .padding(top = 16.dp, bottom = 16.dp)
     ){
         Text(
             text = title,
