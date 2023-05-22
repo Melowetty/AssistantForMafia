@@ -14,10 +14,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.sadteam.assistantformafia.R
-import com.sadteam.assistantformafia.ui.components.BigButton
-import com.sadteam.assistantformafia.ui.components.ExtendedMenuButton
-import com.sadteam.assistantformafia.ui.components.MainLayout
-import com.sadteam.assistantformafia.ui.components.MenuButton
+import com.sadteam.assistantformafia.ui.components.*
 import com.sadteam.assistantformafia.ui.navigation.Screen
 import com.sadteam.assistantformafia.ui.theme.DisabledSecondaryBackground
 import com.sadteam.assistantformafia.ui.theme.SecondaryBackground
@@ -44,6 +41,7 @@ fun GameCreationScreen(
         ) {
             ExtendedMenuButton(
                 modifier = Modifier
+                    .bounceClick()
                     .background(
                         color = SettingsBackground,
                         shape = RoundedCornerShape(10.dp)
@@ -57,6 +55,7 @@ fun GameCreationScreen(
             )
             ExtendedMenuButton(
                 modifier = Modifier
+                    .bounceClick()
                     .background(
                         color = SettingsBackground,
                         shape = RoundedCornerShape(10.dp)
@@ -71,6 +70,7 @@ fun GameCreationScreen(
             )
             ExtendedMenuButton(
                 modifier = Modifier
+                    .bounceClick()
                     .background(
                         color = SettingsBackground,
                         shape = RoundedCornerShape(10.dp)

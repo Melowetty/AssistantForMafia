@@ -42,4 +42,6 @@
     <string name="effects">Эффекты</string>
     <string name="roles_distributed">Распределены</string>
     <string name="roles_not_distributed">Не распределены</string>
+    <string name="the_end">КОНЕЦ</string>
+    <string name="back_to_menu">Вернуться на главный экран</string>
 </resources>

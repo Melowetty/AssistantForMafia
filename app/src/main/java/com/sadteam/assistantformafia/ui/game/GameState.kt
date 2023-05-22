@@ -9,7 +9,8 @@ data class GameState(
     val isActive: Boolean = false,
     val distributionOfRoles: DistributionOfRolesState = DistributionOfRolesState(),
     val nightSelectState: NightSelectState = NightSelectState(),
-    val dayVotingState: DayVotingState = DayVotingState()
+    val dayVotingState: DayVotingState = DayVotingState(),
+    val endGameState: EndGameState = EndGameState(),
 )
 
 data class DistributionOfRolesState(
@@ -40,4 +41,8 @@ data class DayVotingState(
     val totalVoices: Int = 0,
     val canKick: Boolean = false,
     val isEnd: Boolean = false,
+)
+
+data class EndGameState(
+    val roleWin: Role? = null
 )

@@ -41,4 +41,6 @@
     <string name="effects">Effects</string>
     <string name="roles_distributed">Distributed</string>
     <string name="roles_not_distributed">Not distributed</string>
+    <string name="the_end">THE END</string>
+    <string name="back_to_menu">Back to menu</string>
 </resources>
