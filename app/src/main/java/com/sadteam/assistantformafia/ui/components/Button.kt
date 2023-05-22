@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -504,6 +505,7 @@ fun BackButton(
 ) {
     if (navController.backQueue.size > 2)
     {
+        val focusManager = LocalFocusManager.current
         val interactionSource = remember { MutableInteractionSource() }
         Icon(
             painter = painterResource(id = R.drawable.baseline_arrow_back_24),
@@ -515,6 +517,7 @@ fun BackButton(
                     interactionSource = interactionSource,
                     indication = null,
                     onClick = {
+                        focusManager.clearFocus()
                         navController.popBackStack()
                         onClick()
                     }

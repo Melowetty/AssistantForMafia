@@ -15,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -43,6 +44,7 @@ fun PlayersScreen(
     state: GameCreationState,
     onEvent: (GameCreationEvent) -> Unit,
 ) {
+    val focusManager = LocalFocusManager.current
     MainLayout(
         navController = navController,
         title = stringResource(id = R.string.players_count),
@@ -109,6 +111,7 @@ fun PlayersScreen(
                 backgroundColor = SecondaryBackground,
                 disabledBackground = DisabledSecondaryBackground,
                 onClick = {
+                    focusManager.clearFocus()
                     navController.navigate(route = Screen.Roles.route) {
                         popUpTo(route = Screen.GameCreation.route)
                     }
