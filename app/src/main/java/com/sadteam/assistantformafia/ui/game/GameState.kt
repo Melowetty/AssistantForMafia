@@ -10,6 +10,7 @@ data class GameState(
     val distributionOfRoles: DistributionOfRolesState = DistributionOfRolesState(),
     val nightSelectState: NightSelectState = NightSelectState(),
     val dayVotingState: DayVotingState = DayVotingState(),
+    val handshakeState: HandshakeState = HandshakeState(),
     val endGameState: EndGameState = EndGameState(),
 )
 
@@ -40,7 +41,15 @@ data class DayVotingState(
     val countPlayersWhoCanVote: Int = 0,
     val totalVoices: Int = 0,
     val canKick: Boolean = false,
+    val isHandshake: Boolean = false,
     val isEnd: Boolean = false,
+    val gameIsEnd: Boolean = false,
+)
+
+data class HandshakeState(
+    val players: List<Player> = listOf(),
+    val canKick: Boolean = false,
+    val targetPlayerIndex: Int = -1,
     val gameIsEnd: Boolean = false,
 )
 

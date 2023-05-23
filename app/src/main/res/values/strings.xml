@@ -43,4 +43,6 @@
     <string name="roles_not_distributed">Not distributed</string>
     <string name="the_end">THE END</string>
     <string name="back_to_menu">Back to menu</string>
+    <string name="handshake">Handshake</string>
+    <string name="selecting_time">Selecting time</string>
 </resources>

@@ -9,4 +9,5 @@ sealed class Screen (val route: String){
     object NightStage: Screen(route = "game/stage_night")
     object DayStage: Screen(route = "game/stage_day")
     object EndStage: Screen(route = "game/stage_end")
+    object HandshakeStage: Screen(route = "game/stage_handshake")
 }

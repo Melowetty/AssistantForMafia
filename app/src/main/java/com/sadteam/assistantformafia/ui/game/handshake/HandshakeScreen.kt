@@ -1,4 +1,4 @@
-package com.sadteam.assistantformafia.ui.game.day
+package com.sadteam.assistantformafia.ui.game.handshake
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -25,17 +25,17 @@ import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.data.models.Player
 import com.sadteam.assistantformafia.ui.components.BigButton
 import com.sadteam.assistantformafia.ui.components.MainLayout
-import com.sadteam.assistantformafia.ui.components.VotingPlayerCard
-import com.sadteam.assistantformafia.ui.game.DayVotingState
+import com.sadteam.assistantformafia.ui.components.SelectRoleCard
 import com.sadteam.assistantformafia.ui.game.GameEvent
+import com.sadteam.assistantformafia.ui.game.HandshakeState
 import com.sadteam.assistantformafia.ui.navigation.Screen
 import com.sadteam.assistantformafia.ui.theme.*
 import com.sadteam.assistantformafia.utils.Utils
 
 @Composable
-fun DayScreen(
+fun HandshakeScreen(
     navController: NavController,
-    state: DayVotingState,
+    state: HandshakeState,
     onEvent: (GameEvent) -> Unit,
 ) {
     LaunchedEffect(key1 = state.gameIsEnd) {
@@ -45,21 +45,14 @@ fun DayScreen(
             }
         }
     }
-    LaunchedEffect(key1 = state.isHandshake) {
-        if (state.isHandshake) {
-            navController.navigate(Screen.HandshakeStage.route) {
-                popUpTo(route = Screen.GameCreation.route)
-            }
-        }
-    }
     LaunchedEffect(key1 = Unit) {
         onEvent(
-            GameEvent.StartDayVoting
+            GameEvent.StartHandshake
         )
     }
     MainLayout(
         navController = navController,
-        title = stringResource(id = R.string.stage) + " " + stringResource(id = R.string.day),
+        title = stringResource(id = R.string.stage) + " " + stringResource(id = R.string.handshake),
         backgroundColor = DayStageBackground,
         backgroundContent = {
             Row(modifier = Modifier
@@ -81,7 +74,6 @@ fun DayScreen(
                 .fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            // todo необходимо чтобы солнце не сдвигала элементы верстки
             Image(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
@@ -93,7 +85,7 @@ fun DayScreen(
             Text(
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth(),
-                text = if(!state.isEnd) stringResource(id = R.string.voting_time) else stringResource(id = R.string.voting_ended),
+                text = stringResource(id = R.string.selecting_time),
                 fontSize = 24.sp,
                 fontFamily = primaryFontFamily,
                 fontWeight = FontWeight.Bold,
@@ -109,58 +101,32 @@ fun DayScreen(
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     itemsIndexed(state.players){index: Int, player: Player ->
-                        VotingPlayerCard(
+                        SelectRoleCard(
                             backgroundColor = player.role?.getBackgroundColor()?: BaseRoleBackgroundColor,
-                            name = player.name.value,
-                            role = player.role?.getTranslatedName()?: "None",
-                            photo = player.icon.value?: Utils.getBitmapFromImage(LocalContext.current, R.drawable.add_a_photo).asImageBitmap(),
-                            effects = player.effects,
-                            isEnabled = player.isLive,
-                            canBeVoted = state.isEnd.not() && player.isLive && player.canVote,
-                            value = player.voices.value,
-                            max = state.countPlayersWhoCanVote - state.totalVoices + player.voices.value,
-                            onIncrease = {
-                                onEvent(
-                                    GameEvent.IncreaseVoices(index)
-                                )
+                            text = player.name.value,
+                            description = player.role?.getTranslatedName() ?: "",
+                            mainIcon = player.icon.value?: Utils.getBitmapFromImage(LocalContext.current, R.drawable.add_a_photo).asImageBitmap(),
+                            mainIconModifier = if(player.icon.value != null) Modifier else Modifier.padding(8.dp),
+                            checked = index == state.targetPlayerIndex,
+                            onCheckboxClicked = {
+                                if (it) onEvent(GameEvent.SelectHandshakeTarget(index))
+                                else onEvent(GameEvent.ClearHandshakeTarget)
                             },
-                            onDecrease = {
-                                onEvent(
-                                    GameEvent.DecreaseVoices(index)
-                                )
-                            }
                         )
                     }
                 }
                 Spacer(modifier = Modifier.size(15.dp))
-                if(state.isEnd) {
-                    BigButton(
-                        title = stringResource(id = R.string.next_round),
-                        backgroundColor = SecondaryBackground,
-                        disabledBackground = DisabledSecondaryBackground,
-                        onClick = {
-                            onEvent(
-                                GameEvent.NextRound
-                            )
-                            navController.navigate(Screen.NightStage.route) {
-                                popUpTo(route = Screen.GameCreation.route)
-                            }
-                        }
-                    )
-                }
-                else {
-                    BigButton(
-                        title = stringResource(id = R.string.kick),
-                        backgroundColor = SecondaryBackground,
-                        isDisabled = !state.canKick,
-                        disabledBackground = DisabledSecondaryBackground,
-                        onClick = {
-                            onEvent(
-                                GameEvent.KickPlayer
-                            )
-                        }
-                    )
-                }
+                BigButton(
+                    title = stringResource(id = R.string.kick),
+                    backgroundColor = SecondaryBackground,
+                    isDisabled = !state.canKick,
+                    disabledBackground = DisabledSecondaryBackground,
+                    onClick = {
+                        onEvent(
+                            GameEvent.KickHandshakeTarget
+                        )
+                    }
+                )
             }
         }
     }

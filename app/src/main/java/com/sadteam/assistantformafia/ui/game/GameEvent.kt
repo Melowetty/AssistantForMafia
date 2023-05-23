@@ -20,4 +20,8 @@ sealed class GameEvent {
     data class DecreaseVoices(val playerIndex: Int): GameEvent()
     object KickPlayer: GameEvent()
     object NextRound: GameEvent()
+    object StartHandshake: GameEvent()
+    data class SelectHandshakeTarget(val playerIndex: Int): GameEvent()
+    object ClearHandshakeTarget: GameEvent()
+    object KickHandshakeTarget: GameEvent()
 }
