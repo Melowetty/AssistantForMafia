@@ -1,7 +1,8 @@
 package com.sadteam.assistantformafia.ui.components
 
-import androidx.compose.animation.Animatable
+import androidx.compose.animation.*
 import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -10,7 +11,6 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -28,6 +28,7 @@ import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -36,12 +37,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.data.models.Effect
-import com.sadteam.assistantformafia.ui.theme.BaseRoleBackgroundColor
-import com.sadteam.assistantformafia.ui.theme.BloodRed
-import com.sadteam.assistantformafia.ui.theme.DarkBlue
-import com.sadteam.assistantformafia.ui.theme.EnemyRoleBackgroundColor
+import com.sadteam.assistantformafia.ui.theme.*
 import com.sadteam.assistantformafia.utils.Utils
-import kotlinx.coroutines.launch
 
 /**
  * Карточка с именем и иконками
@@ -113,14 +110,14 @@ fun Card(
                 color = BloodRed,
                 shape = RoundedCornerShape(10.dp)
             )
-            .padding(horizontal = 10.dp, vertical = 4.dp)
             .clickable(
                 interactionSource = interactionSource,
                 indication = null,
                 onClick = {
                     onClick()
                 }
-            ),
+            )
+            .padding(horizontal = 10.dp, vertical = 4.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -163,14 +160,14 @@ fun Card(
                     color = Color.Transparent,
                     CircleShape,
                 )
-                .padding(start = 12.dp, top = 12.dp, bottom = 12.dp)
                 .clickable(
                     interactionSource = interactionSource,
                     indication = null,
                     onClick = {
                         onSecondIconClick()
                     }
-                ),
+                )
+                .padding(start = 12.dp, top = 12.dp, bottom = 12.dp),
         ) {
             Icon(
                 painter = secondIcon,
@@ -196,6 +193,7 @@ fun SelectRoleCard(
     modifier: Modifier = Modifier,
     backgroundColor: Color,
     text: String,
+    description: String = "",
     mainIcon: ImageBitmap,
     mainIconModifier: Modifier = Modifier,
     checked: Boolean = false,
@@ -206,9 +204,9 @@ fun SelectRoleCard(
     Row(
         modifier = modifier
             .fillMaxWidth()
+            .clip(shape = RoundedCornerShape(10.dp))
             .background(
                 color = backgroundColor,
-                shape = RoundedCornerShape(10.dp)
             )
             .toggleable(
                 value = checked,
@@ -249,12 +247,28 @@ fun SelectRoleCard(
                     contentDescription = "main icon"
                 )
             }
-            Text(
-                text = text,
-                fontWeight = FontWeight.Bold,
-                fontSize = 20.sp,
-                color = Color.White
-            )
+            Column(
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = text,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 20.sp,
+                    color = Color.White,
+                    softWrap = false,
+                    overflow = TextOverflow.Ellipsis,
+                )
+                if(description.isNotEmpty()) {
+                    Text(
+                        text = description,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 12.sp,
+                        color = Color.White,
+                        softWrap = false,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                }
+            }
         }
         Checkbox(
             checked = checked,
@@ -325,101 +339,152 @@ fun VotingPlayerCard(
     onIncrease: () -> Unit = {},
     onDecrease: () -> Unit = {},
 ) {
-    Row(
-        modifier = modifier
+    var isExpanded by remember {
+        mutableStateOf(false)
+    }
+    Column(
+        modifier = Modifier
             .fillMaxWidth()
+            .clip(shape = RoundedCornerShape(10.dp))
             .background(
                 color = if (isEnabled) backgroundColor else BaseRoleBackgroundColor,
-                shape = RoundedCornerShape(10.dp)
             )
-            .padding(horizontal = 10.dp, vertical = 8.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
+            .clickable {
+                if (effects.size > 1) isExpanded = isExpanded.not()
+            }
+            .padding(horizontal = 10.dp, vertical = 8.dp)
+            .animateContentSize(
+                animationSpec = tween(
+                    delayMillis = 200,
+                    easing = LinearOutSlowInEasing,
+                )
+            )
     ) {
         Row(
             modifier = modifier
-                .wrapContentWidth(),
-            horizontalArrangement = Arrangement.spacedBy(10.dp),
+                .fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Box(
-                modifier = Modifier
-                    .size(45.dp)
-                    .background(
-                        color = DarkBlue,
-                        CircleShape,
-                    )
+            Row(
+                modifier = modifier
+                    .wrapContentWidth(),
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Image(
-                    bitmap = photo,
+                Box(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .clip(CircleShape),
-                    contentScale = ContentScale.FillBounds,
-                    contentDescription = "player image"
-                )
+                        .size(45.dp)
+                        .background(
+                            color = DarkBlue,
+                            CircleShape,
+                        )
+                ) {
+                    Image(
+                        bitmap = photo,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clip(CircleShape),
+                        contentScale = ContentScale.FillBounds,
+                        contentDescription = "player image"
+                    )
+                }
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth(0.3f),
+                    verticalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = name,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp,
+                        color = Color.White,
+                        softWrap = false,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                    Text(
+                        text = role,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 12.sp,
+                        color = Color.White,
+                        softWrap = false,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                }
             }
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth(0.3f),
-                verticalArrangement = Arrangement.SpaceBetween
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(2.dp),
+                verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text(
-                    text = name,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp,
-                    color = Color.White,
-                    softWrap = false,
-                    overflow = TextOverflow.Ellipsis,
+                AnimatedVisibility(
+                    visible = effects.isNotEmpty() && isExpanded.not(),
+                    enter = fadeIn(animationSpec =
+                    tween(durationMillis = 200)
+                    ),
+                    exit = fadeOut(animationSpec =
+                    tween(durationMillis = 200)
+                    )
+                ) {
+                    EffectIcon(effects.last())
+                }
+                AnimatedVisibility(
+                    visible = effects.size > 1 && isExpanded.not(),
+                    enter = fadeIn(animationSpec =
+                    tween(durationMillis = 200)
+                    ),
+                    exit = fadeOut(animationSpec =
+                    tween(durationMillis = 200)
+                    )
+                ) {
+                        Text(
+                            text = "...",
+                            fontSize = 20.sp,
+                            color = LightGray,
+                            fontWeight = FontWeight.Bold,
+                        )
+                }
+
+                Spacer(modifier = Modifier
+                    .size(5.dp)
                 )
-                Text(
-                    text = role,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 12.sp,
-                    color = Color.White,
-                    softWrap = false,
-                    overflow = TextOverflow.Ellipsis,
-                )
+                if (canBeVoted) {
+                    ValuePicker(
+                        modifier = Modifier
+                            .requiredWidth(120.dp),
+                        value = value,
+                        max = max,
+                        onIncreasing = onIncrease,
+                        onDecreasing = onDecrease,
+                    )
+                }
             }
         }
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(10.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            // TODO: нужно переделать на расширяемый бокс
-            val listState = rememberLazyListState()
-            val coroutineScope = rememberCoroutineScope()
-            if (effects.isNotEmpty()) {
-                DisposableEffect(Unit) {
-                    coroutineScope.launch {
-                        listState.animateScrollToItem(index = effects.size - 1)
-                    }
-                    onDispose { }
-                }
-            }
-            LazyRow(
-                state = listState,
-                horizontalArrangement = Arrangement.spacedBy(6.dp),
-                modifier = Modifier.widthIn(min = 0.dp, max = 76.dp)
+        if (isExpanded) {
+            Spacer(modifier = Modifier
+                .size(5.dp)
+            )
+            Row(
+                modifier = modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.End,
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                items(effects) { effect: Effect ->
-                    EffectIcon(effect)
-                }
-                item {
-                    Spacer(
-                        modifier = Modifier.size(5.dp)
-                    )
-                }
-            }
-            if (canBeVoted) {
-                ValuePicker(
-                    modifier = Modifier
-                        .requiredWidth(120.dp),
-                    value = value,
-                    max = max,
-                    onIncreasing = onIncrease,
-                    onDecreasing = onDecrease,
+                Text(
+                    text = "${stringResource(id = R.string.effects)}: ",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White,
                 )
+                Spacer(modifier = Modifier
+                    .size(4.dp)
+                )
+                LazyRow(
+                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                ) {
+                    items(effects) {effect: Effect ->
+                        EffectIcon(effect)
+                    }
+                }
             }
         }
     }

@@ -2,6 +2,7 @@ package com.sadteam.assistantformafia.ui.gamecreation.players
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -14,6 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -28,7 +30,10 @@ import com.sadteam.assistantformafia.data.models.Player
 import com.sadteam.assistantformafia.ui.components.*
 import com.sadteam.assistantformafia.ui.gamecreation.GameCreationEvent
 import com.sadteam.assistantformafia.ui.gamecreation.GameCreationState
+import com.sadteam.assistantformafia.ui.navigation.Screen
 import com.sadteam.assistantformafia.ui.theme.DarkBackground
+import com.sadteam.assistantformafia.ui.theme.DisabledSecondaryBackground
+import com.sadteam.assistantformafia.ui.theme.SecondaryBackground
 import com.sadteam.assistantformafia.ui.theme.primaryFontFamily
 import com.sadteam.assistantformafia.utils.MIN_PLAYERS_COUNT
 import com.sadteam.assistantformafia.utils.Utils
@@ -39,6 +44,7 @@ fun PlayersScreen(
     state: GameCreationState,
     onEvent: (GameCreationEvent) -> Unit,
 ) {
+    val focusManager = LocalFocusManager.current
     MainLayout(
         navController = navController,
         title = stringResource(id = R.string.players_count),
@@ -49,51 +55,69 @@ fun PlayersScreen(
             value = state.players.size,
             min = MIN_PLAYERS_COUNT,
         )
-        LazyColumn(
+        Spacer(modifier = Modifier.size(15.dp))
+        Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(20.dp),
-            verticalArrangement = Arrangement.spacedBy(5.dp),
-            content = {
-                itemsIndexed(state.players) {index: Int, item: Player ->
-                    var isPhotoSelecting by remember {
-                        mutableStateOf(false)
-                    }
-                    Card(
-                        content = {
-                            PlayerNameKeyboard(
-                                modifier = Modifier.width(160.dp),
-                                value = item.name.value,
-                                onValueChange = { newText ->
-                                    onEvent(
-                                        GameCreationEvent.SetPlayerName(index, newText)
-                                    )
-                                },
-                                placeholder = stringResource(id = R.string.enter_name),
-                            )
-                        },
-                        mainIcon = item.icon.value?: Utils.getBitmapFromImage(LocalContext.current, R.drawable.add_a_photo).asImageBitmap(),
-                        mainIconModifier = if(item.icon.value != null) Modifier else Modifier.padding(8.dp),
-                        secondIcon = painterResource(id = R.drawable.delete),
-                        onMainIconClick = {
-                            isPhotoSelecting = true
-                        },
-                        onSecondIconClick = {
-                            onEvent(
-                                GameCreationEvent.DeletePlayer(index)
-                            )
+        ) {
+            LazyColumn(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(5.dp),
+                verticalArrangement = Arrangement.spacedBy(5.dp),
+                content = {
+                    itemsIndexed(state.players) {index: Int, item: Player ->
+                        var isPhotoSelecting by remember {
+                            mutableStateOf(false)
                         }
-                    )
-                    if (isPhotoSelecting) {
-                        ImageUploadPopup(onImageUpload = {
-                            onEvent(
-                                GameCreationEvent.SetPlayerImage(index, it)
-                            )
-                            isPhotoSelecting = false
-                        })
+                        Card(
+                            content = {
+                                PlayerNameKeyboard(
+                                    modifier = Modifier.width(160.dp),
+                                    value = item.name.value,
+                                    onValueChange = { newText ->
+                                        onEvent(
+                                            GameCreationEvent.SetPlayerName(index, newText)
+                                        )
+                                    },
+                                    placeholder = stringResource(id = R.string.enter_name),
+                                )
+                            },
+                            mainIcon = item.icon.value?: Utils.getBitmapFromImage(LocalContext.current, R.drawable.add_a_photo).asImageBitmap(),
+                            mainIconModifier = if(item.icon.value != null) Modifier else Modifier.padding(8.dp),
+                            secondIcon = painterResource(id = R.drawable.delete),
+                            onMainIconClick = {
+                                isPhotoSelecting = true
+                            },
+                            onSecondIconClick = {
+                                onEvent(
+                                    GameCreationEvent.DeletePlayer(index)
+                                )
+                            }
+                        )
+                        if (isPhotoSelecting) {
+                            ImageUploadPopup(onImageUpload = {
+                                onEvent(
+                                    GameCreationEvent.SetPlayerImage(index, it)
+                                )
+                                isPhotoSelecting = false
+                            })
+                        }
+                    }
+                })
+            Spacer(modifier = Modifier.size(15.dp))
+            BigButton(
+                title = stringResource(id = R.string.next),
+                backgroundColor = SecondaryBackground,
+                disabledBackground = DisabledSecondaryBackground,
+                onClick = {
+                    focusManager.clearFocus()
+                    navController.navigate(route = Screen.Roles.route) {
+                        popUpTo(route = Screen.GameCreation.route)
                     }
                 }
-            })
+            )
+        }
     }
 }
 
@@ -107,6 +131,7 @@ fun ImageUploadPopup(
     var isUploadingFromDevice by remember {
         mutableStateOf(false)
     }
+    val interactionSource = remember { MutableInteractionSource() }
     Popup(
         alignment = Alignment.Center,
         properties = PopupProperties(focusable = true),
@@ -116,6 +141,13 @@ fun ImageUploadPopup(
                 .fillMaxSize()
                 .background(
                     color = DarkBackground,
+                )
+                .clickable(
+                    interactionSource = interactionSource,
+                    indication = null,
+                    onClick = {
+                        onImageUpload(null)
+                    }
                 )
                 .padding(horizontal = 10.dp),
             contentAlignment = Alignment.Center,
@@ -127,6 +159,11 @@ fun ImageUploadPopup(
                     .background(
                         color = Color.White,
                         shape = RoundedCornerShape(10.dp)
+                    )
+                    .clickable(
+                        interactionSource = interactionSource,
+                        indication = null,
+                        onClick = {}
                     )
                     .padding(vertical = 12.dp, horizontal = 10.dp),
                 verticalArrangement = Arrangement.spacedBy(5.dp),
@@ -142,8 +179,8 @@ fun ImageUploadPopup(
                 )
                 Text(
                     modifier = Modifier
-                        .padding(vertical = 10.dp)
-                        .clickable { isTakingPicture = true },
+                        .clickable { isTakingPicture = true }
+                        .padding(vertical = 10.dp),
                     text = stringResource(id = R.string.take_photo),
                     fontSize = 16.sp,
                     fontFamily = primaryFontFamily,
@@ -151,8 +188,8 @@ fun ImageUploadPopup(
                 )
                 Text(
                     modifier = Modifier
-                        .padding(vertical = 10.dp)
-                        .clickable { isUploadingFromDevice = true },
+                        .clickable { isUploadingFromDevice = true }
+                        .padding(vertical = 10.dp),
                     text = stringResource(id = R.string.upload_from_device),
                     fontSize = 16.sp,
                     fontFamily = primaryFontFamily,

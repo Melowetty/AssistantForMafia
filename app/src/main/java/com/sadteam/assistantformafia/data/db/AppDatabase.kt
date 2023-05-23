@@ -6,7 +6,7 @@ import androidx.room.TypeConverters
 import com.sadteam.assistantformafia.data.Converters
 import com.sadteam.assistantformafia.data.models.Role
 
-@Database(entities = [Role::class], version = 2, exportSchema = false)
+@Database(entities = [Role::class], version = 5, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun getRolesDao(): RolesDao

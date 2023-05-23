@@ -78,6 +78,7 @@ fun IntroductionScreen(
                                 ),
                             ) {
                                 append(state.targetRole?.getTranslatedName() ?: "None")
+                                append(" (${state.maxCount})")
                             }
                         }
                     }
@@ -112,7 +113,9 @@ fun IntroductionScreen(
                         disabledBackground = DisabledSecondaryBackground,
                         onClick = {
                             GameEvent.StartGame
-                            navController.navigate(Screen.NightStage.route)
+                            navController.navigate(Screen.NightStage.route) {
+                                popUpTo(route = Screen.GameCreation.route)
+                            }
                         }
                     )
                 }

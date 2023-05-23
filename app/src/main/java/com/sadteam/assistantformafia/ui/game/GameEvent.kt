@@ -10,6 +10,7 @@ sealed class GameEvent {
     data class SetRole(val player: Player, val role: Role?): GameEvent()
     data class ClearRole(val player: Player): GameEvent()
     object StartGame: GameEvent()
+    object EndGame: GameEvent()
     object StartNightVoting: GameEvent()
     object NextNightSelect: GameEvent()
     data class SelectNightTarget(val index: Int): GameEvent()
@@ -19,4 +20,8 @@ sealed class GameEvent {
     data class DecreaseVoices(val playerIndex: Int): GameEvent()
     object KickPlayer: GameEvent()
     object NextRound: GameEvent()
+    object StartHandshake: GameEvent()
+    data class SelectHandshakeTarget(val playerIndex: Int): GameEvent()
+    object ClearHandshakeTarget: GameEvent()
+    object KickHandshakeTarget: GameEvent()
 }

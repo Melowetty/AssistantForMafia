@@ -11,9 +11,11 @@ data class Player(
     var isSelected: Boolean = false,
     var isLive: Boolean = true,
     var canVote: Boolean = true,
+    var canSelectOneself: Boolean = false,
+    var previousTarget: Player? = null,
     var effects: MutableList<Effect> = mutableListOf(),
     var voices: MutableState<Int> = mutableStateOf(0),
-) {
+) : Cloneable {
     fun addEffect(effect: Effect) {
         if(effects.contains(effect).not()) {
             effects.add(effect)
@@ -22,5 +24,40 @@ data class Player(
 
     fun clearEffects() {
         effects.clear()
+    }
+
+    public override fun clone(): Any {
+        return Player(
+            icon = mutableStateOf(icon.value),
+            name = mutableStateOf(name.value),
+            role = role,
+            isSelected = isSelected,
+            isLive = isLive,
+            canVote = canVote,
+            canSelectOneself = canSelectOneself,
+            previousTarget = previousTarget,
+            effects = effects.toMutableList(),
+            voices = mutableStateOf(voices.value)
+        )
+    }
+
+    override fun equals(other: Any?): Boolean {
+        return if (other is Player) {
+            return (other.name.value == this.name.value)
+                    && (other.icon.value == this.icon.value)
+                    && (other.role == this.role)
+        } else return false
+    }
+
+    override fun toString(): String {
+        return "Player(name=${name.value}," +
+                " role=${role}," +
+                " isSelected=${isSelected}," +
+                " isLive=${isLive}," +
+                " canVote=${canVote}," +
+                " canSelectOneself=${canSelectOneself}," +
+                " previousTarget=${previousTarget?.name?.value ?: "None"}," +
+                " effects=${effects}," +
+                " voices=${voices.value})"
     }
 }

@@ -8,6 +8,8 @@ import com.sadteam.assistantformafia.ui.appsettings.AppSettingsScreen
 import com.sadteam.assistantformafia.ui.appsettings.AppSettingsViewModel
 import com.sadteam.assistantformafia.ui.game.GameViewModel
 import com.sadteam.assistantformafia.ui.game.day.DayScreen
+import com.sadteam.assistantformafia.ui.game.end.EndScreen
+import com.sadteam.assistantformafia.ui.game.handshake.HandshakeScreen
 import com.sadteam.assistantformafia.ui.game.introduction.IntroductionScreen
 import com.sadteam.assistantformafia.ui.game.night.NightScreen
 import com.sadteam.assistantformafia.ui.gamecreation.GameCreationScreen
@@ -87,6 +89,24 @@ fun SetupNavGraph(
             DayScreen(
                 navController = navController,
                 state = gameViewModel.state.value.dayVotingState,
+                onEvent = gameViewModel::onEvent
+            )
+        }
+        composable(
+            route = Screen.EndStage.route
+        ) {
+            EndScreen(
+                navController = navController,
+                state = gameViewModel.state.value.endGameState,
+                onEvent = gameViewModel::onEvent
+            )
+        }
+        composable(
+            route = Screen.HandshakeStage.route
+        ) {
+            HandshakeScreen(
+                navController = navController,
+                state = gameViewModel.state.value.handshakeState,
                 onEvent = gameViewModel::onEvent
             )
         }

@@ -1,27 +1,25 @@
 package com.sadteam.assistantformafia.ui.components
 
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -31,12 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.sadteam.assistantformafia.R
-import com.sadteam.assistantformafia.ui.theme.BloodRed
-import com.sadteam.assistantformafia.ui.theme.DarkBlue
-import com.sadteam.assistantformafia.ui.theme.SettingsDescription
-import com.sadteam.assistantformafia.ui.theme.SettingsTitle
-import com.sadteam.assistantformafia.ui.theme.primaryFontFamily
-import com.sadteam.assistantformafia.ui.theme.secondFontFamily
+import com.sadteam.assistantformafia.ui.theme.*
 
 /**
  * Кнопка, нажатие на которой вызывает какое-либо действие
@@ -59,16 +52,17 @@ fun MenuButton(
     Row(
         modifier = modifier
             .fillMaxWidth()
+            .bounceClick()
             .background(
                 color = BloodRed,
                 shape = CircleShape
             )
-            .padding(top = 8.dp, end = 10.dp, bottom = 8.dp, start = 20.dp)
             .clickable(
                 interactionSource = interactionSource,
                 indication = null,
                 onClick = onClick
-            ),
+            )
+            .padding(top = 8.dp, end = 10.dp, bottom = 8.dp, start = 20.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -135,16 +129,17 @@ fun MenuButton(
     Row(
         modifier = modifier
             .fillMaxWidth()
+            .bounceClick()
             .background(
                 color = BloodRed,
                 shape = CircleShape
             )
-            .padding(top = 8.dp, end = 10.dp, bottom = 8.dp, start = 20.dp)
             .clickable(
                 interactionSource = interactionSource,
                 indication = null,
                 onClick = onClick
-            ),
+            )
+            .padding(top = 8.dp, end = 10.dp, bottom = 8.dp, start = 20.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -211,12 +206,12 @@ fun ExtendedMenuButton(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(top = 8.dp, end = 20.dp, bottom = 8.dp, start = 20.dp)
             .clickable(
                 interactionSource = interactionSource,
                 indication = null,
                 onClick = onClick
-            ),
+            )
+            .padding(top = 8.dp, end = 20.dp, bottom = 8.dp, start = 20.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -263,18 +258,18 @@ fun ExtendedMenuButton(
     icon: Painter,
     title: String,
     onClick: () -> Unit = {},
-    currentValue: String,
+    currentValue: String? = null,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(top = 8.dp, end = 10.dp, bottom = 8.dp, start = 20.dp)
             .clickable(
                 interactionSource = interactionSource,
                 indication = null,
                 onClick = onClick
-            ),
+            )
+            .padding(top = 8.dp, end = 10.dp, bottom = 8.dp, start = 20.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -292,6 +287,7 @@ fun ExtendedMenuButton(
             Column(
                 modifier = Modifier
                     .fillMaxWidth(),
+                verticalArrangement = Arrangement.SpaceBetween,
             ) {
                 Text(
                     text = title,
@@ -300,16 +296,47 @@ fun ExtendedMenuButton(
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp,
                 )
-                Text(
-                    text = currentValue,
-                    color = SettingsDescription,
-                    fontFamily = primaryFontFamily,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp
-                )
+                if(currentValue != null) {
+                    Text(
+                        text = currentValue,
+                        color = SettingsDescription,
+                        fontFamily = primaryFontFamily,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 16.sp
+                    )
+                }
             }
         }
     }
+}
+
+
+enum class ButtonState { Pressed, Idle }
+fun Modifier.bounceClick() = composed {
+    var buttonState by remember { mutableStateOf(ButtonState.Idle) }
+    val scale by animateFloatAsState(if (buttonState == ButtonState.Pressed) 0.9f else 1f)
+
+    this
+        .graphicsLayer {
+            scaleX = scale
+            scaleY = scale
+        }
+        .clickable(
+            interactionSource = remember { MutableInteractionSource() },
+            indication = null,
+            onClick = {  }
+        )
+        .pointerInput(buttonState) {
+            awaitPointerEventScope {
+                buttonState = if (buttonState == ButtonState.Pressed) {
+                    waitForUpOrCancellation()
+                    ButtonState.Idle
+                } else {
+                    awaitFirstDown(false)
+                    ButtonState.Pressed
+                }
+            }
+        }
 }
 
 /**
@@ -334,11 +361,11 @@ fun BigButton(
     Box(
         modifier = modifier
             .fillMaxWidth()
+            .bounceClick()
             .background(
                 color = if(!isDisabled) backgroundColor else disabledBackground,
                 shape = CircleShape
             )
-            .padding(top = 16.dp, bottom = 16.dp)
             .clickable(
                 interactionSource = interactionSource,
                 indication = null,
@@ -346,6 +373,7 @@ fun BigButton(
                     if (!isDisabled) onClick()
                 }
             )
+            .padding(top = 16.dp, bottom = 16.dp)
     ){
         Text(
             text = title,
@@ -384,6 +412,7 @@ fun SmallButton(
     Box(
         modifier = modifier
             .fillMaxWidth()
+            .bounceClick()
             .background(
                 color = backgroundColor,
                 shape = CircleShape
@@ -429,6 +458,7 @@ fun IconButton(
         modifier = modifier
             .width(size)
             .height(size)
+            .bounceClick()
             .background(
                 color = backgroundColor,
                 shape = CircleShape
@@ -474,16 +504,19 @@ fun BackButton(
 ) {
     if (navController.backQueue.size > 2)
     {
+        val focusManager = LocalFocusManager.current
         val interactionSource = remember { MutableInteractionSource() }
         Icon(
             painter = painterResource(id = R.drawable.baseline_arrow_back_24),
             contentDescription = "Back",
             tint = Color.White,
             modifier = modifier
+                .bounceClick()
                 .clickable(
                     interactionSource = interactionSource,
                     indication = null,
                     onClick = {
+                        focusManager.clearFocus()
                         navController.popBackStack()
                         onClick()
                     }

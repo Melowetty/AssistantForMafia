@@ -42,6 +42,10 @@ fun ImagePickerFromGallery(
     val launcher = 
         rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent(), onResult = {uri: Uri? ->
             uri.let {
+                if (it == null) {
+                    onImagePicked(null)
+                    return@let
+                }
                 if (Build.VERSION.SDK_INT < 28) {
                     onImagePicked(MediaStore.Images
                         .Media.getBitmap(context.contentResolver, it).asImageBitmap())

@@ -7,7 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.sadteam.assistantformafia.utils.APP_LANGUAGE_FIELD
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.util.Locale
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
