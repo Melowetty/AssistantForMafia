@@ -1,7 +1,9 @@
 package com.sadteam.assistantformafia.ui.game
 
 import android.content.Context
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sadteam.assistantformafia.R
@@ -93,7 +95,7 @@ class GameViewModel @Inject constructor(
     }
 
     private fun initGame(initialState: GameCreationState) {
-        val players = mutableListOf<Player>()
+        val players = mutableStateListOf<Player>()
         for ((index, player) in initialState.players.withIndex()) {
             val copiedPlayer = player.clone() as Player
             if (copiedPlayer.name.value == "") {
@@ -141,7 +143,7 @@ class GameViewModel @Inject constructor(
             it.role == null
         }.map { player ->
             player.copy(isSelected = false)
-        }
+        }.toMutableStateList()
 
         state.value = state.value.copy(
             distributionOfRoles = state.value.distributionOfRoles.copy(
@@ -160,13 +162,13 @@ class GameViewModel @Inject constructor(
         val currentValue = state.value.distributionOfRoles.currentCount
         if (currentValue == state.value.distributionOfRoles.maxCount && role != null) return
         val addition: Int
-        val players = state.value.players.toMutableList()
+        val players = state.value.players
         val indexInPlayers = Utils.findIndexPlayerByName(players, player.name.value)
         val indexInQueue = Utils.findIndexPlayerByName(state.value.distributionOfRoles.queuePlayers, player.name.value)
         players[indexInPlayers].apply {
             this.role = role
         }
-        val playersChecked = state.value.distributionOfRoles.queuePlayers.toMutableList()
+        val playersChecked = state.value.distributionOfRoles.queuePlayers
         if (role == null) {
             addition = -1
             playersChecked[indexInQueue].apply {
@@ -205,7 +207,7 @@ class GameViewModel @Inject constructor(
         players = players.map { player: Player ->
             if (player.role?.canSelectOneself == true) player.copy(canSelectOneself = true)
             else player
-        }
+        }.toMutableStateList()
         state.value = state.value.copy(
             isActive = true,
             players = players,
@@ -222,7 +224,7 @@ class GameViewModel @Inject constructor(
         val players = state.value.players
         val previousTarget = players.first { player: Player -> player.role == targetRole }.previousTarget
         var queuePlayers = players.filter { (it.canSelectOneself && it.isLive) || (it.role != targetRole && it.isLive) }
-        queuePlayers = queuePlayers.filter { !(targetRole.canSelectSameTarget == false && it == previousTarget) }
+        queuePlayers = queuePlayers.filter { !(targetRole.canSelectSameTarget == false && it == previousTarget) }.toMutableStateList()
         state.value = state.value.copy(
             nightSelectState = NightSelectState(
                 targetRole = targetRole,
@@ -281,7 +283,7 @@ class GameViewModel @Inject constructor(
         val players = state.value.players
         val previousTarget = players.first { player: Player -> player.role == nextRole }.previousTarget
         var queuePlayers = players.filter { (it.canSelectOneself && it.isLive) || (it.role != nextRole && it.isLive) }
-        queuePlayers = queuePlayers.filter { !(nextRole?.canSelectSameTarget == false && it == previousTarget) }
+        queuePlayers = queuePlayers.filter { !(nextRole?.canSelectSameTarget == false && it == previousTarget) }.toMutableStateList()
         state.value = state.value.copy(
             nightSelectState = state.value.nightSelectState.copy(
                 targetRole = nextRole,
@@ -335,7 +337,7 @@ class GameViewModel @Inject constructor(
             }
             player.effects.sortBy { effect: Effect -> effect.priority }
         }
-        val players = state.value.players.toMutableList()
+        val players = state.value.players.toMutableStateList()
         players.sortBy { player: Player -> player.isLive.not() }
         state.value = state.value.copy(
             dayVotingState = state.value.dayVotingState.copy(
@@ -414,12 +416,8 @@ class GameViewModel @Inject constructor(
             addEffect(Effect.KICK)
             isLive = false
         }
-        val newPlayers = state.value.players.toMutableList()
-        newPlayers.sortBy { player: Player -> player.isLive.not() }
-        // todo выкидывает ошибку при рендере при сортировке, но иногда и без нее она возникает
         state.value = state.value.copy(
             dayVotingState = state.value.dayVotingState.copy(
-                players = newPlayers,
                 isEnd = true,
             )
         )
@@ -445,7 +443,7 @@ class GameViewModel @Inject constructor(
                 newRolesCount[player.role!!] = 1
             }
         }
-        val players = state.value.players.toMutableList()
+        val players = state.value.players
         for (player in players) {
             player.voices.value = 0
             if (player.isLive.not()) {
@@ -548,7 +546,7 @@ class GameViewModel @Inject constructor(
     private fun startHandshake() {
         state.value = state.value.copy(
             handshakeState = state.value.handshakeState.copy(
-                players = state.value.dayVotingState.players.filter { it.isLive }
+                players = state.value.dayVotingState.players.filter { it.isLive }.toMutableStateList()
             )
         )
     }
