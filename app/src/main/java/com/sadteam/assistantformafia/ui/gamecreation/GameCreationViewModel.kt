@@ -151,12 +151,16 @@ class GameCreationViewModel @Inject constructor(
 
     private fun clearRolesCount() {
         val roles = mutableMapOf<Role, Int>()
+        var distributedPlayers: Int = 0
         for ((role, _) in state.value.roles) {
             roles[role] = role.min
+            distributedPlayers += role.min
         }
         state.value = state.value.copy(
             roles = roles,
+            distributedPlayers = distributedPlayers,
             canStart = false,
+            rolesIsDistributed = false,
         )
     }
 }
