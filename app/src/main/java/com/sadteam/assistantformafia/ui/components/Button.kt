@@ -408,7 +408,9 @@ fun SmallButton(
     modifier: Modifier = Modifier,
     title: String,
     backgroundColor: Color,
-){
+    onClick: () -> Unit = {}
+) {
+    val interactionSource = remember { MutableInteractionSource() }
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -416,6 +418,11 @@ fun SmallButton(
             .background(
                 color = backgroundColor,
                 shape = CircleShape
+            )
+            .clickable(
+                interactionSource = interactionSource,
+                indication = null,
+                onClick = onClick
             )
     ){
         Text(
