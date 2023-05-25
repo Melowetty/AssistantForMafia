@@ -356,10 +356,22 @@ class GameViewModel @Inject constructor(
         state.value.dayVotingState.players[playerIndex].apply {
             if (voices.value < state.value.dayVotingState.countPlayersWhoCanVote) {
                 voices.value += 1
+                val countPlayersWhoCanVote = state.value.dayVotingState.countPlayersWhoCanVote
+                val totalVoices = state.value.dayVotingState.totalVoices
+                if (voices.value == totalVoices + 1 && voices.value == countPlayersWhoCanVote - 1) {
+                    canBeVotedMore = false
+                }
+                if (totalVoices + 1 == countPlayersWhoCanVote) {
+                    for (player in state.value.dayVotingState.players) {
+                        player.apply {
+                            canBeVotedMore = false
+                        }
+                    }
+                }
                 state.value = state.value.copy(
                     dayVotingState = state.value.dayVotingState.copy(
                         totalVoices = state.value.dayVotingState.totalVoices + 1,
-                        canKick = checkCanKick()
+                        canKick = checkCanKick(),
                     )
                 )
             }
@@ -369,11 +381,17 @@ class GameViewModel @Inject constructor(
     private fun decreaseVoices(playerIndex: Int) {
         state.value.dayVotingState.players[playerIndex].apply {
             if (voices.value > 0) {
+                val countPlayersWhoCanVote = state.value.dayVotingState.countPlayersWhoCanVote
+                for(player in state.value.dayVotingState.players) {
+                    player.apply {
+                        canBeVotedMore = voices.value != countPlayersWhoCanVote - 1
+                    }
+                }
                 voices.value -= 1
                 state.value = state.value.copy(
                     dayVotingState = state.value.dayVotingState.copy(
                         totalVoices = state.value.dayVotingState.totalVoices - 1,
-                        canKick = checkCanKick()
+                        canKick = checkCanKick(),
                     )
                 )
             }
@@ -390,7 +408,6 @@ class GameViewModel @Inject constructor(
                 maxVoices = player.voices.value
                 indexPlayerWithMaxVoices = index
             }
-
         }
         state.value.players[indexPlayerWithMaxVoices].apply {
             clearEffects()
@@ -399,6 +416,7 @@ class GameViewModel @Inject constructor(
         }
         val newPlayers = state.value.players.toMutableList()
         newPlayers.sortBy { player: Player -> player.isLive.not() }
+        // todo выкидывает ошибку при рендере при сортировке, но иногда и без нее она возникает
         state.value = state.value.copy(
             dayVotingState = state.value.dayVotingState.copy(
                 players = newPlayers,

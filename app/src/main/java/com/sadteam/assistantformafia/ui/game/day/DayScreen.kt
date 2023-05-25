@@ -118,7 +118,7 @@ fun DayScreen(
                             isEnabled = player.isLive,
                             canBeVoted = state.isEnd.not() && player.isLive && player.canVote,
                             value = player.voices.value,
-                            max = state.countPlayersWhoCanVote - state.totalVoices + player.voices.value,
+                            max = if(player.canBeVotedMore) player.voices.value + 1 else player.voices.value,
                             onIncrease = {
                                 onEvent(
                                     GameEvent.IncreaseVoices(index)
