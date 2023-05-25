@@ -454,6 +454,7 @@ class GameViewModel @Inject constructor(
             } else {
                 player.clearEffects()
                 player.canVote = true
+                player.canBeVotedMore = true
             }
         }
         state.value = state.value.copy(
