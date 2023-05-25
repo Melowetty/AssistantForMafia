@@ -572,7 +572,7 @@ class GameViewModel @Inject constructor(
     }
 
     private fun checkHandshake() {
-        if(state.value.dayVotingState.players.filter { it.isLive }.size == 3) {
+        if(state.value.dayVotingState.gameIsEnd.not() && state.value.dayVotingState.players.filter { it.isLive }.size == 3) {
             state.value = state.value.copy(
                 dayVotingState = state.value.dayVotingState.copy(
                     isHandshake = true,
