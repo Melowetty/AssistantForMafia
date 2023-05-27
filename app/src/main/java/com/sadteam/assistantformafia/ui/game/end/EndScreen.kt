@@ -51,7 +51,9 @@ fun EndScreen(
             navController = navController,
             onBackToMenu = {
                 navController.navigate(route = Screen.GameCreation.route) {
-                    popUpTo(route = Screen.GameCreation.route)
+                    popUpTo(route = Screen.GameCreation.route) {
+                        inclusive = true
+                    }
                 }
             },
             role = state.roleWin,
@@ -62,7 +64,9 @@ fun EndScreen(
             role = state.roleWin!!,
             onBackToMenu = {
                 navController.navigate(route = Screen.GameCreation.route) {
-                    popUpTo(route = Screen.GameCreation.route)
+                    popUpTo(route = Screen.GameCreation.route) {
+                        inclusive = true
+                    }
                 }
             }
         )
