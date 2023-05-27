@@ -55,7 +55,7 @@ fun SetupNavGraph(
                 onEvent = gameCreationViewModel::onEvent
             )
         }
-		composable(
+        composable(
             route = Screen.AppSettings.route,
         ) {
             AppSettingsScreen(

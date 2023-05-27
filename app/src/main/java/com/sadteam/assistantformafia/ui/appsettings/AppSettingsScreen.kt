@@ -21,7 +21,8 @@ fun AppSettingsScreen(
     val context = LocalContext.current
     MainLayout(
         navController = navController,
-        title = stringResource(id = R.string.app_settings)
+        title = stringResource(id = R.string.app_settings),
+        isVisibleSettingsButton = false,
     ) {
         Column(
             modifier = Modifier
