@@ -45,4 +45,5 @@
     <string name="back_to_menu">Back to menu</string>
     <string name="handshake">Handshake</string>
     <string name="selecting_time">Selecting time</string>
+    <string name="go_to_handshake">Go to the handshake</string>
 </resources>

@@ -46,4 +46,5 @@
     <string name="back_to_menu">Вернуться на главный экран</string>
     <string name="handshake">Рукопожатие</string>
     <string name="selecting_time">Время выбора</string>
+    <string name="go_to_handshake">Перейти к рукопожатию</string>
 </resources>
