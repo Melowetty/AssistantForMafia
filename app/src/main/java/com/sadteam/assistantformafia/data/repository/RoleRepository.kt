@@ -2,7 +2,7 @@ package com.sadteam.assistantformafia.data.repository
 
 import androidx.lifecycle.LiveData
 import com.sadteam.assistantformafia.data.db.RolesDao
-import com.sadteam.assistantformafia.data.models.Role
+import com.sadteam.assistantformafia.data.models.entities.DbRole
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -10,13 +10,13 @@ import javax.inject.Singleton
 class RoleRepository @Inject constructor(
     private val rolesDao: RolesDao
     ) {
-    fun getAllRoles(): LiveData<List<Role>> = rolesDao.getAllRoles()
+    fun getAllRoles(): LiveData<List<DbRole>> = rolesDao.getAllRoles()
 
-    suspend fun insertRole(role: Role) = rolesDao.insertRole(role = role)
+    suspend fun insertRole(dbRole: DbRole) = rolesDao.insertRole(role = dbRole)
 
-    suspend fun updateRole(role: Role) = rolesDao.updateRole(role = role)
+    suspend fun updateRole(dbRole: DbRole) = rolesDao.updateRole(dbRole = dbRole)
 
-    suspend fun deleteRole(role: Role) = rolesDao.deleteRole(role = role)
+    suspend fun deleteRole(dbRole: DbRole) = rolesDao.deleteRole(dbRole = dbRole)
 
     suspend fun deleteRoleById(id: Int) = rolesDao.deleteRoleById(id = id)
 

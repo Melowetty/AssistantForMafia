@@ -8,6 +8,7 @@ import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -258,6 +259,7 @@ fun ExtendedMenuButton(
     icon: Painter,
     title: String,
     onClick: () -> Unit = {},
+    isLoading: Boolean = false,
     currentValue: String? = null,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
@@ -297,13 +299,24 @@ fun ExtendedMenuButton(
                     fontSize = 20.sp,
                 )
                 if(currentValue != null) {
-                    Text(
-                        text = currentValue,
-                        color = SettingsDescription,
-                        fontFamily = primaryFontFamily,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp
-                    )
+                    if(isLoading) {
+                        Spacer(modifier = Modifier.size(5.dp))
+                        CircularProgressIndicator(
+                            color = Color.White,
+                            modifier = Modifier.size(16.dp),
+                            strokeWidth = 2.dp
+                        )
+                        Spacer(modifier = Modifier.size(5.dp))
+                    }
+                    else {
+                        Text(
+                            text = currentValue,
+                            color = SettingsDescription,
+                            fontFamily = primaryFontFamily,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 16.sp
+                        )
+                    }
                 }
             }
         }

@@ -7,7 +7,7 @@ import com.sadteam.assistantformafia.data.models.Role
 
 data class GameState(
     val players: SnapshotStateList<Player> = mutableStateListOf(),
-    val rolesCount: Map<Role, Int> = mapOf(),
+    val rolesCount: List<Role> = listOf(),
     val isActive: Boolean = false,
     val distributionOfRoles: DistributionOfRolesState = DistributionOfRolesState(),
     val nightSelectState: NightSelectState = NightSelectState(),

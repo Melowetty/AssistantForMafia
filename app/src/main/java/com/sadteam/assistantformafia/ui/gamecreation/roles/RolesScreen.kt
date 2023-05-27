@@ -27,8 +27,6 @@ import com.sadteam.assistantformafia.ui.gamecreation.GameCreationState
 import com.sadteam.assistantformafia.ui.navigation.Screen
 import com.sadteam.assistantformafia.ui.theme.DisabledSecondaryBackground
 import com.sadteam.assistantformafia.ui.theme.SecondaryBackground
-import com.sadteam.assistantformafia.utils.IconUtils.Companion.toRoleIcon
-import com.sadteam.assistantformafia.utils.Utils
 
 @Composable
 fun RolesScreen(
@@ -45,31 +43,24 @@ fun RolesScreen(
                 .fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            for (pair in state.roles) {
-                var roleIcon = pair.key.icon.toRoleIcon()
-                val max = Utils.getRoleCountLimit(
-                    pair.key,
-                    pair.value,
-                    state.players.size,
-                    state.distributedPlayers
-                )
+            for (role in state.roles) {
                 RoleCard(
-                    title = pair.key.getTranslatedName(),
-                    icon = roleIcon,
-                    value = pair.value,
-                    min = pair.key.min,
-                    max = max,
+                    title = role.getTranslatedName(),
+                    icon = role.icon,
+                    value = role.selectedCount.value,
+                    min = role.min,
+                    max = if (role.canBeSelectedMore.value) role.selectedCount.value + 1 else role.selectedCount.value,
                     onDecrease = {
                         onEvent(
-                            GameCreationEvent.DecrementRole(pair.key)
+                            GameCreationEvent.DecrementRole(role)
                         )
                     },
                     onIncrease = {
                         onEvent(
-                            GameCreationEvent.IncrementRole(pair.key)
+                            GameCreationEvent.IncrementRole(role)
                         )
                     },
-                    backgroundColor = pair.key.getBackgroundColor()
+                    backgroundColor = role.getBackgroundColor()
                 )
             }
         }
