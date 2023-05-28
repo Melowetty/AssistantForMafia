@@ -152,11 +152,11 @@ class GameCreationViewModel @Inject constructor(
     private fun increasePlayersCount() {
         val players = state.value.players
         players.add(Player())
-        clearRolesCount()
         state.value = state.value.copy(
             players = players,
             canStart = false,
         )
+        recalculateMaxRolesCount()
     }
 
     private fun deletePlayer(pos: Int) {
@@ -225,5 +225,24 @@ class GameCreationViewModel @Inject constructor(
     private fun getAvailableEnemiesCount(): Int {
         val availableCountEnemies = (state.value.players.size / 2) - 1 + (state.value.players.size % 2)
         return availableCountEnemies
+    }
+
+    private fun recalculateMaxRolesCount() {
+        val enemiesCount = getEnemiesCount()
+        val availableEnemiesCount = getAvailableEnemiesCount()
+        for (role in state.value.roles) {
+            if(role.selectedCount.value != role.max) {
+                if (role.roleType == RoleType.ENEMY) {
+                    if(role.selectedCount.value != role.max) {
+                        if(enemiesCount < availableEnemiesCount) {
+                            role.canBeSelectedMore.value = true
+                        }
+                    }
+                }
+                else {
+                    role.canBeSelectedMore.value = true
+                }
+            }
+        }
     }
 }
