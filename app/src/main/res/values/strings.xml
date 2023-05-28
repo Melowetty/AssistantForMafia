@@ -46,4 +46,5 @@
     <string name="handshake">Handshake</string>
     <string name="selecting_time">Selecting time</string>
     <string name="go_to_handshake">Go to the handshake</string>
+    <string name="skip">Skip</string>
 </resources>

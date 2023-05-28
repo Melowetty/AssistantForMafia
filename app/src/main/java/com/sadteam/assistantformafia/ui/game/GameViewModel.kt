@@ -90,6 +90,9 @@ class GameViewModel @Inject constructor(
 
                 is GameEvent.KickHandshakeTarget ->
                     kickHandshakeTarget()
+
+                is GameEvent.SkipDayScreen ->
+                    skipDayStage()
             }
         }
     }
@@ -582,5 +585,9 @@ class GameViewModel @Inject constructor(
                 )
             )
         }
+    }
+
+    private fun skipDayStage() {
+        nextRound()
     }
 }

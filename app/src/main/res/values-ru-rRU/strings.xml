@@ -47,4 +47,5 @@
     <string name="handshake">Рукопожатие</string>
     <string name="selecting_time">Время выбора</string>
     <string name="go_to_handshake">Перейти к рукопожатию</string>
+    <string name="skip">Пропуск</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.sadteam.assistantformafia.ui.game.day
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -17,6 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
@@ -165,6 +167,25 @@ fun DayScreen(
                             )
                         }
                     )
+                    Spacer(modifier = Modifier.size(5.dp))
+                    Text(
+                        text = stringResource(id = R.string.skip),
+                        fontFamily = primaryFontFamily,
+                        fontSize = 20.sp,
+                        color = Color.White,
+                        textDecoration = TextDecoration.Underline,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                            onEvent(
+                                GameEvent.SkipDayScreen
+                            )
+                                navController.navigate(Screen.NightStage.route) {
+                                    popUpTo(route = Screen.GameCreation.route)
+                                }
+                        }
+                        )
                 }
             }
         }
