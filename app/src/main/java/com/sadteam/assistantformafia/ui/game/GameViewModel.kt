@@ -443,7 +443,6 @@ class GameViewModel @Inject constructor(
             if (newRolesCount.contains(player.role)) {
                 val role = player.role
                 role!!.selectedCount.value += 1
-                newRolesCount.add(role!!)
             } else {
                 val role = player.role
                 role!!.selectedCount.value = 1
