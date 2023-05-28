@@ -112,6 +112,15 @@ class GameCreationViewModel @Inject constructor(
                     }
                 }
             }
+            else {
+                if(role.roleType == RoleType.ENEMY) {
+                    for (anotherRole in state.value.roles) {
+                        if(anotherRole.selectedCount.value != anotherRole.max) {
+                            anotherRole.canBeSelectedMore.value = true
+                        }
+                    }
+                }
+            }
             state.value = state.value.copy(
                 distributedPlayers = state.value.distributedPlayers - 1,
                 canStart = false,
