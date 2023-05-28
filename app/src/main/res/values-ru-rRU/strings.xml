@@ -48,4 +48,6 @@
     <string name="selecting_time">Время выбора</string>
     <string name="go_to_handshake">Перейти к рукопожатию</string>
     <string name="skip">Пропуск</string>
+    <string name="go_to_win_screen">Перейти к экрану победы</string>
+    <string name="game_is_end">Игра окончена</string>
 </resources>

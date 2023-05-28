@@ -47,4 +47,6 @@
     <string name="selecting_time">Selecting time</string>
     <string name="go_to_handshake">Go to the handshake</string>
     <string name="skip">Skip</string>
+    <string name="go_to_win_screen">Go to the win screen</string>
+    <string name="game_is_end">Game is over</string>
 </resources>

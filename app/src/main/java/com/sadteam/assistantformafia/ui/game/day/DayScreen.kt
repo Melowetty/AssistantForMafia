@@ -40,13 +40,6 @@ fun DayScreen(
     state: DayVotingState,
     onEvent: (GameEvent) -> Unit,
 ) {
-    LaunchedEffect(key1 = state.gameIsEnd) {
-        if (state.gameIsEnd) {
-            navController.navigate(Screen.EndStage.route) {
-                popUpTo(route = Screen.GameCreation.route)
-            }
-        }
-    }
     LaunchedEffect(key1 = Unit) {
         onEvent(
             GameEvent.StartDayVoting
@@ -88,7 +81,7 @@ fun DayScreen(
             Text(
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth(),
-                text = if(!state.isEnd && !state.isHandshake) stringResource(id = R.string.voting_time) else stringResource(id = R.string.voting_ended),
+                text = if(state.gameIsEnd) stringResource(R.string.game_is_end) else if(!state.isEnd && !state.isHandshake) stringResource(id = R.string.voting_time) else stringResource(id = R.string.voting_ended),
                 fontSize = 24.sp,
                 fontFamily = primaryFontFamily,
                 fontWeight = FontWeight.Bold,
@@ -111,7 +104,7 @@ fun DayScreen(
                             photo = player.icon.value?: Utils.getBitmapFromImage(LocalContext.current, R.drawable.add_a_photo).asImageBitmap(),
                             effects = player.effects,
                             isEnabled = player.isLive,
-                            canBeVoted = state.isHandshake.not() && state.isEnd.not() && player.isLive && player.canVote,
+                            canBeVoted = state.gameIsEnd.not() && state.isHandshake.not() && state.isEnd.not() && player.isLive && player.canVote,
                             value = player.voices.value,
                             max = if(player.canBeVotedMore) player.voices.value + 1 else player.voices.value,
                             onIncrease = {
@@ -128,7 +121,19 @@ fun DayScreen(
                     }
                 }
                 Spacer(modifier = Modifier.size(15.dp))
-                if(state.isHandshake) {
+                if(state.gameIsEnd) {
+                    BigButton(
+                        title = stringResource(id = R.string.go_to_win_screen),
+                        backgroundColor = SecondaryBackground,
+                        disabledBackground = DisabledSecondaryBackground,
+                        onClick = {
+                            navController.navigate(Screen.EndStage.route) {
+                                popUpTo(route = Screen.GameCreation.route)
+                            }
+                        }
+                    )
+                }
+                else if(state.isHandshake) {
                     BigButton(
                         title = stringResource(id = R.string.go_to_handshake),
                         backgroundColor = SecondaryBackground,
