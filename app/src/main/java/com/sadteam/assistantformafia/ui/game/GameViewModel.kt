@@ -336,6 +336,17 @@ class GameViewModel @Inject constructor(
                 }
                 player.isLive = false
             } else if (player.effects.contains(Effect.LOVE)) {
+                if(player.effects.contains(Effect.KILL) && player.effects.contains(Effect.HEAL)) {
+                    for (harlot in state.value.players) {
+                        if (harlot.role?.effect == Effect.LOVE
+                            && harlot.effects.contains(Effect.HEAL).not()
+                        ) {
+                            harlot.isLive = false
+                            harlot.addEffect(Effect.KILL)
+                            break
+                        }
+                    }
+                }
                 player.canVote = false
             }
             player.effects.sortBy { effect: Effect -> effect.priority }
