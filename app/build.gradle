@@ -1,7 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
+    id 'com.google.devtools.ksp'
     id 'com.google.dagger.hilt.android'
     id 'com.google.gms.google-services'
 }
@@ -52,7 +52,7 @@ android {
 dependencies {
     implementation "androidx.compose.runtime:runtime-livedata:1.2.1"
     implementation 'androidx.room:room-runtime:2.5.1'
-    kapt 'androidx.room:room-compiler:2.5.1'
+    ksp 'androidx.room:room-compiler:2.5.1'
     implementation "androidx.room:room-ktx:2.5.1"
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.3.1'
@@ -71,11 +71,7 @@ dependencies {
     implementation "androidx.compose.material:material:$compose_version"
     implementation "androidx.hilt:hilt-navigation-compose:1.1.0-alpha01"
     implementation "com.google.dagger:hilt-android:2.44"
-    kapt "com.google.dagger:hilt-android-compiler:2.44"
+    ksp "com.google.dagger:hilt-android-compiler:2.44"
     implementation platform('com.google.firebase:firebase-bom:32.1.0')
     implementation 'com.google.firebase:firebase-analytics-ktx'
-}
-
-kapt {
-    correctErrorTypes = true
 }

@@ -7,6 +7,6 @@ class AnalyticsTracker @Inject constructor(
     private val firebaseAnalytics: FirebaseAnalytics
 ) {
     fun trackEvent(eventName: String) {
-        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.LOGIN, null)
+        firebaseAnalytics.logEvent(eventName, null)
     }
 }
