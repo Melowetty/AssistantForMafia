@@ -42,6 +42,7 @@ fun IntroductionScreen(
     state: DistributionOfRolesState,
     onEvent: (GameEvent) -> Unit,
 ) {
+    val context = LocalContext.current
     LaunchedEffect(key1 = Unit, block = {
         onEvent(
             GameEvent.InitGame(initialState = initialState)
@@ -69,7 +70,7 @@ fun IntroductionScreen(
                                 color = Color.White,
                             )
                         ) {
-                            append(stringResource(id = R.string.introduction_text))
+                            append(context.getString(R.string.introduction_text))
                             append("\n")
                             withStyle(
                                 style = SpanStyle(

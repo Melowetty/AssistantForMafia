@@ -7,6 +7,7 @@ import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sadteam.assistantformafia.R
+import com.sadteam.assistantformafia.analytics.AnalyticsTracker
 import com.sadteam.assistantformafia.data.StartSetRoles
 import com.sadteam.assistantformafia.data.models.Effect
 import com.sadteam.assistantformafia.data.models.Player
@@ -25,6 +26,7 @@ import kotlin.math.max
 @HiltViewModel
 class GameViewModel @Inject constructor(
     @ApplicationContext private val context: Context,
+    private val analytics: AnalyticsTracker
 ) : ViewModel() {
     var state = mutableStateOf(GameState())
         private set
@@ -126,6 +128,7 @@ class GameViewModel @Inject constructor(
             endGameState = EndGameState(),
             dayVotingState = DayVotingState()
         )
+        analytics.trackEvent("start_game")
     }
 
     private fun nextSelectRole() {

@@ -42,6 +42,7 @@ fun NightScreen(
     state: NightSelectState,
     onEvent: (GameEvent) -> Unit,
 ) {
+    val context = LocalContext.current
     LaunchedEffect(key1 = Unit, block = {
         onEvent(
             GameEvent.StartNightVoting
@@ -98,7 +99,7 @@ fun NightScreen(
                                 append(state.targetRole?.getTranslatedName() ?: "None")
                             }
                             append(" ")
-                            append(stringResource(id = R.string.target))
+                            append(context.getString(R.string.target))
                         }
                     }
                 }
