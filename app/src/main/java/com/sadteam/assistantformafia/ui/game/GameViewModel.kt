@@ -20,6 +20,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 import kotlin.math.max
 
@@ -126,9 +127,13 @@ class GameViewModel @Inject constructor(
             ),
             nightSelectState = NightSelectState(),
             endGameState = EndGameState(),
-            dayVotingState = DayVotingState()
+            dayVotingState = DayVotingState(),
+            gameId = UUID.randomUUID(),
         )
-        analytics.trackEvent("start_game")
+        val trackingMap = mutableMapOf<String, Any>()
+        trackingMap.put("game_id", state.value.gameId.toString())
+        trackingMap.put("players", state.value.players.size.toString())
+        analytics.trackEvent("start_game", trackingMap)
     }
 
     private fun nextSelectRole() {
@@ -239,6 +244,9 @@ class GameViewModel @Inject constructor(
                 isEnd = isEnd,
             ),
         )
+        val trackingMap = mutableMapOf<String, Any>()
+        trackingMap.put("game_id", state.value.gameId.toString())
+        analytics.trackEvent("role_distributed", trackingMap)
     }
 
     private fun selectNightTarget(index: Int) {
@@ -541,6 +549,10 @@ class GameViewModel @Inject constructor(
     }
 
     private fun endGame() {
+        val trackingMap = mutableMapOf<String, Any>()
+        trackingMap.put("game_id", state.value.gameId.toString())
+        state.value.endGameState.roleWin?.defaultName?.let { trackingMap.put("win_role", it) }
+        analytics.trackEvent("end_game", trackingMap)
         state.value = GameState(
             endGameState = state.value.endGameState.copy()
         )
@@ -565,6 +577,9 @@ class GameViewModel @Inject constructor(
     }
 
     private fun startHandshake() {
+        val trackingMap = mutableMapOf<String, Any>()
+        trackingMap.put("game_id", state.value.gameId.toString())
+        analytics.trackEvent("handshake_stage", trackingMap)
         state.value = state.value.copy(
             handshakeState = state.value.handshakeState.copy(
                 players = state.value.dayVotingState.players.filter { it.isLive }.toMutableStateList()

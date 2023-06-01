@@ -4,8 +4,10 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import com.sadteam.assistantformafia.data.models.Player
 import com.sadteam.assistantformafia.data.models.Role
+import java.util.*
 
 data class GameState(
+    val gameId: UUID? = null,
     val players: SnapshotStateList<Player> = mutableStateListOf(),
     val rolesCount: List<Role> = listOf(),
     val isActive: Boolean = false,
