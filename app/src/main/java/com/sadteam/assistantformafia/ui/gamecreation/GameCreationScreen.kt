@@ -54,7 +54,6 @@ fun GameCreationScreen(
                     navController.navigate(route = Screen.Players.route)
                 },
                 isLoading = state.players.size == 0,
-                placeholderLength = 2,
                 currentValue = state.players.size.toString(),
                 icon = painterResource(id = R.drawable.baseline_people_alt_24),
             )

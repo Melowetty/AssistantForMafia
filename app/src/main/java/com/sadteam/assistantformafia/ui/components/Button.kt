@@ -260,7 +260,6 @@ fun ExtendedMenuButton(
     title: String,
     onClick: () -> Unit = {},
     isLoading: Boolean = false,
-    placeholderLength: Int = 1,
     currentValue: String? = null,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
@@ -301,7 +300,7 @@ fun ExtendedMenuButton(
                 )
                 if(currentValue != null) {
                     Text(
-                        text = if(!isLoading) currentValue else "A".repeat(placeholderLength),
+                        text = currentValue,
                         color = SettingsDescription,
                         fontFamily = primaryFontFamily,
                         fontWeight = FontWeight.Bold,
@@ -380,13 +379,17 @@ fun BigButton(
                     if (!isDisabled) onClick()
                 }
             )
-            .padding(top = 16.dp, bottom = 16.dp)
+            .padding(top = 16.dp, bottom = 16.dp, start = 8.dp, end = 8.dp)
     ){
-        Text(
+        AutoResizeText(
             text = title,
             color = Color.White,
             fontFamily = secondFontFamily,
-            fontSize = 24.sp,
+            fontSizeRange = FontSizeRange(
+                min = 16.sp,
+                max = 24.sp,
+            ),
+            maxLines = 1,
             fontWeight = FontWeight.Bold,
             modifier = Modifier
                 .align(Alignment.Center)
