@@ -21,7 +21,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
 import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.data.models.Player
@@ -69,13 +68,11 @@ fun DayScreen(
                 .fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            // todo необходимо чтобы солнце не сдвигала элементы верстки
             Image(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
-                    .size(100.dp)
-                    .zIndex(0f),
-                painter = painterResource(id = R.drawable.sun),
+                    .width(84.dp),
+                painter = painterResource(id = R.drawable.sun_large),
                 contentDescription = ""
             )
             Text(

@@ -12,6 +12,7 @@ import com.sadteam.assistantformafia.ui.game.end.EndScreen
 import com.sadteam.assistantformafia.ui.game.handshake.HandshakeScreen
 import com.sadteam.assistantformafia.ui.game.introduction.IntroductionScreen
 import com.sadteam.assistantformafia.ui.game.night.NightScreen
+import com.sadteam.assistantformafia.ui.gamecreation.FaqScreen
 import com.sadteam.assistantformafia.ui.gamecreation.GameCreationScreen
 import com.sadteam.assistantformafia.ui.gamecreation.GameCreationViewModel
 import com.sadteam.assistantformafia.ui.gamecreation.players.PlayersScreen
@@ -108,6 +109,13 @@ fun SetupNavGraph(
                 navController = navController,
                 state = gameViewModel.state.value.handshakeState,
                 onEvent = gameViewModel::onEvent
+            )
+        }
+        composable(
+            route = Screen.Faq.route
+        ) {
+            FaqScreen(
+                navController = navController
             )
         }
     }

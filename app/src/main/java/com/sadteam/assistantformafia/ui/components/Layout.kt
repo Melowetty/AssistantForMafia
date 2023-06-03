@@ -41,7 +41,7 @@ fun MainLayout(
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(
-                                top = 30.dp,
+                                top = 15.dp,
                                 end = 10.dp,
                                 bottom = 30.dp,
                                 start = 10.dp

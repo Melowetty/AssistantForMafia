@@ -41,3 +41,5 @@ val EnemyRoleTextColor = Color(0xFFCC2B48)
 
 val BaseRoleBackgroundColor = Color(0xFF999999)
 val BaseRoleTextColor = BaseRoleBackgroundColor
+
+val FaqBackgroundColor = Color(0xFF132C3A)

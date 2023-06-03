@@ -74,7 +74,7 @@ fun EndScreen(
 }
 
 @Composable
-fun EnemyWon(
+private fun EnemyWon(
     navController: NavController,
     role: Role,
     onBackToMenu: () -> Unit,
@@ -91,7 +91,7 @@ fun EnemyWon(
 }
 
 @Composable
-fun InnocentsWon(
+private fun InnocentsWon(
     navController: NavController,
     role: Role,
     onBackToMenu: () -> Unit,
@@ -103,12 +103,12 @@ fun InnocentsWon(
         roleColor = role.getTextColor(),
         winMessage = role.getTranslatedWinMessage(),
         onBackToMenu = onBackToMenu,
-        backgroundImage = painterResource(id = R.drawable.sun)
+        backgroundImage = painterResource(id = R.drawable.sun_large)
     )
 }
 
 @Composable
-fun BaseWinLayout(
+private fun BaseWinLayout(
     navController: NavController,
     image: Painter,
     backgroundColor: Color,
@@ -144,7 +144,8 @@ fun BaseWinLayout(
         ) {
             Image(
                 modifier = Modifier
-                    .align(Alignment.CenterHorizontally),
+                    .align(Alignment.CenterHorizontally)
+                    .width(84.dp),
                 painter = backgroundImage,
                 contentDescription = ""
             )

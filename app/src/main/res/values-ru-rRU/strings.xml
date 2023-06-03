@@ -50,4 +50,5 @@
     <string name="skip">Пропуск</string>
     <string name="go_to_win_screen">Перейти к экрану победы</string>
     <string name="game_is_end">Игра окончена</string>
+    <string name="faq">Как играть?</string>
 </resources>
