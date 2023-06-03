@@ -1,6 +1,5 @@
 package com.sadteam.assistantformafia.ui.gamecreation
 
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -53,6 +52,7 @@ fun GameCreationScreen(
                 onClick = {
                     navController.navigate(route = Screen.Players.route)
                 },
+                isLoading = state.players.size == 0,
                 currentValue = state.players.size.toString(),
                 icon = painterResource(id = R.drawable.baseline_people_alt_24),
             )
@@ -81,7 +81,7 @@ fun GameCreationScreen(
                 icon = painterResource(id = R.drawable.baseline_help_24),
                 title = stringResource(id = R.string.game_rules),
                 onClick = {
-                    Toast.makeText(context, "Coming soon...", Toast.LENGTH_LONG).show()
+                    navController.navigate(route = Screen.Faq.route)
                 }
             )
         }

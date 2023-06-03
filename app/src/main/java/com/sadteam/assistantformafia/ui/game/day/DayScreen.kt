@@ -1,6 +1,7 @@
 package com.sadteam.assistantformafia.ui.game.day
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -17,9 +18,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.zIndex
 import androidx.navigation.NavController
 import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.data.models.Player
@@ -38,20 +39,6 @@ fun DayScreen(
     state: DayVotingState,
     onEvent: (GameEvent) -> Unit,
 ) {
-    LaunchedEffect(key1 = state.gameIsEnd) {
-        if (state.gameIsEnd) {
-            navController.navigate(Screen.EndStage.route) {
-                popUpTo(route = Screen.GameCreation.route)
-            }
-        }
-    }
-    LaunchedEffect(key1 = state.isHandshake) {
-        if (state.isHandshake) {
-            navController.navigate(Screen.HandshakeStage.route) {
-                popUpTo(route = Screen.GameCreation.route)
-            }
-        }
-    }
     LaunchedEffect(key1 = Unit) {
         onEvent(
             GameEvent.StartDayVoting
@@ -81,19 +68,17 @@ fun DayScreen(
                 .fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            // todo необходимо чтобы солнце не сдвигала элементы верстки
             Image(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
-                    .size(100.dp)
-                    .zIndex(0f),
-                painter = painterResource(id = R.drawable.sun),
+                    .width(84.dp),
+                painter = painterResource(id = R.drawable.sun_large),
                 contentDescription = ""
             )
             Text(
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth(),
-                text = if(!state.isEnd) stringResource(id = R.string.voting_time) else stringResource(id = R.string.voting_ended),
+                text = if(state.gameIsEnd) stringResource(R.string.game_is_end) else if(!state.isEnd && !state.isHandshake) stringResource(id = R.string.voting_time) else stringResource(id = R.string.voting_ended),
                 fontSize = 24.sp,
                 fontFamily = primaryFontFamily,
                 fontWeight = FontWeight.Bold,
@@ -116,9 +101,9 @@ fun DayScreen(
                             photo = player.icon.value?: Utils.getBitmapFromImage(LocalContext.current, R.drawable.add_a_photo).asImageBitmap(),
                             effects = player.effects,
                             isEnabled = player.isLive,
-                            canBeVoted = state.isEnd.not() && player.isLive && player.canVote,
+                            canBeVoted = state.gameIsEnd.not() && state.isHandshake.not() && state.isEnd.not() && player.isLive && player.canVote,
                             value = player.voices.value,
-                            max = state.countPlayersWhoCanVote - state.totalVoices + player.voices.value,
+                            max = if(player.canBeVotedMore) player.voices.value + 1 else player.voices.value,
                             onIncrease = {
                                 onEvent(
                                     GameEvent.IncreaseVoices(index)
@@ -133,7 +118,31 @@ fun DayScreen(
                     }
                 }
                 Spacer(modifier = Modifier.size(15.dp))
-                if(state.isEnd) {
+                if(state.gameIsEnd) {
+                    BigButton(
+                        title = stringResource(id = R.string.go_to_win_screen),
+                        backgroundColor = SecondaryBackground,
+                        disabledBackground = DisabledSecondaryBackground,
+                        onClick = {
+                            navController.navigate(Screen.EndStage.route) {
+                                popUpTo(route = Screen.GameCreation.route)
+                            }
+                        }
+                    )
+                }
+                else if(state.isHandshake) {
+                    BigButton(
+                        title = stringResource(id = R.string.go_to_handshake),
+                        backgroundColor = SecondaryBackground,
+                        disabledBackground = DisabledSecondaryBackground,
+                        onClick = {
+                            navController.navigate(Screen.HandshakeStage.route) {
+                                popUpTo(route = Screen.GameCreation.route)
+                            }
+                        }
+                    )
+                }
+                else if(state.isEnd) {
                     BigButton(
                         title = stringResource(id = R.string.next_round),
                         backgroundColor = SecondaryBackground,
@@ -160,6 +169,25 @@ fun DayScreen(
                             )
                         }
                     )
+                    Spacer(modifier = Modifier.size(5.dp))
+                    Text(
+                        text = stringResource(id = R.string.skip),
+                        fontFamily = primaryFontFamily,
+                        fontSize = 20.sp,
+                        color = Color.White,
+                        textDecoration = TextDecoration.Underline,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable {
+                            onEvent(
+                                GameEvent.SkipDayScreen
+                            )
+                                navController.navigate(Screen.NightStage.route) {
+                                    popUpTo(route = Screen.GameCreation.route)
+                                }
+                        }
+                        )
                 }
             }
         }

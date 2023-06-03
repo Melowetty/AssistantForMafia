@@ -15,6 +15,7 @@ data class Player(
     var previousTarget: Player? = null,
     var effects: MutableList<Effect> = mutableListOf(),
     var voices: MutableState<Int> = mutableStateOf(0),
+    var canBeVotedMore: Boolean = true,
 ) : Cloneable {
     fun addEffect(effect: Effect) {
         if(effects.contains(effect).not()) {
@@ -37,7 +38,8 @@ data class Player(
             canSelectOneself = canSelectOneself,
             previousTarget = previousTarget,
             effects = effects.toMutableList(),
-            voices = mutableStateOf(voices.value)
+            voices = mutableStateOf(voices.value),
+            canBeVotedMore = canBeVotedMore,
         )
     }
 

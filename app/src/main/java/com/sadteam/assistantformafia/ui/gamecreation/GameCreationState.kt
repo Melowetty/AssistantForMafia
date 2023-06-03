@@ -1,12 +1,13 @@
 package com.sadteam.assistantformafia.ui.gamecreation
 
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import com.sadteam.assistantformafia.data.models.Player
 import com.sadteam.assistantformafia.data.models.Role
-import com.sadteam.assistantformafia.utils.MIN_PLAYERS_COUNT
 
 data class GameCreationState(
-    val players: List<Player> = List(MIN_PLAYERS_COUNT) { Player() },
-    val roles: Map<Role, Int> = mapOf(),
+    val players: SnapshotStateList<Player> = mutableStateListOf(),
+    val roles: List<Role> = listOf(),
     val distributedPlayers: Int = 0,
     val canStart: Boolean = false,
     val rolesIsDistributed: Boolean = false,

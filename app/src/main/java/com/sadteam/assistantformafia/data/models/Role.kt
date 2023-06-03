@@ -1,15 +1,14 @@
 package com.sadteam.assistantformafia.data.models
 
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.compose.ui.graphics.ImageBitmap
 import java.util.*
 
-@Entity(tableName = "roles")
 data class Role(
-    @PrimaryKey(autoGenerate = true) val id: Int,
-    val icon: String,
-    val playerIcon: String,
+    val icon: ImageBitmap,
+    val playerIcon: ImageBitmap?,
     val name: Map<Locale, String>,
     val defaultName: String,
     val description: Map<Locale, String>,
@@ -18,11 +17,12 @@ data class Role(
     val winMessage: Map<Locale, String> = mapOf(),
     val min: Int,
     val max: Int = Int.MAX_VALUE,
-    val possibilities: List<Possibility>,
     val roleType: RoleType,
     val effect: Effect? = null,
     val canSelectOneself: Boolean = false,
     val canSelectSameTarget: Boolean = true,
+    val canBeSelectedMore: MutableState<Boolean> = mutableStateOf(true),
+    val selectedCount: MutableState<Int> = mutableStateOf(min)
 ) {
     fun getTranslatedName(): String {
         var translatedName = name[Locale.getDefault()]
@@ -59,13 +59,14 @@ data class Role(
     override fun toString(): String {
         return "Role(name=${defaultName}," +
                 " roleType=${roleType}," +
-                " possibilities=${possibilities}," +
                 " min=${min}," +
                 " max=${max}," +
                 " effect=${effect}," +
                 " canSelectOneself=${canSelectOneself}," +
-                " canSelectSameTarget=${canSelectSameTarget}, " +
-                " winMessage=${winMessage})"
+                " canSelectSameTarget=${canSelectSameTarget}," +
+                " winMessage=${winMessage}," +
+                " selectedCount=${selectedCount}," +
+                " canBeSelectedMore=${canBeSelectedMore})"
 
     }
 }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Mafia</string>
+    <string name="app_name" translatable="false">Mafia Assistant</string>
     <string name="how_to_play_button">How to play?</string>
     <string name="app_settings">Settings</string>
     <string name="more_detail">More detail</string>
@@ -45,4 +45,15 @@
     <string name="back_to_menu">Back to menu</string>
     <string name="handshake">Handshake</string>
     <string name="selecting_time">Selecting time</string>
+    <string name="go_to_handshake">Go to the handshake</string>
+    <string name="skip">Skip</string>
+    <string name="go_to_win_screen">Go to the win screen</string>
+    <string name="game_is_end">Game is over</string>
+    <string name="faq">FAQ</string>
+    <string name="about_app">About app</string>
+    <string name="contact_us">Contact us</string>
+    <string name="version">Version</string>
+    <string name="build">build</string>
+    <string name="feedback">Feedback</string>
+    <string name="write_us">Write us</string>
 </resources>

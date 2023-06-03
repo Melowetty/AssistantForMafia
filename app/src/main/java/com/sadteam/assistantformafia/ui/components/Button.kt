@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.google.accompanist.placeholder.material.placeholder
 import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.ui.theme.*
 
@@ -258,6 +259,7 @@ fun ExtendedMenuButton(
     icon: Painter,
     title: String,
     onClick: () -> Unit = {},
+    isLoading: Boolean = false,
     currentValue: String? = null,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
@@ -302,7 +304,11 @@ fun ExtendedMenuButton(
                         color = SettingsDescription,
                         fontFamily = primaryFontFamily,
                         fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp
+                        fontSize = 16.sp,
+                        modifier = Modifier
+                            .placeholder(
+                                visible = isLoading,
+                                color = SettingsDescription,)
                     )
                 }
             }
@@ -373,13 +379,17 @@ fun BigButton(
                     if (!isDisabled) onClick()
                 }
             )
-            .padding(top = 16.dp, bottom = 16.dp)
+            .padding(top = 16.dp, bottom = 16.dp, start = 8.dp, end = 8.dp)
     ){
-        Text(
+        AutoResizeText(
             text = title,
             color = Color.White,
             fontFamily = secondFontFamily,
-            fontSize = 24.sp,
+            fontSizeRange = FontSizeRange(
+                min = 16.sp,
+                max = 24.sp,
+            ),
+            maxLines = 1,
             fontWeight = FontWeight.Bold,
             modifier = Modifier
                 .align(Alignment.Center)
@@ -408,7 +418,9 @@ fun SmallButton(
     modifier: Modifier = Modifier,
     title: String,
     backgroundColor: Color,
-){
+    onClick: () -> Unit = {}
+) {
+    val interactionSource = remember { MutableInteractionSource() }
     Box(
         modifier = modifier
             .fillMaxWidth()
@@ -416,6 +428,11 @@ fun SmallButton(
             .background(
                 color = backgroundColor,
                 shape = CircleShape
+            )
+            .clickable(
+                interactionSource = interactionSource,
+                indication = null,
+                onClick = onClick
             )
     ){
         Text(

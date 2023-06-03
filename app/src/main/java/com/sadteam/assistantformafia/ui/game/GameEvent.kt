@@ -24,4 +24,5 @@ sealed class GameEvent {
     data class SelectHandshakeTarget(val playerIndex: Int): GameEvent()
     object ClearHandshakeTarget: GameEvent()
     object KickHandshakeTarget: GameEvent()
+    object SkipDayScreen: GameEvent()
 }

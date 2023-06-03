@@ -6,12 +6,15 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.sadteam.assistantformafia.ui.appsettings.AppSettingsScreen
 import com.sadteam.assistantformafia.ui.appsettings.AppSettingsViewModel
+import com.sadteam.assistantformafia.ui.appsettings.feedback.FeedbackScreen
+import com.sadteam.assistantformafia.ui.appsettings.info.AppInfoScreen
 import com.sadteam.assistantformafia.ui.game.GameViewModel
 import com.sadteam.assistantformafia.ui.game.day.DayScreen
 import com.sadteam.assistantformafia.ui.game.end.EndScreen
 import com.sadteam.assistantformafia.ui.game.handshake.HandshakeScreen
 import com.sadteam.assistantformafia.ui.game.introduction.IntroductionScreen
 import com.sadteam.assistantformafia.ui.game.night.NightScreen
+import com.sadteam.assistantformafia.ui.gamecreation.FaqScreen
 import com.sadteam.assistantformafia.ui.gamecreation.GameCreationScreen
 import com.sadteam.assistantformafia.ui.gamecreation.GameCreationViewModel
 import com.sadteam.assistantformafia.ui.gamecreation.players.PlayersScreen
@@ -55,7 +58,7 @@ fun SetupNavGraph(
                 onEvent = gameCreationViewModel::onEvent
             )
         }
-		composable(
+        composable(
             route = Screen.AppSettings.route,
         ) {
             AppSettingsScreen(
@@ -108,6 +111,27 @@ fun SetupNavGraph(
                 navController = navController,
                 state = gameViewModel.state.value.handshakeState,
                 onEvent = gameViewModel::onEvent
+            )
+        }
+        composable(
+            route = Screen.Faq.route
+        ) {
+            FaqScreen(
+                navController = navController
+            )
+        }
+        composable(
+            route = Screen.AppInfo.route
+        ) {
+            AppInfoScreen(
+                navController = navController
+            )
+        }
+        composable(
+            route = Screen.Feedback.route
+        ) {
+            FeedbackScreen(
+                navController = navController
             )
         }
     }

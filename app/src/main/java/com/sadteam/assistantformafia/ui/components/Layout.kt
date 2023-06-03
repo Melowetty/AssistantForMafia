@@ -15,6 +15,7 @@ import com.sadteam.assistantformafia.ui.theme.MainBackground
 fun MainLayout(
     navController: NavController,
     title: String,
+    isVisibleSettingsButton: Boolean = true,
     backgroundColor: Color = MainBackground,
     backgroundContent: @Composable () -> Unit = {},
     content: @Composable () -> Unit,
@@ -33,13 +34,14 @@ fun MainLayout(
                 ) {
                     Header(
                         title = title,
-                        navController = navController
+                        navController = navController,
+                        isVisibleSettingsButton = isVisibleSettingsButton,
                     )
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
                             .padding(
-                                top = 30.dp,
+                                top = 15.dp,
                                 end = 10.dp,
                                 bottom = 30.dp,
                                 start = 10.dp

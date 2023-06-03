@@ -52,7 +52,7 @@ class AppSettingsViewModel @Inject constructor(
     }
 
     private fun setSavedLanguage(context: Context) {
-        val defaultValue = "${Locale.getDefault().language}_{Locale.getDefault().country}"
+        val defaultValue = "${Locale.getDefault().language}_${Locale.getDefault().country}"
         val appLanguage = preferences.getString(APP_LANGUAGE_FIELD, defaultValue)!!.split("_")
         val language = appLanguage[0]
         val country = appLanguage[1]

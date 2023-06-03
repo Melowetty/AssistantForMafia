@@ -116,14 +116,10 @@ fun CustomPopup(
                         SmallButton(
                             title = stringResource(id = R.string.save),
                             backgroundColor = BloodRed,
+                            onClick = onClose,
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .clickable(
-                                    interactionSource = interactionSource,
-                                    indication = null,
-                                    onClick = onClose
-                                )
-                                .padding(horizontal = 40.dp)
+                                .padding(horizontal = 40.dp),
                         )
                     }
                 }

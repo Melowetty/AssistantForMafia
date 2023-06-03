@@ -1,16 +1,23 @@
 package com.sadteam.assistantformafia.ui.appsettings
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.sadteam.assistantformafia.R
+import com.sadteam.assistantformafia.ui.components.ExtendedMenuButton
 import com.sadteam.assistantformafia.ui.components.MainLayout
+import com.sadteam.assistantformafia.ui.components.bounceClick
+import com.sadteam.assistantformafia.ui.navigation.Screen
+import com.sadteam.assistantformafia.ui.theme.SettingsBackground
 
 @Composable
 fun AppSettingsScreen(
@@ -21,7 +28,8 @@ fun AppSettingsScreen(
     val context = LocalContext.current
     MainLayout(
         navController = navController,
-        title = stringResource(id = R.string.app_settings)
+        title = stringResource(id = R.string.app_settings),
+        isVisibleSettingsButton = false,
     ) {
         Column(
             modifier = Modifier
@@ -33,6 +41,32 @@ fun AppSettingsScreen(
                 onSetEnglish = { onEvent(AppSettingsEvent.SetEnglish(context)) },
                 onSetRussian = { onEvent(AppSettingsEvent.SetRussian(context)) },
                 currentLocale = state.language
+            )
+            ExtendedMenuButton(
+                modifier = Modifier
+                    .bounceClick()
+                    .background(
+                        color = SettingsBackground,
+                        shape = RoundedCornerShape(10.dp)
+                    ),
+                title = stringResource(id = R.string.feedback),
+                onClick = {
+                    navController.navigate(route = Screen.Feedback.route)
+                },
+                icon = painterResource(id = R.drawable.baseline_feedback_24),
+            )
+            ExtendedMenuButton(
+                modifier = Modifier
+                    .bounceClick()
+                    .background(
+                        color = SettingsBackground,
+                        shape = RoundedCornerShape(10.dp)
+                    ),
+                title = stringResource(id = R.string.about_app),
+                onClick = {
+                    navController.navigate(route = Screen.AppInfo.route)
+                },
+                icon = painterResource(id = R.drawable.baseline_info_24),
             )
 //            Column(
 //                modifier = Modifier
