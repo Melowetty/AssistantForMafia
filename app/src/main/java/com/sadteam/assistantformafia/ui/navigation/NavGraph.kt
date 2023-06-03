@@ -6,6 +6,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.sadteam.assistantformafia.ui.appsettings.AppSettingsScreen
 import com.sadteam.assistantformafia.ui.appsettings.AppSettingsViewModel
+import com.sadteam.assistantformafia.ui.appsettings.feedback.FeedbackScreen
+import com.sadteam.assistantformafia.ui.appsettings.info.AppInfoScreen
 import com.sadteam.assistantformafia.ui.game.GameViewModel
 import com.sadteam.assistantformafia.ui.game.day.DayScreen
 import com.sadteam.assistantformafia.ui.game.end.EndScreen
@@ -115,6 +117,20 @@ fun SetupNavGraph(
             route = Screen.Faq.route
         ) {
             FaqScreen(
+                navController = navController
+            )
+        }
+        composable(
+            route = Screen.AppInfo.route
+        ) {
+            AppInfoScreen(
+                navController = navController
+            )
+        }
+        composable(
+            route = Screen.Feedback.route
+        ) {
+            FeedbackScreen(
                 navController = navController
             )
         }

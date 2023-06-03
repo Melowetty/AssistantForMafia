@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Мафия</string>
     <string name="how_to_play_button">Как играть?</string>
     <string name="app_settings">Настройки</string>
     <string name="more_detail">Подробнее</string>
@@ -51,4 +50,10 @@
     <string name="go_to_win_screen">Перейти к экрану победы</string>
     <string name="game_is_end">Игра окончена</string>
     <string name="faq">Как играть?</string>
+    <string name="about_app">О приложении</string>
+    <string name="contact_us">Связаться с нами</string>
+    <string name="version">Версия</string>
+    <string name="build">сборка</string>
+    <string name="feedback">Обратная связь</string>
+    <string name="write_us">Написать нам</string>
 </resources>

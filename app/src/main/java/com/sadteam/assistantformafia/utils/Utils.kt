@@ -45,6 +45,5 @@ class Utils {
                 ColoredMessage(colored = "", message = str)
             }
         }
-
     }
 }
