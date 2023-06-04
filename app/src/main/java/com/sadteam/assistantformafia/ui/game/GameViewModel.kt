@@ -8,16 +8,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.analytics.AnalyticsTracker
-import com.sadteam.assistantformafia.data.StartSetRoles
 import com.sadteam.assistantformafia.data.models.Effect
 import com.sadteam.assistantformafia.data.models.Player
 import com.sadteam.assistantformafia.data.models.Role
 import com.sadteam.assistantformafia.data.models.RoleType
-import com.sadteam.assistantformafia.data.models.entities.DbRole.Companion.toRole
 import com.sadteam.assistantformafia.ui.gamecreation.GameCreationState
 import com.sadteam.assistantformafia.utils.Utils
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
@@ -26,17 +23,18 @@ import kotlin.math.max
 
 @HiltViewModel
 class GameViewModel @Inject constructor(
-    @ApplicationContext private val context: Context,
     private val analytics: AnalyticsTracker
 ) : ViewModel() {
     var state = mutableStateOf(GameState())
         private set
 
+    private var metricState = mutableStateOf(GameMetricState())
+
     fun onEvent(event: GameEvent) {
         viewModelScope.launch(Dispatchers.IO) {
             when (event) {
                 is GameEvent.InitGame ->
-                    initGame(event.initialState)
+                    initGame(event.context, event.initialState)
 
                 is GameEvent.NextSelectRole ->
                     nextSelectRole()
@@ -100,7 +98,7 @@ class GameViewModel @Inject constructor(
         }
     }
 
-    private fun initGame(initialState: GameCreationState) {
+    private fun initGame(context: Context, initialState: GameCreationState) {
         val players = mutableStateListOf<Player>()
         for ((index, player) in initialState.players.withIndex()) {
             val copiedPlayer = player.clone() as Player
@@ -112,7 +110,9 @@ class GameViewModel @Inject constructor(
             copiedPlayer.isSelected = false
             players.add(copiedPlayer)
         }
-        val roles = initialState.roles.filter { it.selectedCount.value != 0 }
+        val roles = initialState.roles.filter { it.selectedCount.value != 0 }.map {
+            it.clone() as Role
+        }
         state.value = state.value.copy(
             players = players,
             rolesCount = roles,
@@ -128,11 +128,13 @@ class GameViewModel @Inject constructor(
             nightSelectState = NightSelectState(),
             endGameState = EndGameState(),
             dayVotingState = DayVotingState(),
+        )
+        metricState.value = metricState.value.copy(
             gameId = UUID.randomUUID(),
+            players = players.size
         )
         val trackingMap = mutableMapOf<String, Any>()
-        trackingMap.put("game_id", state.value.gameId.toString())
-        trackingMap.put("players", state.value.players.size.toString())
+        trackingMap.put("game_id", metricState.value.gameId.toString())
         analytics.trackEvent("start_game", trackingMap)
     }
 
@@ -224,6 +226,9 @@ class GameViewModel @Inject constructor(
             players = players,
             distributionOfRoles = DistributionOfRolesState()
         )
+        metricState.value = metricState.value.copy(
+            startTime = Calendar.getInstance().time
+        )
     }
 
     private fun initNightVoting() {
@@ -245,7 +250,7 @@ class GameViewModel @Inject constructor(
             ),
         )
         val trackingMap = mutableMapOf<String, Any>()
-        trackingMap.put("game_id", state.value.gameId.toString())
+        trackingMap.put("game_id", metricState.value.gameId.toString())
         analytics.trackEvent("role_distributed", trackingMap)
     }
 
@@ -491,6 +496,9 @@ class GameViewModel @Inject constructor(
             dayVotingState = DayVotingState(),
             nightSelectState = NightSelectState()
         )
+        metricState.value = metricState.value.copy(
+            rounds = metricState.value.rounds + 1
+        )
     }
 
     private fun checkGameIsEnd(): Boolean {
@@ -510,8 +518,13 @@ class GameViewModel @Inject constructor(
                 countCommons += 1
             }
         }
-        val sumEnemies = countEnemies.values.sum()
-        if (sumEnemies >= countCommons && sumEnemies + countCommons != 3) {
+        var maxEnemies = 0
+        if(countEnemies.isNotEmpty()) {
+            maxEnemies = countEnemies.values.max()
+        }
+        val sumEnemiesWithoutMax = countEnemies.values.sum() - maxEnemies
+        if (maxEnemies >= (countCommons + sumEnemiesWithoutMax)
+            && (maxEnemies + countCommons + sumEnemiesWithoutMax) != 3) {
             state.value = state.value.copy(
                 dayVotingState = state.value.dayVotingState.copy(
                     gameIsEnd = true,
@@ -522,13 +535,15 @@ class GameViewModel @Inject constructor(
             )
             return true
         }
-        if (sumEnemies == 0) {
+        if (maxEnemies == 0) {
             state.value = state.value.copy(
                 dayVotingState = state.value.dayVotingState.copy(
                     gameIsEnd = true,
                 ),
                 endGameState = state.value.endGameState.copy(
-                    roleWin = StartSetRoles().getRoles()[5].toRole(context),
+                    roleWin = state.value.players.first { player: Player ->
+                        player.role?.roleType == RoleType.COMMON
+                    }.role,
                 )
             )
             return true
@@ -549,8 +564,17 @@ class GameViewModel @Inject constructor(
     }
 
     private fun endGame() {
+        val endTime = Calendar.getInstance().time
+        metricState.value = metricState.value.copy(
+            endTime = endTime,
+            duration = endTime.time - metricState.value.startTime?.time!!
+        )
         val trackingMap = mutableMapOf<String, Any>()
-        trackingMap.put("game_id", state.value.gameId.toString())
+        trackingMap.put("game_id", metricState.value.gameId.toString())
+        trackingMap.put("duration", metricState.value.duration!!)
+        trackingMap.put("rounds", metricState.value.rounds)
+        trackingMap.put("players", metricState.value.players)
+        trackingMap.put("game_date", metricState.value.startTime!!)
         state.value.endGameState.roleWin?.defaultName?.let { trackingMap.put("win_role", it) }
         analytics.trackEvent("end_game", trackingMap)
         state.value = GameState(
@@ -578,7 +602,7 @@ class GameViewModel @Inject constructor(
 
     private fun startHandshake() {
         val trackingMap = mutableMapOf<String, Any>()
-        trackingMap.put("game_id", state.value.gameId.toString())
+        trackingMap.put("game_id", metricState.value.gameId.toString())
         analytics.trackEvent("handshake_stage", trackingMap)
         state.value = state.value.copy(
             handshakeState = state.value.handshakeState.copy(

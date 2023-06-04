@@ -48,7 +48,7 @@ fun FeedbackScreen(
                 onClick = {
                     sendMail(
                         context = context,
-                        to = "melowetty@mail.ru"
+                        to = "mafiaassistanthelp@gmail.com"
                     )
                 },
                 icon = painterResource(id = R.drawable.baseline_email_24),
