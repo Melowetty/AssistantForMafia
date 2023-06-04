@@ -518,7 +518,10 @@ class GameViewModel @Inject constructor(
                 countCommons += 1
             }
         }
-        val maxEnemies = countEnemies.values.max()
+        var maxEnemies = 0
+        if(countEnemies.isNotEmpty()) {
+            maxEnemies = countEnemies.values.max()
+        }
         val sumEnemiesWithoutMax = countEnemies.values.sum() - maxEnemies
         if (maxEnemies >= (countCommons + sumEnemiesWithoutMax)
             && (maxEnemies + countCommons + sumEnemiesWithoutMax) != 3) {
