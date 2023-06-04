@@ -250,21 +250,27 @@ fun SelectRoleCard(
             Column(
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(
+                AutoResizeText(
                     text = text,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 20.sp,
                     color = Color.White,
-                    softWrap = false,
+                    fontSizeRange = FontSizeRange(
+                        min = 12.sp,
+                        max = 20.sp
+                    ),
+                    maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
                 if(description.isNotEmpty()) {
-                    Text(
+                    AutoResizeText(
                         text = description,
                         fontWeight = FontWeight.Bold,
-                        fontSize = 12.sp,
                         color = Color.White,
-                        softWrap = false,
+                        fontSizeRange = FontSizeRange(
+                            max = 12.sp,
+                            min = 8.sp
+                        ),
+                        maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )
                 }
@@ -394,20 +400,26 @@ fun VotingPlayerCard(
                         .fillMaxWidth(0.3f),
                     verticalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Text(
+                    AutoResizeText(
                         text = name,
                         fontWeight = FontWeight.Bold,
-                        fontSize = 20.sp,
                         color = Color.White,
-                        softWrap = false,
+                        fontSizeRange = FontSizeRange(
+                            min = 12.sp,
+                            max = 20.sp
+                        ),
+                        maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )
-                    Text(
+                    AutoResizeText(
                         text = role,
                         fontWeight = FontWeight.Bold,
-                        fontSize = 12.sp,
                         color = Color.White,
-                        softWrap = false,
+                        fontSizeRange = FontSizeRange(
+                            max = 12.sp,
+                            min = 8.sp
+                        ),
+                        maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )
                 }
