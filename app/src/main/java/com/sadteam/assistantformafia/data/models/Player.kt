@@ -31,7 +31,7 @@ data class Player(
         return Player(
             icon = mutableStateOf(icon.value),
             name = mutableStateOf(name.value),
-            role = role,
+            role = if(role != null) role!!.clone() as Role else null,
             isSelected = isSelected,
             isLive = isLive,
             canVote = canVote,

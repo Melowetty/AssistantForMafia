@@ -1,6 +1,7 @@
 package com.sadteam.assistantformafia.data.models
 
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
@@ -23,7 +24,7 @@ data class Role(
     val canSelectSameTarget: Boolean = true,
     val canBeSelectedMore: MutableState<Boolean> = mutableStateOf(true),
     val selectedCount: MutableState<Int> = mutableStateOf(min)
-) {
+) : Cloneable {
     fun getTranslatedName(): String {
         var translatedName = name[Locale.getDefault()]
         if(translatedName.isNullOrEmpty()) {
@@ -54,6 +55,28 @@ data class Role(
 
     fun getTextColor(): Color {
         return roleType.textColor
+    }
+
+    public override fun clone(): Any {
+        return Role(
+            icon = icon,
+            playerIcon = playerIcon,
+            name = name,
+            defaultName = defaultName,
+            description = description,
+            defaultDescription = defaultDescription,
+            defaultWinMessage = defaultWinMessage,
+            winMessage = winMessage,
+            min = min,
+            max = max,
+            roleType = roleType,
+            effect = effect,
+            canSelectOneself = canSelectOneself,
+            canSelectSameTarget = canSelectSameTarget,
+            canBeSelectedMore = mutableStateOf(canBeSelectedMore.value),
+            selectedCount = mutableIntStateOf(selectedCount.value)
+
+        )
     }
 
     override fun toString(): String {

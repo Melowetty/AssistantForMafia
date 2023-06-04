@@ -108,7 +108,9 @@ class GameViewModel @Inject constructor(
             copiedPlayer.isSelected = false
             players.add(copiedPlayer)
         }
-        val roles = initialState.roles.filter { it.selectedCount.value != 0 }
+        val roles = initialState.roles.filter { it.selectedCount.value != 0 }.map {
+            it.clone() as Role
+        }
         state.value = state.value.copy(
             players = players,
             rolesCount = roles,
