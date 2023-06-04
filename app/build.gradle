@@ -16,7 +16,7 @@ android {
         minSdk 24
         targetSdk 33
         versionCode 17
-        versionName "1.0.0"
+        versionName "1.0.1"
         multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
