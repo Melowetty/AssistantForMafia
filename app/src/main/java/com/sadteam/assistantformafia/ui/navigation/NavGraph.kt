@@ -14,9 +14,9 @@ import com.sadteam.assistantformafia.ui.game.end.EndScreen
 import com.sadteam.assistantformafia.ui.game.handshake.HandshakeScreen
 import com.sadteam.assistantformafia.ui.game.introduction.IntroductionScreen
 import com.sadteam.assistantformafia.ui.game.night.NightScreen
-import com.sadteam.assistantformafia.ui.gamecreation.FaqScreen
 import com.sadteam.assistantformafia.ui.gamecreation.GameCreationScreen
 import com.sadteam.assistantformafia.ui.gamecreation.GameCreationViewModel
+import com.sadteam.assistantformafia.ui.gamecreation.guide.GuideScreen
 import com.sadteam.assistantformafia.ui.gamecreation.players.PlayersScreen
 import com.sadteam.assistantformafia.ui.gamecreation.roles.RolesScreen
 
@@ -114,9 +114,9 @@ fun SetupNavGraph(
             )
         }
         composable(
-            route = Screen.Faq.route
+            route = Screen.Guide.route
         ) {
-            FaqScreen(
+            GuideScreen(
                 navController = navController
             )
         }

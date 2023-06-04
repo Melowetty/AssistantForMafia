@@ -79,9 +79,9 @@ fun GameCreationScreen(
                         shape = RoundedCornerShape(10.dp)
                     ),
                 icon = painterResource(id = R.drawable.baseline_help_24),
-                title = stringResource(id = R.string.game_rules),
+                title = stringResource(id = R.string.guide),
                 onClick = {
-                    navController.navigate(route = Screen.Faq.route)
+                    navController.navigate(route = Screen.Guide.route)
                 }
             )
         }

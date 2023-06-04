@@ -7,7 +7,7 @@
     <string name="roles">Роли</string>
     <string name="start">Начать</string>
     <string name="game_creation">Создание игры</string>
-    <string name="game_rules">Руководство</string>
+    <string name="guide">Руководство</string>
     <string name="game_settings">Параметры</string>
     <string name="players_count">Игроков</string>
     <string name="save">Сохранить</string>
@@ -49,7 +49,6 @@
     <string name="skip">Пропуск</string>
     <string name="go_to_win_screen">Перейти к экрану победы</string>
     <string name="game_is_end">Игра окончена</string>
-    <string name="faq">Как играть?</string>
     <string name="about_app">О приложении</string>
     <string name="contact_us">Связаться с нами</string>
     <string name="version">Версия</string>
