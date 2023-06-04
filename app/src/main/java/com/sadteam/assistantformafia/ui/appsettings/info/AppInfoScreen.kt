@@ -67,6 +67,16 @@ fun AppInfoScreen(
                             "${stringResource(id = R.string.build)} " +
                             "${BuildConfig.VERSION_CODE}"
                 )
+                if(BuildConfig.DEBUG) {
+                    Text(
+                        text = "TEST VERSION",
+                        modifier = Modifier.fillMaxWidth(),
+                        fontFamily = primaryFontFamily,
+                        textAlign = TextAlign.Center,
+                        fontSize = 22.sp,
+                        color = Color.White,
+                    )
+                }
             }
         }
     }
