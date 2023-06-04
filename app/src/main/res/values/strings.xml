@@ -7,7 +7,7 @@
     <string name="roles">Roles</string>
     <string name="start">Start</string>
     <string name="game_creation">Game creation</string>
-    <string name="game_rules">Guide</string>
+    <string name="guide">Guide</string>
     <string name="game_settings">Game settings</string>
     <string name="players_count">Players</string>
     <string name="save">Save</string>
@@ -49,7 +49,6 @@
     <string name="skip">Skip</string>
     <string name="go_to_win_screen">Go to the win screen</string>
     <string name="game_is_end">Game is over</string>
-    <string name="faq">FAQ</string>
     <string name="about_app">About app</string>
     <string name="contact_us">Contact us</string>
     <string name="version">Version</string>

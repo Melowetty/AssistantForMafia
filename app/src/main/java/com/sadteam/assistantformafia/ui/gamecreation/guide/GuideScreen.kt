@@ -1,4 +1,4 @@
-package com.sadteam.assistantformafia.ui.gamecreation
+package com.sadteam.assistantformafia.ui.gamecreation.guide
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -26,17 +26,17 @@ import com.sadteam.assistantformafia.ui.theme.*
 import java.util.*
 
 @Composable
-fun FaqScreen(
+fun GuideScreen(
     navController: NavController,
 ) {
     val language = Locale.getDefault()
     if(language.language.equals(Locale("ru", "RU").language)) {
-        RuFaqScreen(
+        RuGuideScreen(
             navController = navController
         )
     }
     else {
-        EnFaqScreen(
+        EnGuideScreen(
             navController = navController
         )
     }
@@ -50,10 +50,10 @@ private val baseTextStyle = SpanStyle(
 )
 
 @Composable
-private fun RuFaqScreen(
+private fun RuGuideScreen(
     navController: NavController,
 ) {
-    BaseFaqScreen(
+    BaseGuideScreen(
         navController = navController
     ) {
         Text(
@@ -557,10 +557,10 @@ private fun RuFaqScreen(
 }
 
 @Composable
-private fun EnFaqScreen(
+private fun EnGuideScreen(
     navController: NavController,
 ) {
-    BaseFaqScreen(
+    BaseGuideScreen(
         navController = navController
     ) {
         Text(
@@ -1007,14 +1007,14 @@ private fun EnFaqScreen(
 }
 
 @Composable
-private fun BaseFaqScreen(
+private fun BaseGuideScreen(
     navController: NavController,
     content: @Composable () -> Unit,
 ) {
     MainLayout(
         navController = navController,
-        title = stringResource(id = R.string.faq),
-        backgroundColor = FaqBackgroundColor,
+        title = stringResource(id = R.string.guide),
+        backgroundColor = GuideBackgroundColor,
     ) {
         Column(
             modifier = Modifier
