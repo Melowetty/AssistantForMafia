@@ -518,8 +518,13 @@ class GameViewModel @Inject constructor(
                 countCommons += 1
             }
         }
-        val sumEnemies = countEnemies.values.sum()
-        if (sumEnemies >= countCommons && sumEnemies + countCommons != 3) {
+        var maxEnemies = 0
+        if(countEnemies.isNotEmpty()) {
+            maxEnemies = countEnemies.values.max()
+        }
+        val sumEnemiesWithoutMax = countEnemies.values.sum() - maxEnemies
+        if (maxEnemies >= (countCommons + sumEnemiesWithoutMax)
+            && (maxEnemies + countCommons + sumEnemiesWithoutMax) != 3) {
             state.value = state.value.copy(
                 dayVotingState = state.value.dayVotingState.copy(
                     gameIsEnd = true,
@@ -530,7 +535,7 @@ class GameViewModel @Inject constructor(
             )
             return true
         }
-        if (sumEnemies == 0) {
+        if (maxEnemies == 0) {
             state.value = state.value.copy(
                 dayVotingState = state.value.dayVotingState.copy(
                     gameIsEnd = true,
