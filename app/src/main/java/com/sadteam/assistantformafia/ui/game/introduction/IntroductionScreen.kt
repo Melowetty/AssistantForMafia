@@ -45,7 +45,10 @@ fun IntroductionScreen(
     val context = LocalContext.current
     LaunchedEffect(key1 = Unit, block = {
         onEvent(
-            GameEvent.InitGame(initialState = initialState)
+            GameEvent.InitGame(
+                context = context,
+                initialState = initialState
+            )
         )
     })
     MainLayout(

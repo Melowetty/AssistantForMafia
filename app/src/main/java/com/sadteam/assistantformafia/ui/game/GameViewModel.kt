@@ -8,16 +8,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sadteam.assistantformafia.R
 import com.sadteam.assistantformafia.analytics.AnalyticsTracker
-import com.sadteam.assistantformafia.data.StartSetRoles
 import com.sadteam.assistantformafia.data.models.Effect
 import com.sadteam.assistantformafia.data.models.Player
 import com.sadteam.assistantformafia.data.models.Role
 import com.sadteam.assistantformafia.data.models.RoleType
-import com.sadteam.assistantformafia.data.models.entities.DbRole.Companion.toRole
 import com.sadteam.assistantformafia.ui.gamecreation.GameCreationState
 import com.sadteam.assistantformafia.utils.Utils
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.util.*
@@ -26,7 +23,6 @@ import kotlin.math.max
 
 @HiltViewModel
 class GameViewModel @Inject constructor(
-    @ApplicationContext private val context: Context,
     private val analytics: AnalyticsTracker
 ) : ViewModel() {
     var state = mutableStateOf(GameState())
@@ -36,7 +32,7 @@ class GameViewModel @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             when (event) {
                 is GameEvent.InitGame ->
-                    initGame(event.initialState)
+                    initGame(event.context, event.initialState)
 
                 is GameEvent.NextSelectRole ->
                     nextSelectRole()
@@ -100,7 +96,7 @@ class GameViewModel @Inject constructor(
         }
     }
 
-    private fun initGame(initialState: GameCreationState) {
+    private fun initGame(context: Context, initialState: GameCreationState) {
         val players = mutableStateListOf<Player>()
         for ((index, player) in initialState.players.withIndex()) {
             val copiedPlayer = player.clone() as Player
@@ -528,7 +524,9 @@ class GameViewModel @Inject constructor(
                     gameIsEnd = true,
                 ),
                 endGameState = state.value.endGameState.copy(
-                    roleWin = StartSetRoles().getRoles()[5].toRole(context),
+                    roleWin = state.value.players.first { player: Player ->
+                        player.role?.roleType == RoleType.COMMON
+                    }.role,
                 )
             )
             return true
