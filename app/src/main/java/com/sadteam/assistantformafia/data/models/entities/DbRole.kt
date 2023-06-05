@@ -27,6 +27,7 @@ data class DbRole(
     val effect: Effect? = null,
     val canSelectOneself: Boolean = false,
     val canSelectSameTarget: Boolean = true,
+    val priority: Int,
 ) {
     companion object {
         fun DbRole.toRole(context: Context): Role {
@@ -46,7 +47,8 @@ data class DbRole(
                 roleType = roleType,
                 effect = effect,
                 canSelectOneself = canSelectOneself,
-                canSelectSameTarget = canSelectSameTarget
+                canSelectSameTarget = canSelectSameTarget,
+                priority = priority,
             )
         }
     }
