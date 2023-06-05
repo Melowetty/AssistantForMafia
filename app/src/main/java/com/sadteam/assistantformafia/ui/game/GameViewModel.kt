@@ -476,6 +476,7 @@ class GameViewModel @Inject constructor(
                 newRolesCount.add(role)
             }
         }
+        newRolesCount.sortBy { role: Role -> role.priority }
         val players = state.value.players
         for (player in players) {
             player.voices.value = 0
