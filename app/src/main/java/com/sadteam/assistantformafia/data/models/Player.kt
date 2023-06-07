@@ -1,7 +1,10 @@
 package com.sadteam.assistantformafia.data.models
 
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.graphics.ImageBitmap
 
 data class Player(
@@ -13,7 +16,7 @@ data class Player(
     var canVote: Boolean = true,
     var canSelectOneself: Boolean = false,
     var previousTarget: Player? = null,
-    var effects: MutableList<Effect> = mutableListOf(),
+    var effects: SnapshotStateList<Effect> = mutableStateListOf(),
     var voices: MutableState<Int> = mutableStateOf(0),
     var canBeVotedMore: Boolean = true,
 ) : Cloneable {
@@ -37,7 +40,7 @@ data class Player(
             canVote = canVote,
             canSelectOneself = canSelectOneself,
             previousTarget = previousTarget,
-            effects = effects.toMutableList(),
+            effects = effects.toMutableStateList(),
             voices = mutableStateOf(voices.value),
             canBeVotedMore = canBeVotedMore,
         )

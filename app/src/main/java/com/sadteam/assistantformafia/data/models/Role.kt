@@ -23,7 +23,8 @@ data class Role(
     val canSelectOneself: Boolean = false,
     val canSelectSameTarget: Boolean = true,
     val canBeSelectedMore: MutableState<Boolean> = mutableStateOf(true),
-    val selectedCount: MutableState<Int> = mutableStateOf(min)
+    val selectedCount: MutableState<Int> = mutableIntStateOf(min),
+    val priority: Int,
 ) : Cloneable {
     fun getTranslatedName(): String {
         var translatedName = name[Locale.getDefault()]
@@ -74,8 +75,8 @@ data class Role(
             canSelectOneself = canSelectOneself,
             canSelectSameTarget = canSelectSameTarget,
             canBeSelectedMore = mutableStateOf(canBeSelectedMore.value),
-            selectedCount = mutableIntStateOf(selectedCount.value)
-
+            selectedCount = mutableIntStateOf(selectedCount.value),
+            priority = priority,
         )
     }
 

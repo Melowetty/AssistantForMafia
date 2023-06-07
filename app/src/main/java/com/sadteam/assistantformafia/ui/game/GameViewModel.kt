@@ -476,6 +476,7 @@ class GameViewModel @Inject constructor(
                 newRolesCount.add(role)
             }
         }
+        newRolesCount.sortBy { role: Role -> role.priority }
         val players = state.value.players
         for (player in players) {
             player.voices.value = 0
@@ -483,7 +484,7 @@ class GameViewModel @Inject constructor(
                 player.effects = player.effects.filter { effect: Effect ->
                     effect == Effect.KICK || effect == Effect.KILL
                 }
-                    .toMutableList()
+                    .toMutableStateList()
             } else {
                 player.clearEffects()
                 player.canVote = true
