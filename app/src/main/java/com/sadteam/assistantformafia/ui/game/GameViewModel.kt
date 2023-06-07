@@ -484,7 +484,7 @@ class GameViewModel @Inject constructor(
                 player.effects = player.effects.filter { effect: Effect ->
                     effect == Effect.KICK || effect == Effect.KILL
                 }
-                    .toMutableList()
+                    .toMutableStateList()
             } else {
                 player.clearEffects()
                 player.canVote = true
