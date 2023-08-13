@@ -428,16 +428,20 @@ fun VotingPlayerCard(
                 horizontalArrangement = Arrangement.spacedBy(2.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                AnimatedVisibility(
-                    visible = effects.isNotEmpty() && isExpanded.not(),
-                    enter = fadeIn(animationSpec =
-                    tween(durationMillis = 200)
-                    ),
-                    exit = fadeOut(animationSpec =
-                    tween(durationMillis = 200)
-                    )
-                ) {
-                    EffectIcon(effects.last())
+                if (effects.isNotEmpty()) {
+                    AnimatedVisibility(
+                        visible = isExpanded.not(),
+                        enter = fadeIn(
+                            animationSpec =
+                            tween(durationMillis = 200)
+                        ),
+                        exit = fadeOut(
+                            animationSpec =
+                            tween(durationMillis = 200)
+                        )
+                    ) {
+                        EffectIcon(effects.last())
+                    }
                 }
                 AnimatedVisibility(
                     visible = effects.size > 1 && isExpanded.not(),
